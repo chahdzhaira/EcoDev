@@ -24,7 +24,7 @@
   </head>
   <body class="app sidebar-mini">
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="{{route('indexBack')}}">Vali</a>
+    <header class="app-header"><a class="app-header__logo" href="{{route('indexBack')}}">EcoCycle</a>
     @include('BackOffice.partials.navbar')
 
     </header>

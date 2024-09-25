@@ -2,7 +2,7 @@
 	   <div class="footer_1 row">
 	    <div class="col-md-4">
 		 <div class="footer_1i">
-		  <h4 class="mb-4"><a class="text-white"  href="{{route('index')}}" ><i class="fa fa-recycle me-1 col_green align-middle"></i> Recycling</a></h4>
+		  <h4 class="mb-4"><a class="text-white"  href="{{route('index')}}" ><i class="fa fa-recycle me-1 col_green align-middle"></i> EcoCycle</a></h4>
 		  <p class="text-white-50">Family-owned company from San Diego proudly serving individuals and businesses in Southern California.</p>
 		  <h6 class="text-light"><i class="fa fa-map-marker col_green me-1"></i> 120 Lorem Circle, Tan Porta, DA</h6>
 		  <h6 class="mt-3"><i class="fa fa-phone col_green me-1"></i> <a  class="text-light" href="#">+123 4567 890</a></h6>

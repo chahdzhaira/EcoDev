@@ -23,7 +23,7 @@
   <div class="col-md-8">
    <div class="top_1l">
     <ul class="mb-0">
-		<li class="text-white d-inline-block">Welcome to Electronics Recycling </li>
+		<li class="text-white d-inline-block">Welcome to EcoCycle</li>
 		<li class="text-white d-inline-block mx-2">| </li>
 		<li class="d-inline-block"> <a class="text-white " href="#">How to Find Us</a> </li>
 		<li class="text-white d-inline-block mx-2">| </li>

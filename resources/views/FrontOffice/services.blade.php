@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Recycling</title>
+	<title>EcoCycle</title>
     @vite(['resources/assets/css/bootstrap.min.css'])
     @vite(['resources/assets/css/font-awesome.min.css'])
     @vite(['resources/assets/css/global.css'])
@@ -23,7 +23,7 @@
   <div class="col-md-8">
    <div class="top_1l">
     <ul class="mb-0">
-		<li class="text-white d-inline-block">Welcome to Electronics Recycling </li>
+		<li class="text-white d-inline-block">Welcome to EcoCycle </li>
 		<li class="text-white d-inline-block mx-2">| </li>
 		<li class="d-inline-block"> <a class="text-white " href="#">How to Find Us</a> </li>
 		<li class="text-white d-inline-block mx-2">| </li>
