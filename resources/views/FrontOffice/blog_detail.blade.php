@@ -47,7 +47,7 @@
 </section>
 
 <section id="header">
-@include('partials.navbar')
+@include('FrontOffice.partials.navbar')
 </section>
 
 <section id="center" class="center_blog_dt">
@@ -324,7 +324,7 @@
 </section>
     
 <section id="footer" class="p_3 bg-dark">
-@include('partials.footer')
+@include('FrontOffice.partials.footer')
 </section>
 
 <section id="footer_b" class="pt-3 pb-3">

@@ -47,7 +47,7 @@
 </section>
 
 <section id="header">
-@include('partials.navbar')
+@include('FrontOffice.partials.navbar')
 </section>
 
 <section id="center" class="center_h">
@@ -822,7 +822,7 @@ GoGreen is a Family-owned company located in San Diego, California proudly servi
    </section>
    
 <section id="footer" class="p_3">
-@include('partials.footer')
+@include('FrontOffice.partials.footer')
 </section>
 
 <section id="footer_b" class="pt-3 pb-3">
