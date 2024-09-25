@@ -1,0 +1,128 @@
+/*
+Template Name: Recycling
+File: Layout CSS
+Author: TemplatesOnWeb
+Author URI: https://www.templateonweb.com/
+Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
+*/
+
+/*********************about****************/
+.center_about{
+background-image: url(../img/22.jpg);
+background-position: center center;
+background-size: cover;
+}
+
+.center_cont{
+background-image: url(../img/25.jpg);
+background-position: center center;
+background-size: cover;
+}
+.center_serv{
+background-image: url(../img/23.jpg);
+background-position: center center;
+background-size: cover;
+}
+.center_faq{
+background-image: url(../img/24.jpg);
+background-position: center center;
+background-size: cover;
+}
+/*********************about_end****************/
+
+
+@media screen and (max-width : 767px){
+.about_h1r{
+margin-top:15px;
+ }
+.about_h1r h2{
+font-size:36px;
+ }
+.about_h1r h4{
+text-align:center;
+ }
+.about_h2m{
+margin-top:15px;
+margin-bottom:15px; 
+ }
+.exep_2i {
+margin-top:8px;
+margin-bottom:8px; 
+ }
+.overview_1r{
+margin-top:15px; 
+ }
+.overview_1l h6{
+text-align:center; 
+ }
+.faq_1r{
+margin-top:15px; 
+ }
+.quote_2l{
+margin-top:10px; 
+text-align:center; 
+ }
+.contact_2r {
+margin-top:20px;
+text-align:center; 
+ }
+.contact_2r p{
+text-align:left;
+ }
+.contact_2rr {
+margin-top:10px; 
+ }
+.contact_2rr p{
+text-align:center; 
+ }
+ }
+
+@media (min-width:576px) and (max-width:767px) {
+
+ }
+@media (min-width:768px) and (max-width:991px) {
+.about_h1l img{
+min-height:680px; 
+ }
+.about_h1r .button_1{
+padding-left:10px;
+padding-right:10px; 
+ }
+.about_h1r .button_2{
+padding-left:15px;
+padding-right:15px; 
+ }
+.about_h2l h2{
+font-size:32px; 
+ }
+.exep_2i h1{
+font-size:40px; 
+ }
+.exep_2i {
+padding:10px!important;
+ }
+.exep_2i h6{
+font-size:13px;
+ }
+.overview_1l h2{
+font-size:30px; 
+ }
+.contact_2rr  h4{
+font-size:20px; 
+ }
+ }
+
+@media (min-width:992px) and (max-width:1200px) {
+.about_h1l img{
+min-height:680px; 
+ }
+.about_h2l h2{
+font-size:40px; 
+ }
+ }
+@media (min-width:1201px) and (max-width:1300px) {
+
+ }
+
+
+

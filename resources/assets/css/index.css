@@ -1,0 +1,182 @@
+/*
+Template Name: Recycling
+File: Layout CSS
+Author: TemplatesOnWeb
+Author URI: https://www.templateonweb.com/
+Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
+*/
+
+/*********************center****************/
+.center_h1lilil span{
+width:55px;
+height:55px;
+line-height:55px; 
+ }
+.center_h2 h1{
+font-size:90px; 
+ }
+.center_h {
+background-image: url(../img/1.jpg);
+background-position: center;
+}
+.center_h2{
+border-top:1px solid #4c4b4b;
+ }
+.center_hm{
+padding-top:80px;
+padding-bottom:80px; 
+ }
+/*********************center_end****************/
+
+
+/*********************shed****************/
+#sched{
+background-image: url(../img/2.jpg);
+background-position: center; 
+    background-size: cover;
+ }
+/*********************shed_end****************/
+
+
+/*********************gallery****************/
+.homei1i2 ul li a {
+background:#fff;
+width: 40px;
+height: 40px;
+line-height: 40px;
+display: block;
+color:#54be73;
+text-align:center;
+}
+#gallery .modal-dialog {
+max-width: 770px;
+}
+#gallery .modal-dialog{
+min-width:770px; 
+ }
+.homei1i1 img{
+min-height:180px; 
+ }
+.homei1i2{
+padding-top:32%;
+display:none; 
+ }
+.homei1:hover .homei1i2{
+display:block; 
+ }
+
+/*********************gallery_end****************/
+
+
+@media screen and (max-width : 767px){
+#gallery .modal-dialog{
+min-width:90%; 
+ }
+.center_hm {
+padding-top: 20px;
+padding-bottom: 20px;
+}
+.center_h1lil{
+text-align:center;
+margin-top:8px;
+margin-bottom:8px; 
+ }
+.center_h1lilir{
+margin-top:10px; 
+ }
+.center_h1r {
+text-align:center!important;
+margin-top:15px; 
+ }
+.center_h2 h1 {
+font-size: 50px;
+}
+.center_h2 br {
+display:none;
+}
+.center_h2 p {
+text-align:left;
+}
+.sched_1i{
+margin-top:15px;
+}
+.mission_1r{
+text-align:center; 
+ }
+.mission_1r p{
+text-align:left; 
+ }
+.mission_1r {
+padding:15px!important; 
+ }
+.homei1i2 {
+padding-top: 28%;
+}
+.center_h2 {
+padding-top:20px!important;
+margin-top:20px!important; 
+ }
+ }
+
+@media (min-width:576px) and (max-width:767px) {
+
+ }
+@media (min-width:768px) and (max-width:991px) {
+.center_h1lilil span {
+width: 35px;
+height: 35px;
+line-height: 35px;
+font-size:18px!important;
+}
+.center_h1r .button{
+padding-left:10px;
+padding-right:10px;
+font-size:14px;
+}
+.mission_1l img{
+min-height:680px; 
+ }
+.mission_1r {
+padding:15px!important; 
+ }
+.mission_1r p{
+font-size:15px;
+ }
+.homei1i2 {
+padding-top: 55%;
+}
+ }
+
+@media (min-width:992px) and (max-width:1200px) {
+.center_h1lilil span {
+width: 45px;
+height: 45px;
+line-height: 45px;
+font-size:22px!important;
+}
+.center_h1r .button{
+padding-left:20px;
+padding-right:20px;
+font-size:14px;
+}
+.mission_1l img{
+min-height:680px; 
+ }
+.mission_1r {
+padding:30px!important; 
+ }
+.homei1i2 {
+padding-top: 45%;
+}
+ }
+@media (min-width:1201px) and (max-width:1360px) {
+.mission_1r {
+padding:30px!important; 
+ }
+.mission_1l img{
+min-height:680px; 
+ }
+ }
+
+
+

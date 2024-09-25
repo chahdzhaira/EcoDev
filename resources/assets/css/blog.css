@@ -1,0 +1,133 @@
+/*
+Template Name: Recycling
+File: Layout CSS
+Author: TemplatesOnWeb
+Author URI: https://www.templateonweb.com/
+Licence: <a href="https://www.templateonweb.com/license">Website Template Licence</a>
+*/
+
+/*********************blog****************/
+.center_blog{
+background-image: url(../img/22.jpg);
+background-position: center center;
+background-size: cover;
+}
+.blog_1l1ir ul li a{
+background-color:#54be73; 
+ }
+.blog_1r1 ul li a {
+padding: 5px 10px;
+background: #f9f9f9;
+display: block;
+margin: 3px 2px 3px 0;
+border-radius: 5px;
+transition: 0.3s;
+}
+.blog_1r1 ul li a:hover {
+background-color:#54be73; 
+color:#fff;
+}
+
+.center_blog_dt{
+background-image: url(../img/23.jpg);
+background-position: center center;
+background-size: cover;
+}
+
+.blog_1dt1i{
+border-left:3px solid #54be73; 
+ }
+.tags a{
+padding: 5px 10px;
+background: #fff;
+display: block;
+margin: 3px 2px 3px 0;
+border-radius: 5px;
+transition: 0.3s; 
+ }
+.tags a:hover {
+background-color:#54be73; 
+color:#fff;
+}
+
+.blog_1dt2il span{
+width:90px;
+height:90px;
+line-height:90px; 
+ }
+
+.social_tag a {
+background-color: #fff;
+}
+.social_tag a i {
+color: #111;
+}
+.blog_1l1il .button_2{
+padding-left:30px;
+padding-right:30px;  
+ }
+
+/*********************blog_end****************/
+
+
+@media screen and (max-width : 767px){
+.blog_1l1ir {
+ text-align:center!important;
+ margin-top:15px;
+ }
+.blog_1l1il {
+text-align:center!important;
+ }
+.blog_1r{
+margin-top:15px; 
+ }
+.blog_1r1  h4{
+text-align:center; 
+ }
+.list_1dt2i img{
+margin-top:10px; 
+ }
+.blog_1dt2il{
+text-align:center;
+margin-bottom:15px; 
+ }
+.blog_1dt3  h3{
+text-align:center; 
+ }
+.blog_1dt3il{
+margin-top:10px;  
+ }
+ }
+
+@media (min-width:576px) and (max-width:767px) {
+
+ }
+@media (min-width:768px) and (max-width:991px) {
+.blog_1l1il .button_2{
+ padding-left:10px;
+ padding-right:10px;
+ font-size:13px;
+ }
+.blog_1r1  h6{
+font-size:13px; 
+ }
+.blog_1dt2il span {
+width: 60px;
+height: 60px;
+line-height: 60px;
+font-size:30px!important;
+}
+ }
+
+@media (min-width:992px) and (max-width:1200px) {
+.blog_1l1il .button_2{
+ padding-left:20px;
+ padding-right:20px;
+ }
+ }
+@media (min-width:1201px) and (max-width:1300px) {
+
+ }
+
+
+
