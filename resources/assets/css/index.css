@@ -16,7 +16,8 @@ line-height:55px;
 font-size:90px; 
  }
 .center_h {
-background-image: url(../img/1.jpg);
+background-image: url(../img/111.jpg);
+background-size: cover;
 background-position: center;
 }
 .center_h2{
@@ -31,7 +32,7 @@ padding-bottom:80px;
 
 /*********************shed****************/
 #sched{
-background-image: url(../img/2.jpg);
+background-image: url(../img/222.jpg);
 background-position: center; 
     background-size: cover;
  }

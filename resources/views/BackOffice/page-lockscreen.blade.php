@@ -8,7 +8,7 @@
     @vite(['resources/assets/css/main.css'])
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <title>Lockscreen - Vali Admin</title>
+    <title>EcoCycle</title>
   </head>
   <body>
     <section class="material-half-bg">
@@ -16,7 +16,7 @@
     </section>
     <section class="lockscreen-content">
       <div class="logo">
-        <h1>Vali</h1>
+        <h1>EcoCycle</h1>
       </div>
       <div class="lock-box"><img class="rounded-circle user-image" src="https://randomuser.me/api/portraits/men/1.jpg">
         <h4 class="text-center user-name">John Doe</h4>
