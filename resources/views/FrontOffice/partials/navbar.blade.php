@@ -5,6 +5,9 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+  <!-- New Menu Items -->
+
 	  <ul class="navbar-nav mb-0 nav_left ms-auto">
     <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="{{route('index')}}">Home</a>
@@ -14,29 +17,23 @@
         <a class="nav-link {{ Route::currentRouteNamed('about') ? 'active' : '' }}" href="{{route('about')}}">About </a>
     </li>
     
-   
-    
-  
+    <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Centers
+          </a>
+          <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item {{ Route::currentRouteNamed('Centers') ? 'active' : '' }}" href="{{route('team')}}" > Depot Centers </a></li>
+            <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Delivery Centers</a></li>
+            <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Recycling Centers</a></li>
+            <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Sales Centers</a></li>
 
-   
- 
-    
-    <!-- New Menu Items -->
-    <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteNamed('services') ? 'active' : '' }}" href="{{route('services')}}">Deposit Centers</a>
+          </ul>
     </li>
-
-    <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteNamed('recycling_centers') ? 'active' : '' }}" href="{{route('services')}}">Recycling Centers</a>
-    </li>
-
+    
     <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteNamed('events') ? 'active' : '' }}" href="{{route('services')}}">Events</a>
     </li>
 
-    <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteNamed('sales_centers') ? 'active' : '' }}" href="{{route('services')}}">Sales Centers</a>
-    </li>
 
     <li class="nav-item">
         <a class="nav-link {{ Route::currentRouteNamed('awareness') ? 'active' : '' }}" href="{{route('services')}}">Awareness</a>
