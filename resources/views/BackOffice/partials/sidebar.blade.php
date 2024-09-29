@@ -47,12 +47,8 @@
             <li><a class="treeview-item"  href="{{route('page-error')}}" ><i class="icon bi bi-circle-fill"></i> Error Page</a></li>
           </ul>
         </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-cart"></i><span class="app-menu__label">Sales.C Management</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
-          <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{{route('table-basic')}}" ><i class="icon bi bi-circle-fill"></i> Basic Tables</a></li>
-            <li><a class="treeview-item" href="{{route('table-data-table')}}" ><i class="icon bi bi-circle-fill"></i> Data Tables</a></li>
-          </ul>
-        </li>
+        <li><a class="app-menu__item" href="{{route('salesCenters.index')}}"><i class="app-menu__icon bi bi bi-cart"></i><span class="app-menu__label">Sales.C Management</span></a></li>
+
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-info-circle"></i><span class="app-menu__label">Awareness Management</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="{{route('table-basic')}}" ><i class="icon bi bi-circle-fill"></i> Basic Tables</a></li>

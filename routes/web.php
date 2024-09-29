@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SalesCenterController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +82,7 @@ Route::get('/page-user', function () {
     return view('BackOffice.page-user');
 })->name('page-user');
 
+
 Route::get('/page-mailbox', function () {
     return view('BackOffice.page-mailbox');
 })->name('page-mailbox');
@@ -123,3 +126,14 @@ Route::get('/bootstrap-components', function () {
 Route::get('/blank-page', function () {
     return view('BackOffice.blank-page');
 })->name('blank-page');
+
+
+//controllers
+Route::get('/sales_center_list', [SalesCenterController::class, 'index'])->name('salesCenters.index');
+Route::get('/sales_center_create', [SalesCenterController::class, 'create'])->name('salesCenters.create');
+Route::post('/sales_center_store', [SalesCenterController::class, 'store'])->name('salesCenters.store');
+Route::get('/sales_centers/{id}/edit', [SalesCenterController::class, 'edit'])->name('salesCenters.edit');
+Route::delete('/sales_centers/{id}', [SalesCenterController::class, 'destroy'])->name('salesCenters.destroy');
+Route::put('/sales-centers/{id}', [SalesCenterController::class, 'update'])->name('salesCenters.update');
+
+Route::get('/front/sales-centers', [SalesCenterController::class, 'index'])->name('FrontOffice.salesCenters.index');

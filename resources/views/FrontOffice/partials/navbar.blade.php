@@ -25,7 +25,7 @@
             <li><a class="dropdown-item {{ Route::currentRouteNamed('Centers') ? 'active' : '' }}" href="{{route('team')}}" > Depot Centers </a></li>
             <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Delivery Centers</a></li>
             <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Recycling Centers</a></li>
-            <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Sales Centers</a></li>
+            <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('FrontOffice.salesCenters.index') ? 'active' : '' }}" href="{{route('FrontOffice.salesCenters.index')}}"> Sales Centers</a></li>
 
           </ul>
     </li>
