@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('publications', function (Blueprint $table) {
             $table->id(); 
             $table->string('title'); 
-            $table->text('description')->nullable(); 
-            $table->longText('content'); 
+            $table->longText('description'); 
+            $table->longText('content')->nullable(); 
             $table->string('category'); 
             $table->string('tags')->nullable(); 
             $table->timestamps(); 

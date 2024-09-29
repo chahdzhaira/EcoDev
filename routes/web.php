@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BackOffice\PublicationAdminController  ;
+use App\Http\Controllers\FrontOffice\PublicationController  ;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +56,16 @@ Route::get('/blog_detail', function () {
 Route::get('/about', function () {
     return view('FrontOffice.about');
 })->name('about');
+
+// Route::get('/awareness', function () {
+//     return view('FrontOffice.Publication.index');
+// })->name('awareness');
+
+Route::resource('/awareness', PublicationController::class); 
+
+Route::get('/publicationDetail', function () {
+    return view('FrontOffice.Publication.publicationDetail');
+})->name('publicationDetail');
 
 // route BackOffice
 
@@ -123,3 +136,6 @@ Route::get('/bootstrap-components', function () {
 Route::get('/blank-page', function () {
     return view('BackOffice.blank-page');
 })->name('blank-page');
+
+Route::resource('/publication', PublicationAdminController::class); 
+

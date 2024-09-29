@@ -36,7 +36,7 @@
 
 
     <li class="nav-item">
-        <a class="nav-link {{ Route::currentRouteNamed('awareness') ? 'active' : '' }}" href="{{route('services')}}">Awareness</a>
+        <a class="nav-link {{ Route::currentRouteNamed('awareness') ? 'active' : '' }}" href="{{url('/awareness')}}">Awareness</a>
     </li>
 </ul>
 
