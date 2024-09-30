@@ -41,7 +41,7 @@ class PublicationAdminController extends Controller
         // Publication::create($request->post());
 
         $request->validate([
-            'title' => 'required|min:3|max:50',
+            'title' => 'required|min:3|max:100',
             'content' => 'nullable|image',
             'description' => 'required',
             'category' => 'required',

@@ -82,17 +82,17 @@
                             <ul class="mt-3">
                                 <li class="d-inline-block"><i class="fa fa-user me-1 col_green"></i> <a href="#">Dolor Porta</a> <span class="text-muted mx-2">|</span></li>
                                 <li class="d-inline-block"><i class="fa fa-comments me-1 col_green"></i> <a href="#">3 Comments</a> <span class="text-muted mx-2">|</span></li>
-                                <li class="d-inline-block"><i class="fa fa-clock-o me-1 col_green"></i> <a href="#">29 July, 2021 </a> </li>
+                                <li class="d-inline-block"><i class="fa fa-clock-o me-1 col_green"></i> <a href="#">{{ $publication->created_at->format('d F, Y') }}</a> </li>
                             </ul>
-                            <h3 class="mt-3">{{ $publication->title }}</h3>
+                            <h3 class="mt-3 mb-5">{{ $publication->title }}</h3>
                             <p>{{ $publication->description }}</p>
                             <h5 class="mb-3 col_green center_sm">Tags :</h5>
                             <ul class="mb-0 tags center_sm">
-                                <li class="d-inline-block"><a href="blog_detail.html">Biology</a></li>
-                                <li class="d-inline-block"><a href="blog_detail.html">Design</a></li>
-                                <li class="d-inline-block"><a href="blog_detail.html">Employee</a></li>
-                                <li class="d-inline-block"><a href="blog_detail.html">Engineer</a></li>
-                                <li class="d-inline-block"><a href="blog_detail.html">Research</a></li>
+                                <li class="d-inline-block"><a href="blog_detail.html">nature</a></li>
+                                <li class="d-inline-block"><a href="blog_detail.html">Environment</a></li>
+                                <li class="d-inline-block"><a href="blog_detail.html">Recycle</a></li>
+                                <li class="d-inline-block"><a href="blog_detail.html">Reduce</a></li>
+                                <li class="d-inline-block"><a href="blog_detail.html">waste</a></li>
                             </ul>
                         @else
                             <p>Publication non trouvée.</p>

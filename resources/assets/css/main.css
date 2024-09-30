@@ -477,6 +477,13 @@ textarea {
   text-overflow: ellipsis; 
 }
 
+.truncateTitle {
+  max-width: 200px; 
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+}
+
 button,
 select {
   text-transform: none;

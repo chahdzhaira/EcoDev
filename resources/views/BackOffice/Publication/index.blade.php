@@ -24,7 +24,7 @@
   </head>
   <body class="app sidebar-mini">
     <!-- Navbar-->
-    <header class="app-header"><a class="app-header__logo" href="{{route('indexBack')}}" >Vali</a>
+    <header class="app-header"><a class="app-header__logo" href="{{route('indexBack')}}" >EcoCycle</a>
     @include('BackOffice.partials.navbar')
 
     </header>
@@ -101,9 +101,9 @@
                 @foreach($Publications as $p)
                   <tr>
                     <td>{{ $p->id }}</td>
-                    <td>{{ $p->title }}</td>
+                    <td class="truncateTitle">{{ $p->title }}</td>
                     <td class="truncateText">{{ $p->description }}</td>
-                    <td></td>
+                    <td>{{ $p->created_at->format('d-M-Y , H:i') }}</td>
                     <td>{{ $p->category }}</td>
                     <td></td>
                     <td class="text-center">
@@ -116,7 +116,7 @@
                           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body text-start">
-                        <img src="{{ asset($p->content) }}" alt="{{ $p->title }}"  class="d-block mx-auto img-fluid">
+                        <img src="{{ asset($p->content) }}" alt="{{ $p->title }}"  class="d-block mx-auto img-fluid mb-5">
                         <div>{{ $p->description }}</div>
                         </div>
                       </div>
