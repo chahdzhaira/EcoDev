@@ -59,6 +59,14 @@
             <li><a class="treeview-item" href="{{route('table-data-table')}}" ><i class="icon bi bi-circle-fill"></i> Data Tables</a></li>
           </ul>
         </li>
+
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-info-circle"></i><span class="app-menu__label">Event Management</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+          <ul class="treeview-menu">
+          <li><a class="treeview-item" href="{{ route('events.index') }}"><i class="icon bi bi-circle-fill"></i> Event List </a></li>
+
+            <li><a class="treeview-item" href="{{route('table-data-table')}}" ><i class="icon bi bi-circle-fill"></i> Data Tables</a></li>
+          </ul>
+        </li>
         
         <li><a class="app-menu__item" href="{{route('page-login')}}"><i class="app-menu__icon bi bi-door-open"></i><span class="app-menu__label">Logout</span></a></li>
 

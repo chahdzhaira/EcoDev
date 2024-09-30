@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\eventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,3 +124,6 @@ Route::get('/bootstrap-components', function () {
 Route::get('/blank-page', function () {
     return view('BackOffice.blank-page');
 })->name('blank-page');
+
+Route::resource('/events', EventController::class);
+
