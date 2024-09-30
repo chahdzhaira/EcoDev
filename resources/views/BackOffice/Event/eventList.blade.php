@@ -41,53 +41,99 @@
             </a>
         </div>
 
-         <!-- Message de succès -->
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-     <!-- Search Bar -->
-     <form method="GET" action="{{ route('events.index') }}" class="mb-4">
-        <div class="input-group">
-            <input type="text" class="form-control" name="search" placeholder="Search by title..." value="{{ request('search') }}">
-            <button class="btn btn-outline-secondary" type="submit">Search</button>
-        </div>
-    </form>
+        <!-- Message de succès -->
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <!-- Search Bar -->
+        <form method="GET" action="{{ route('events.index') }}" class="mb-4">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Search by title..." value="{{ request('search') }}">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
 
         <!-- Event Cards -->
         <div class="row">
-            @foreach($events as $event)
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">{{ $event->title }}</h5>
-                    </div>
-                    <div class="card-body">
-                        <p><strong>Description:</strong> {{ $event->description }}</p>
-                        <p><strong>Date:</strong> {{ $event->date }}</p>
-                        <p><strong>Location:</strong> {{ $event->location }}</p>
-                        <p><strong>Organizer:</strong> {{ $event->organizer }}</p>
-                        <p><strong>Max Participants:</strong> {{ $event->max_participants }}</p>
-                        <p><strong>Image URL:</strong> <a href="{{ $event->image_url }}">{{ $event->image_url }}</a></p>
-                        <p><strong>Created At:</strong> {{ $event->created_at }}</p>
-                        <p><strong>Updated At:</strong> {{ $event->updated_at }}</p>
-                          <!-- Button to Edit Event -->
-                <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning">
-                    <i class="bi bi-pencil"></i> Edit
-                </a>
-                         <!-- Button to Delete Event -->
-                <form action="{{ route('events.destroy', $event->id) }}" method="POST" style="display: inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this event?');">
-                        <i class="bi bi-trash"></i> Delete
-                    </button>
-                </form>
-                    </div>
+    @foreach($events as $event)
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">{{ $event->title }}</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Description:</strong> {{ $event->description }}</p>
+                <p><strong>Date:</strong> {{ $event->date }}</p>
+                <p><strong>Location:</strong> {{ $event->location }}</p>
+                <p><strong>Organizer:</strong> {{ $event->organizer }}</p>
+                <p><strong>Max Participants:</strong> {{ $event->max_participants }}</p>
+                <p><strong>Image URL:</strong> <a href="{{ $event->image_url }}">{{ $event->image_url }}</a></p>
+                <p><strong>Created At:</strong> {{ $event->created_at }}</p>
+                <p><strong>Updated At:</strong> {{ $event->updated_at }}</p>
+
+                <!-- Boutons Modifier et Supprimer -->
+                <div class="mt-3">
+                    <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning btn-sm">
+                        <i class="bi bi-pencil"></i> Modifier
+                    </a>
+
+                    <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Supprimer
+                        </button>
+                    </form>
                 </div>
             </div>
-            @endforeach
+        </div>
+    </div>
+    @endforeach
+</div>
+
+        <!-- Pagination Links -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav>
+                <ul class="pagination pagination-sm">
+                    {{-- Lien vers la page précédente --}}
+                    @if ($events->onFirstPage())
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">«</a>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $events->previousPageUrl() }}">«</a>
+                        </li>
+                    @endif
+
+                    {{-- Lien vers les pages numérotées --}}
+                    @foreach ($events->getUrlRange(1, $events->lastPage()) as $page => $url)
+                        @if ($page == $events->currentPage())
+                            <li class="page-item active">
+                                <a class="page-link" href="#">{{ $page }}</a>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                            </li>
+                        @endif
+                    @endforeach
+
+                    {{-- Lien vers la page suivante --}}
+                    @if ($events->hasMorePages())
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $events->nextPageUrl() }}">»</a>
+                        </li>
+                    @else
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#">»</a>
+                        </li>
+                    @endif
+                </ul>
+            </nav>
         </div>
     </main>
 

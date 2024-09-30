@@ -14,15 +14,18 @@ class eventController extends Controller
     public function index(Request $request)
     {
         $query = Event::query();
-    
+
         // Check if there's a search request
         if ($request->has('search') && $request->search != '') {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
-    
-        $events = $query->get();
-    
+        
+        // Apply pagination after building the query
+        $events = $query->paginate(4); // Paginer ici
+        
         return view('BackOffice.Event.eventList', compact('events'));
+
+        
     }
 
     /**
@@ -34,7 +37,6 @@ class eventController extends Controller
     {
         return view('BackOffice.Event.addEvent');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -43,6 +45,7 @@ class eventController extends Controller
      */
     public function store(Request $request)
     {
+        // Validation des données
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -50,14 +53,27 @@ class eventController extends Controller
             'location' => 'required|string|max:255',
             'organizer' => 'required|string|max:255',
             'max_participants' => 'required|integer',
-            'image_url' => 'required|url',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
     
+        // Gérer l'upload de l'image
+        if ($request->hasFile('image')) {
+            // Stockage de l'image dans le dossier public/events
+            $imagePath = $request->file('image')->store('events', 'public');
+    
+            // Ajouter le chemin de l'image au tableau validé
+            $validatedData['image_url'] = $imagePath; // Assurez-vous que votre modèle 'Event' a un champ image_url
+        }
+    
+        // Créer un nouvel événement
         Event::create($validatedData);
     
+        // Rediriger avec succès
         return redirect()->route('events.index')->with('success', 'Événement ajouté avec succès.');
     }
-
+  
+        
+    
     /**
      * Display the specified resource.
      *

@@ -49,7 +49,7 @@
                 <div class="tile">
                     <h3 class="tile-title">Event Details Form</h3>
                     <div class="tile-body">
-                        <form action="{{ route('events.store') }}" method="POST">
+                        <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <!-- Title -->
                             <div class="mb-3">
@@ -87,10 +87,10 @@
                                 <input class="form-control" type="number" placeholder="Enter max participants" name="max_participants" required>
                             </div>
 
-                            <!-- Image URL -->
+                            <!-- Image Upload -->
                             <div class="mb-3">
-                                <label class="form-label">Image URL</label>
-                                <input class="form-control" type="url" placeholder="Enter image URL" name="image_url" required>
+                                <label class="form-label">Upload Image</label>
+                                <input class="form-control" type="file" name="image" accept="image/*" required>
                             </div>
 
                             <!-- Submit Button -->

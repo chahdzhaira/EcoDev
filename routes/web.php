@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\eventController;
+use App\Http\Controllers\eventsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -126,4 +127,5 @@ Route::get('/blank-page', function () {
 })->name('blank-page');
 
 Route::resource('/events', EventController::class);
-
+Route::resource('/event', EventsController::class);
+Route::post('/events/{id}/participate', [EventController::class, 'participate'])->name('event.participate');
