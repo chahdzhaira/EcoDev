@@ -37,34 +37,34 @@
         }
 
         .card-container {
-            margin-top: 20px; /* Space above cards */
+            margin-top: 20px; 
         }
 
         .blog_h1i {
-            transition: transform 0.3s; /* Smooth hover effect */
-            border: 1px solid #ddd; /* Add border to each card */
-            border-radius: 8px; /* Rounded corners for the card */
-            overflow: hidden; /* Clip content that overflows the card */
-            height: 100%; /* Ensure all cards take equal height */
-            margin-bottom: 30px; /* Space between cards vertically */
+            transition: transform 0.3s; 
+            border: 1px solid #ddd; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            height: 100%; 
+            margin-bottom: 30px; 
         }
 
         .blog_h1i:hover {
-            transform: scale(1.05); /* Slightly enlarge on hover */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+            transform: scale(1.05); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
         }
 
         .blog_h1i1 img {
-            width: 100%; /* Make image responsive */
-            height: 200px; /* Set a fixed height for images */
-            object-fit: cover; /* Ensure images cover the entire area */
+            width: 100%; 
+            height: 200px; 
+            object-fit: cover; 
         }
 
         .blog_h1i2 {
-            padding: 20px; /* Add padding for card content */
-            display: flex; /* Flexbox to ensure equal height */
-            flex-direction: column; /* Stack items vertically */
-            flex-grow: 1; /* Allow the content area to grow */
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            flex-grow: 1; 
         }
 
 
@@ -122,7 +122,7 @@
         </div>
         <div class="row card-container">
             @foreach($agences as $agence)
-            <div class="col-md-4 mb-4"> <!-- Add margin bottom for spacing -->
+            <div class="col-md-4 mb-4"> 
             <div class="blog_h1i shadow_box position-relative">
     <div class="blog_h1i1 position-relative">
         <div class="blog_h1i1i">
@@ -156,14 +156,14 @@
         <i class="fa fa-phone me-1 col_green"></i> 
         {{ $agence->phoneNumber }}
     </li>
-    <span class="mx-2 text-muted">|</span> <!-- Utilisation de 'mx-2' pour ajouter un espace autour du séparateur -->
+    <span class="mx-2 text-muted">|</span> 
     <li class="d-inline-block">
         <i class="fa fa-clock-o me-1 col_green"></i> 
         <span>{{ $agence->opening_hours }}</span>
     </li>
-    <span class="mx-1 text-muted">|</span> <!-- Utilisation de 'mx-2' pour ajouter un espace autour du séparateur -->
+    <span class="mx-1 text-muted">|</span> 
     <li class="d-inline-block">
-    <i class="fa fa-clock-o me-1 col_red"></i>  <!-- Icone horloge rouge -->
+    <i class="fa fa-clock-o me-1 col_red"></i> 
     <span>{{ $agence->closing_hours }}</span>
     </li>
   
@@ -224,7 +224,6 @@
 
 
     <!-- Scripts JavaScript -->
-<!-- Place this at the bottom of your body -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 

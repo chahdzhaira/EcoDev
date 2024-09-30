@@ -127,18 +127,8 @@ Route::get('/blank-page', function () {
 })->name('blank-page');
 
 
-// Ajout de la route CRUD pour les agences de livraison dans le BackOffice
 
-// Route::prefix('backoffice')->group(function () {
-//     Route::resource('agences', DeliveryAgenceController::class);
-// });
-// Route::resource('delivery-agences', DeliveryAgenceController::class);
-// // Route pour afficher le formulaire d'ajout
-// Route::get('/delivery-agences/create', [DeliveryAgenceController::class, 'create'])->name('delivery-agences.create');
-
-// // Route pour stocker les données du formulaire
-// Route::post('/delivery-agences', [DeliveryAgenceController::class, 'store'])->name('delivery-agences.store');
-
+// Route Backoffice pour l'affichage des agences de livraison
 Route::prefix('delivery-agences')->group(function () {
     Route::get('/', [DeliveryAgenceController::class, 'index'])->name('delivery-agences.index');
     Route::get('/create', [DeliveryAgenceController::class, 'create'])->name('delivery-agences.create');
