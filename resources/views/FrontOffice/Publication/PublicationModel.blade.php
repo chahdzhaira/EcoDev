@@ -13,7 +13,7 @@
                      <div class="blog_h1i1i">
                         <div class="grid clearfix">
                            <figure class="effect-jazz mb-0">
-                                <a href="{{ route('publication.show', $publication->id) }}">
+                                <a href="{{ route('awareness.show', $publication->id) }}">
                                     <img src="{{ $publication->content }}" class="w-100 fixed-size-img" alt="{{ $publication->title }}">
                                 </a>
                            </figure>
