@@ -51,8 +51,8 @@
         <div class="col-md-12">
             <div class="tile">
                 <form id="salesCenterForm" action="{{ route('salesCenters.update', $salesCenter->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf <!-- CSRF Token -->
-                    @method('PUT') <!-- Method spoofing for PUT -->
+                    @csrf 
+                    @method('PUT') 
 
                     <div class="row">
                         <!-- Left Column -->

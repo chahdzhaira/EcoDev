@@ -87,7 +87,7 @@
                     </div>
                     <div class="team_1m2 p-4 shadow_box">
     <h4 class="text-uppercase"><a href="{{ route('detail') }}">{{ $center->name }}</a></h4>
-    <h6 class="col_green">{{ $center->address }}</h6> <!-- Update this to reflect the appropriate role if applicable -->
+    <h6 class="col_green">{{ $center->address }}</h6>
     <p class="mb-0 text-black">
     <strong>Phone:</strong> <span class="text-muted">{{ $center->phoneNumber }}</span>
 </p>

@@ -99,22 +99,17 @@
     @vite(['resources/assets/js/jquery-3.7.0.min.js', 'resources/assets/js/bootstrap.min.js', 'resources/assets/js/main - Back.js'])
 
     <script>
-        // Wait for the document to be fully loaded
         document.addEventListener("DOMContentLoaded", function() {
-            // Check if the alert exists
             const alert = document.getElementById('successAlert');
             if (alert) {
-                // Set a timeout to dismiss the alert after 3 seconds
                 setTimeout(function() {
-                    // Remove the 'show' class to trigger the fade out effect
+                  
                     alert.classList.remove('show');
                     alert.classList.add('fade');
-
-                    // Remove the alert from the DOM after the fade out effect
                     setTimeout(function() {
                         alert.remove();
-                    }, 1000); // Wait 1 second for the fade out to complete
-                }, 3000); // 3000 milliseconds = 3 seconds
+                    }, 1000); 
+                }, 3000); 
             }
         });
     </script>
