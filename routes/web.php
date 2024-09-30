@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DepotCenterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,3 +124,27 @@ Route::get('/bootstrap-components', function () {
 Route::get('/blank-page', function () {
     return view('BackOffice.blank-page');
 })->name('blank-page');
+
+
+
+
+Route::get('/create', function () {
+    return view('BackOffice.Depot-Center.create');
+})->name('create');
+
+Route::get('/index', function () {
+    return view('BackOffice.Depot-Center.index');
+})->name('index');
+Route::get('/edit', function () {
+    return view('BackOffice.Depot-Center.edit');
+})->name('edit');
+
+
+// Route::get('/frontoffice/show', function () {
+//     return view('FrontOffice.Depot-Center.index');
+// })->name('frontoffice.index');
+
+
+Route::resource('depot_centers', DepotCenterController::class);
+
+
