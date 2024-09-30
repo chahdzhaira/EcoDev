@@ -140,6 +140,8 @@ Route::get('/edit', function () {
 })->name('edit');
 
 
+
+
 // Route::get('/frontoffice/show', function () {
 //     return view('FrontOffice.Depot-Center.index');
 // })->name('frontoffice.index');

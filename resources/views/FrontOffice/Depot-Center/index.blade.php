@@ -72,7 +72,7 @@
                 <a href="{{ route('dashboard') }}" class="btn btn-secondary">Retour au Dashboard</a>
             </div> -->
             <div class="col text-end">
-                <form action="{{ route('depot_centers.frontoffice.index') }}" method="GET" class="d-flex">
+                <form action="{{ route('depot_centers.index') }}" method="GET" class="d-flex">
                     <input type="text" name="search" class="form-control me-2" placeholder="Rechercher un centre..." value="{{ request('search') }}">
                     <button class="btn btn-outline-primary" type="submit">Rechercher</button>
                 </form>

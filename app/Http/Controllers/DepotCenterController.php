@@ -19,9 +19,9 @@ class DepotCenterController extends Controller
         }
     
     //     // Paginate results
-    //     $depotCenters = $query->paginate(10); // Change recyclingCenters to depotCenters
+    //     $depotCenters = $query->paginate(10); // 
     
-    //     return view('BackOffice.Depot-Center.index', compact('depotCenters')); // Change recycling_centers to depot_centers
+    //     return view('BackOffice.Depot-Center.index', compact('depotCenters')); // 
     // }
 
 
@@ -71,7 +71,7 @@ class DepotCenterController extends Controller
     
     public function create()
     {
-        return view('BackOffice.Depot-Center.create'); // Change recycling_centers to depot_centers
+        return view('BackOffice.Depot-Center.create'); 
     }
 
     public function store(Request $request)
@@ -96,18 +96,18 @@ class DepotCenterController extends Controller
             $data['image'] = $imageName;
         }
 
-        DepotCenter::create($data); // Change RecyclingCenter to DepotCenter
+        DepotCenter::create($data); 
 
-        return redirect()->route('depot_centers.index')// Passing the correct variable
-        ->with('success', 'Centre de dépôt créé avec succès.'); // Change to 'Centre de dépôt'
+        return redirect()->route('depot_centers.index')
+        ->with('success', 'Centre de dépôt créé avec succès.'); 
     }
 
-    public function edit(DepotCenter $depotCenter) // Change RecyclingCenter to DepotCenter
+    public function edit(DepotCenter $depotCenter) 
     {
-        return view('BackOffice.Depot-Center.edit', compact('depotCenter')); // Change recycling_centers to depot_centers
+        return view('BackOffice.Depot-Center.edit', compact('depotCenter')); 
     }
 
-    public function update(Request $request, DepotCenter $depotCenter) // Change RecyclingCenter to DepotCenter
+    public function update(Request $request, DepotCenter $depotCenter) 
     {
         $request->validate([
             'name' => 'required',
@@ -134,22 +134,22 @@ class DepotCenterController extends Controller
             $data['image'] = $imageName;
         }
 
-        $depotCenter->update($data); // Change RecyclingCenter to DepotCenter
+        $depotCenter->update($data); 
 
-        return redirect()->route('depot_centers.index') // Change recycling_centers to depot_centers
-            ->with('success', 'Centre de dépôt mis à jour avec succès.'); // Change to 'Centre de dépôt'
+        return redirect()->route('depot_centers.index') 
+            ->with('success', 'Centre de dépôt mis à jour avec succès.'); 
     }
 
-    public function destroy(DepotCenter $depotCenter) // Change RecyclingCenter to DepotCenter
+    public function destroy(DepotCenter $depotCenter) 
     {
         // Delete the associated image if it exists
         if ($depotCenter->image && file_exists(public_path('images/' . $depotCenter->image))) {
             unlink(public_path('images/' . $depotCenter->image));
         }
 
-        $depotCenter->delete(); // Change RecyclingCenter to DepotCenter
+        $depotCenter->delete(); 
 
-        return redirect()->route('depot_centers.index') // Change recycling_centers to depot_centers
-            ->with('success', 'Centre de dépôt supprimé avec succès.'); // Change to 'Centre de dépôt'
+        return redirect()->route('depot_centers.index') 
+            ->with('success', 'Centre de dépôt supprimé avec succès.'); 
     }
 }

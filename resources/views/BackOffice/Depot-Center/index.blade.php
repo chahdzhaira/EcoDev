@@ -86,9 +86,9 @@
                 <td>{{ $centre->phoneNumber }}</td>
                 <td>
                 @if ($centre->image)
-                <img src="{{ Storage::url($centre->image) }}" alt="Image du centre" style="width: 100px;">
+                        <img src="{{ asset('images/' . $centre->image) }}" alt="Image actuelle" class="img-thumbnail mt-2" style="max-width: 200px;">
                     @else
-                        Aucun
+                        <img src="{{ asset('images/' . $centre->image) }}" alt="Image actuelle" class="img-thumbnail mt-2" style="max-width: 200px;">
                     @endif
                 </td>
                         <td>
