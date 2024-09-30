@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeliveryAgenceController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -123,3 +125,32 @@ Route::get('/bootstrap-components', function () {
 Route::get('/blank-page', function () {
     return view('BackOffice.blank-page');
 })->name('blank-page');
+
+
+// Ajout de la route CRUD pour les agences de livraison dans le BackOffice
+
+// Route::prefix('backoffice')->group(function () {
+//     Route::resource('agences', DeliveryAgenceController::class);
+// });
+// Route::resource('delivery-agences', DeliveryAgenceController::class);
+// // Route pour afficher le formulaire d'ajout
+// Route::get('/delivery-agences/create', [DeliveryAgenceController::class, 'create'])->name('delivery-agences.create');
+
+// // Route pour stocker les données du formulaire
+// Route::post('/delivery-agences', [DeliveryAgenceController::class, 'store'])->name('delivery-agences.store');
+
+Route::prefix('delivery-agences')->group(function () {
+    Route::get('/', [DeliveryAgenceController::class, 'index'])->name('delivery-agences.index');
+    Route::get('/create', [DeliveryAgenceController::class, 'create'])->name('delivery-agences.create');
+    Route::post('/', [DeliveryAgenceController::class, 'store'])->name('delivery-agences.store');
+    Route::get('/{id}', [DeliveryAgenceController::class, 'show'])->name('delivery-agences.show');
+    Route::get('/{id}/edit', [DeliveryAgenceController::class, 'edit'])->name('delivery-agences.edit');
+    Route::put('/{id}', [DeliveryAgenceController::class, 'update'])->name('delivery-agences.update');
+    Route::delete('/{id}', [DeliveryAgenceController::class, 'destroy'])->name('delivery-agences.destroy');
+});
+
+// Route FrontOffice pour l'affichage des agences de livraison
+Route::prefix('front/delivery-agences')->group(function () {
+    Route::get('/', [DeliveryAgenceController::class, 'indexFrontend'])->name('front.deliveryagence.index');
+    Route::get('/{id}', [DeliveryAgenceController::class, 'showFrontend'])->name('front.deliveryagence.show');
+});
