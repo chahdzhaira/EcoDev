@@ -9,14 +9,22 @@ class RecyclingCenterController extends Controller
 {
     public function index(Request $request)
     {
-        // Préparer la requête
         $query = RecyclingCenter::query();
-
-        // Fonctionnalité de recherche
+    
+        // Search functionality
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%')
-                  ->orWhere('address', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%' . $request->search . '%');
         }
+    
+        // Sorting functionality
+        if ($request->has('sort_by')) {
+            if ($request->sort_by === 'opening_hours') {
+                $query->orderBy('opening_hours', 'asc');
+            } elseif ($request->sort_by === 'address') {
+                $query->orderBy('address', 'asc');
+            }
+        }
+    
 
         // Pagination des résultats (5 éléments par page)
         $recyclingCenters = $query->paginate(5);
@@ -26,14 +34,25 @@ class RecyclingCenterController extends Controller
 
 // Ajoutez cette méthode dans RecyclingCenterController
 
-public function userIndex()
+public function userIndex(Request $request)
 {
-    // Récupérer tous les centres de recyclage
-    $recyclingCenters = RecyclingCenter::all();
+    // Prepare the query
+    $query = RecyclingCenter::query();
 
-    // Retourner la vue avec les centres de recyclage
+    // Search functionality
+    if ($request->has('search')) {
+        $query->where('name', 'like', '%' . $request->search . '%')
+              ->orWhere('address', 'like', '%' . $request->search . '%');
+    }
+
+    // Retrieve recycling centers with pagination (2 items per page)
+    $recyclingCenters = $query->paginate(2);
+
+    // Return the view with the recycling centers
     return view('FrontOffice.recycling-centers.index', compact('recyclingCenters'));
 }
+
+
 
 
     public function create()
@@ -90,7 +109,7 @@ public function userIndex()
         ]);
 
 
-        
+
         $data = $request->all();
 
         // Gérer l'upload de l'image

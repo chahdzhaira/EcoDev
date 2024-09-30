@@ -73,28 +73,30 @@
         }
         .card img {
             width: 100%;
-            height: 150px;
+            height: 250px;
             object-fit: cover;
             border-radius: 10px 10px 0 0;
         }
         .card-body {
-            padding: 15px;
+            padding: 20px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
         .card-title {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             margin: 10px 0;
             color: #007bff;
         }
         .card-text {
             margin: 5px 0;
             color: #555;
+            font-size: 1.1rem;
         }
         .qrcode {
             margin-top: 10px;
+            text-align: center;
         }
         .distribute-btn {
             background-color: #28a745;
@@ -109,16 +111,47 @@
         .distribute-btn:hover {
             background-color: #218838;
         }
-        /* Responsive grid layout for cards */
+        /* Responsive grid layout for larger cards */
         .row {
             display: flex;
             flex-wrap: wrap;
+            gap: 20px;
             justify-content: center;
         }
         .col {
-            flex: 1 1 300px;
-            margin: 10px;
+            flex: 1 1 calc(50% - 40px);
+            max-width: calc(50% - 40px);
+            min-width: 400px;
+        }
+        @media (max-width: 768px) {
+            .col {
+                flex: 1 1 calc(100% - 20px);
+                max-width: 100%;
+            }
+        }
+        /* Custom Pagination */
+        .pagination {
             display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination .page-item {
+            display: none;
+        }
+        .pagination .page-item:first-child,
+        .pagination .page-item:last-child {
+            display: inline-block;
+        }
+        .pagination .page-link {
+            border: none;
+            background-color: transparent;
+            color: #007bff;
+        }
+        .pagination .page-link:hover {
+            color: #0056b3;
+        }
+        .pagination .disabled .page-link {
+            color: #ddd;
         }
     </style>
 </head>
@@ -140,14 +173,16 @@
             </div>
             <div class="col-md-4">
                 <div class="top_1r text-end">
-                    <div class="input-group">
-                        <input type="text" class="form-control border-0 bg-transparent text-white" placeholder="Search Keyword">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary col_green bg-transparent rounded-0 p-1 px-3 border-0" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
+                    <form method="GET" action="{{ route('recycling_centers.index') }}">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control border-0 bg-transparent text-white" placeholder="Search Keyword">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary col_green bg-transparent rounded-0 p-1 px-3 border-0" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -172,8 +207,6 @@
 </section>
 
 <div class="container">
-    <h1>Centres de Recyclage</h1>
-
     <div class="row">
         @foreach ($recyclingCenters as $center)
             <div class="col">
@@ -181,7 +214,7 @@
                     @if ($center->image)
                         <img src="{{ asset('images/' . $center->image) }}" alt="Image du centre">
                     @else
-                        <img src="{{ asset('images/default-image.jpg') }}" alt="Image par défaut"> <!-- Placeholder for missing images -->
+                        <img src="{{ asset('images/default-image.jpg') }}" alt="Image par défaut">
                     @endif
                     <div class="card-body">
                         <h5 class="card-title">{{ $center->name }}</h5>
@@ -190,6 +223,7 @@
                         <p class="card-text"><strong>Email:</strong> {{ $center->email }}</p>
                         <p class="card-text"><strong>Responsable:</strong> {{ $center->manager_name }}</p>
                         <p class="card-text"><strong>Heures d'ouverture:</strong> {{ $center->opening_hours }} - {{ $center->closing_hours }}</p>
+
                         <!-- QR Code container -->
                         <div id="qrcode-{{ $center->id }}" class="qrcode"></div>
 
@@ -202,8 +236,8 @@
             <script>
                 // Generate QR code for each recycling center
                 $(document).ready(function() {
-                    $('#qrcode-{{ $center->id }}').qrcode({
-                        text: 'Nom: {{ $center->name }}, Adresse: {{ $center->address }}, Téléphone: {{ $center->phoneNumber }}, Email: {{ $center->email }}',
+                    var qrcode = new QRCode(document.getElementById("qrcode-{{ $center->id }}"), {
+                        text: 'Centre de Recyclage {{ $center->name }}\nAdresse: {{ $center->address }}\nEmail: {{ $center->email }}',
                         width: 128,
                         height: 128
                     });
@@ -211,8 +245,26 @@
             </script>
         @endforeach
     </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-4">
+        @if ($recyclingCenters->hasPages())
+            <ul class="pagination">
+                @if ($recyclingCenters->onFirstPage())
+                    <li class="page-item disabled"><span class="page-link">Précédent</span></li>
+                @else
+                    <li class="page-item"><a class="page-link" href="{{ $recyclingCenters->previousPageUrl() }}">Précédent</a></li>
+                @endif
+
+                @if ($recyclingCenters->hasMorePages())
+                    <li class="page-item"><a class="page-link" href="{{ $recyclingCenters->nextPageUrl() }}">Suivant</a></li>
+                @else
+                    <li class="page-item disabled"><span class="page-link">Suivant</span></li>
+                @endif
+            </ul>
+        @endif
+    </div>
 </div>
 
-@vite(['resources/assets/js/main.js'])
 </body>
 </html>

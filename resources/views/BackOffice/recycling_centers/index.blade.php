@@ -11,8 +11,9 @@
 </head>
 <body class="app sidebar-mini">
     <!-- Navbar -->
-    <header class="app-header"><a class="app-header__logo" href="{{route('indexBack')}}">EcoCycle</a>
-    @include('BackOffice.partials.navbar')
+    <header class="app-header">
+        <a class="app-header__logo" href="{{ route('indexBack') }}">EcoCycle</a>
+        @include('BackOffice.partials.navbar')
     </header>
 
     <!-- Sidebar menu -->
@@ -33,22 +34,39 @@
 
         <!-- Message de succès -->
         @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         @endif
 
         <!-- Barre de recherche et bouton de retour -->
         <div class="row mb-4">
-            <div class="col">
+            <div class="col-md-4">
                 <a href="{{ route('dashboard') }}" class="btn btn-secondary">Retour au Dashboard</a>
             </div>
-            <div class="col text-end">
+            <div class="col-md-4 text-end">
                 <form action="{{ route('recycling_centers.index') }}" method="GET" class="d-flex">
                     <input type="text" name="search" class="form-control me-2" placeholder="Rechercher un centre..." value="{{ request('search') }}">
                     <button class="btn btn-outline-primary" type="submit">Rechercher</button>
                 </form>
             </div>
-            <div class="col text-end">
+            <div class="col-md-4 text-end">
                 <a href="{{ route('recycling_centers.create') }}" class="btn btn-primary">Créer un nouveau centre</a>
+            </div>
+        </div>
+
+        <!-- Dropdown for sorting -->
+        <div class="row mb-4">
+            <div class="col-md-4 offset-md-8 text-end">
+                <form action="{{ route('recycling_centers.index') }}" method="GET" class="d-inline">
+                    <select name="sort_by" class="form-select d-inline-block" style="width: auto;" onchange="this.form.submit()">
+                        <option value="">Trier par</option>
+                        <option value="opening_hours" {{ request('sort_by') === 'opening_hours' ? 'selected' : '' }}>Heures d'ouverture</option>
+                        <option value="address" {{ request('sort_by') === 'address' ? 'selected' : '' }}>Adresse</option>
+                    </select>
+                    <input type="hidden" name="search" value="{{ request('search') }}">
+                </form>
             </div>
         </div>
 
