@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RecyclingCenterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,3 +124,25 @@ Route::get('/bootstrap-components', function () {
 Route::get('/blank-page', function () {
     return view('BackOffice.blank-page');
 })->name('blank-page');
+
+
+Route::get('/create', function () {
+    return view('BackOffice.recycling_centers.create');
+})->name('create');
+
+Route::get('/index', function () {
+    return view('BackOffice.recycling_centers.index');
+})->name('index');
+
+Route::get('/edit', function () {
+    return view('BackOffice.recycling_centers.edit');
+})->name('edit');
+
+Route::get('/index', function () {
+    return view('FrontOffice.recycling_centers.index');
+})->name('index');
+
+Route::get('/recycling-centers', [RecyclingCenterController::class, 'userIndex'])->name('recycling-centers.index');
+
+// Routes existantes pour l'admin
+Route::resource('recycling_centers', RecyclingCenterController::class);
