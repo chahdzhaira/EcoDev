@@ -74,7 +74,7 @@
             @error('name')
                 <div class="text-danger">{{ $message }}</div>
             @enderror
-        </div>
+        </div> 
         <div class="form-group">
             <label for="address">Adresse <span class="text-danger">*</span></label>
             <textarea name="address" class="form-control" placeholder="Adresse du centre" rows="2" required>{{ old('address') }}</textarea>
