@@ -9,14 +9,22 @@ class RecyclingCenterController extends Controller
 {
     public function index(Request $request)
     {
-        $query = RecyclingCenter::query();
+    $query = RecyclingCenter::query();
+
+    // Fonctionnalité de recherche
+    if ($request->has('search')) {
+        $searchTerm = '%' . $request->search . '%';
+        
+        $query->where(function($query) use ($searchTerm) {
+            $query->where('name', 'like', $searchTerm)
+                  ->orWhere('address', 'like', $searchTerm)
+                  ->orWhere('email', 'like', $searchTerm)
+                  ->orWhere('manager_name', 'like', $searchTerm);
+        });
+    }
     
-        // Search functionality
-        if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
     
-        // Sorting functionality
+        // Fonctionnalité de tri
         if ($request->has('sort_by')) {
             if ($request->sort_by === 'opening_hours') {
                 $query->orderBy('opening_hours', 'asc');
@@ -25,35 +33,29 @@ class RecyclingCenterController extends Controller
             }
         }
     
-
         // Pagination des résultats (5 éléments par page)
         $recyclingCenters = $query->paginate(5);
 
         return view('BackOffice.recycling_centers.index', compact('recyclingCenters'));
     }
 
-// Ajoutez cette méthode dans RecyclingCenterController
+    public function userIndex(Request $request)
+    {
+        // Préparer la requête
+        $query = RecyclingCenter::query();
 
-public function userIndex(Request $request)
-{
-    // Prepare the query
-    $query = RecyclingCenter::query();
+        // Fonctionnalité de recherche
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('address', 'like', '%' . $request->search . '%');
+        }
 
-    // Search functionality
-    if ($request->has('search')) {
-        $query->where('name', 'like', '%' . $request->search . '%')
-              ->orWhere('address', 'like', '%' . $request->search . '%');
+        // Récupérer les centres de recyclage avec pagination (2 éléments par page)
+        $recyclingCenters = $query->paginate(2);
+
+        // Retourner la vue avec les centres de recyclage
+        return view('FrontOffice.recycling-centers.index', compact('recyclingCenters'));
     }
-
-    // Retrieve recycling centers with pagination (2 items per page)
-    $recyclingCenters = $query->paginate(2);
-
-    // Return the view with the recycling centers
-    return view('FrontOffice.recycling-centers.index', compact('recyclingCenters'));
-}
-
-
-
 
     public function create()
     {
@@ -73,8 +75,6 @@ public function userIndex(Request $request)
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-    
-
         $data = $request->all();
 
         // Gérer l'upload de l'image
@@ -108,8 +108,6 @@ public function userIndex(Request $request)
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-
-
         $data = $request->all();
 
         // Gérer l'upload de l'image
@@ -129,7 +127,6 @@ public function userIndex(Request $request)
         return redirect()->route('recycling_centers.index')
             ->with('success', 'Centre de recyclage mis à jour avec succès.');
     }
-
 
     public function destroy(RecyclingCenter $recyclingCenter)
     {

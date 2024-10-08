@@ -78,6 +78,7 @@
                         <table class="table table-striped table-hover">
                             <thead class="table-dark">
                                 <tr>
+                                    <th>Image</th> <!-- Nouvelle colonne pour l'image -->
                                     <th>Nom</th>
                                     <th>Adresse</th>
                                     <th>Téléphone</th>
@@ -91,6 +92,13 @@
                             <tbody>
                                 @forelse($recyclingCenters as $centre)
                                     <tr>
+                                        <td>
+                                            @if($centre->image)
+                                                <img src="{{ asset('images/' . $centre->image) }}" alt="{{ $centre->name }}" style="width: 70px; height: auto;">
+                                            @else
+                                                <img src="{{ asset('images/default.png') }}" alt="Image par défaut" style="width: 70px; height: auto;">
+                                            @endif
+                                        </td>
                                         <td>{{ $centre->name }}</td>
                                         <td>{{ $centre->address }}</td>
                                         <td>{{ $centre->phoneNumber }}</td>
@@ -109,7 +117,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center">Aucun centre de recyclage trouvé.</td>
+                                        <td colspan="9" class="text-center">Aucun centre de recyclage trouvé.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
