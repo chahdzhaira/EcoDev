@@ -43,6 +43,13 @@
             font-size: 0.875em;
             margin-top: 0.25rem;
         }
+        .invalid-feedback {
+            display: none;
+            color: red;
+        }
+        .form-control.is-invalid ~ .invalid-feedback {
+            display: block;
+        }
     </style>
 </head>
 <body class="app sidebar-mini">
@@ -71,63 +78,48 @@
         <div class="form-container">
             <h3 class="form-title">Créer un centre de recyclage</h3>
 
-            <form action="{{ route('recycling_centers.store') }}" method="POST" enctype="multipart/form-data">
+            <form id="recyclingForm" action="{{ route('recycling_centers.store') }}" method="POST" enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="form-group">
                     <label for="name">Nom <span class="text-danger">*</span></label>
-                    <input type="text" name="name" class="form-control" placeholder="Nom du centre" value="{{ old('name') }}" required>
-                    @error('name')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Nom du centre" required minlength="3">
+                    <div class="invalid-feedback">Le nom doit comporter au moins 3 caractères.</div>
                 </div>
                 <div class="form-group">
                     <label for="address">Adresse <span class="text-danger">*</span></label>
-                    <textarea name="address" class="form-control" placeholder="Adresse du centre" rows="3" required>{{ old('address') }}</textarea>
-                    @error('address')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <textarea id="address" name="address" class="form-control" placeholder="Adresse du centre" rows="3" required minlength="10"></textarea>
+                    <div class="invalid-feedback">L'adresse doit comporter au moins 10 caractères.</div>
                 </div>
                 <div class="form-group">
                     <label for="phoneNumber">Téléphone</label>
-                    <input type="text" name="phoneNumber" class="form-control" placeholder="Numéro de téléphone" value="{{ old('phoneNumber') }}">
-                    @error('phoneNumber')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Numéro de téléphone" pattern="^\+?[0-9]{8}$">
+                    <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide.</div>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" name="email" class="form-control" placeholder="Email de contact" value="{{ old('email') }}">
-                    @error('email')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Email de contact" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                    <small class="form-text text-muted">Ex : contact@exemple.com</small>
+                    <div class="invalid-feedback">Veuillez entrer une adresse email valide.</div>
                 </div>
                 <div class="form-group">
                     <label for="manager_name">Nom du responsable</label>
-                    <input type="text" name="manager_name" class="form-control" placeholder="Nom du responsable" value="{{ old('manager_name') }}">
-                    @error('manager_name')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="text" id="manager_name" name="manager_name" class="form-control" placeholder="Nom du responsable" minlength="3">
+                    <div class="invalid-feedback">Le nom du responsable doit comporter au moins 3 caractères.</div>
                 </div>
                 <div class="form-group">
                     <label for="opening_hours">Heures d'ouverture <span class="text-danger">*</span></label>
-                    <input type="time" name="opening_hours" class="form-control" value="{{ old('opening_hours') }}" required>
-                    @error('opening_hours')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="time" id="opening_hours" name="opening_hours" class="form-control" required>
+                    <div class="invalid-feedback">Veuillez indiquer les heures d'ouverture.</div>
                 </div>
                 <div class="form-group">
                     <label for="closing_hours">Heures de fermeture <span class="text-danger">*</span></label>
-                    <input type="time" name="closing_hours" class="form-control" value="{{ old('closing_hours') }}" required>
-                    @error('closing_hours')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="time" id="closing_hours" name="closing_hours" class="form-control" required>
+                    <div class="invalid-feedback">Veuillez indiquer les heures de fermeture.</div>
                 </div>
                 <div class="form-group">
                     <label for="image">Image du centre</label>
-                    <input type="file" name="image" class="form-control">
-                    @error('image')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
+                    <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                    <div class="invalid-feedback">Veuillez fournir une image valide.</div>
                 </div>
                 <button type="submit" class="btn btn-primary">Enregistrer</button>
             </form>
@@ -138,5 +130,45 @@
 
     <!-- Essential Scripts -->
     @vite(['resources/assets/js/main.js'])
+
+    <!-- Form validation with real-time feedback -->
+    <script>
+        (function () {
+            'use strict';
+
+            // Fetch the form element
+            var form = document.getElementById('recyclingForm');
+
+            // Function to validate a field on blur
+            function validateField(field) {
+                // Check if the field is valid
+                if (!field.checkValidity()) {
+                    // If invalid, apply the Bootstrap invalid class
+                    field.classList.add('is-invalid');
+                } else {
+                    // If valid, remove the invalid class
+                    field.classList.remove('is-invalid');
+                }
+            }
+
+            // Loop through all form controls and add event listener for 'blur' event
+            var inputs = form.querySelectorAll('.form-control');
+            inputs.forEach(function (input) {
+                input.addEventListener('blur', function () {
+                    validateField(input);
+                });
+            });
+
+            // Prevent form submission if fields are invalid
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        })();
+    </script>
 </body>
 </html>

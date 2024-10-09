@@ -146,3 +146,4 @@ Route::get('/recycling-centers', [RecyclingCenterController::class, 'userIndex']
 
 // Routes existantes pour l'admin
 Route::resource('recycling_centers', RecyclingCenterController::class);
+Route::post('/recycling-centers/{center}/distribute', [RecyclingCenterController::class, 'distribute'])->name('distribute');

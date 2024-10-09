@@ -140,4 +140,16 @@ class RecyclingCenterController extends Controller
         return redirect()->route('recycling_centers.index')
             ->with('success', 'Centre de recyclage supprimé avec succès.');
     }
+     // Gérer la distribution des déchets
+     public function distribute(Request $request, $centerId)
+     {
+         $recyclingCenter = RecyclingCenter::find($centerId);
+         $depotCenterId = $request->input('depot_center_id');
+         $depotCenter = DepotCenter::find($depotCenterId);
+ 
+         // Logique de distribution (ajoutez la vôtre ici)
+         // Par exemple, vous pourriez sauvegarder un enregistrement dans la base de données
+ 
+         return redirect()->route('recycling_centers.index')->with('success', 'Déchets distribués avec succès au centre de dépôt: ' . $depotCenter->name);
+     }
 }
