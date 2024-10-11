@@ -58,8 +58,8 @@
      <div class="container-xl">
   <div class="row center_o1 text-center">
      <div class="col-md-12">
-	    <h2 class="text-white text-uppercase font_50">Sales Centers</h2>
-	    <h6 class="col_green  fw-bold mb-0 mt-3"><a class="text-light" href="{{route('index')}}">Home</a> <span class="mx-2 text-white-50">/</span> Sales Centers</h6>
+	    <h2 class="text-white text-uppercase font_50">Recycled Products</h2>
+	    <h6 class="col_green  fw-bold mb-0 mt-3"><a class="text-light" href="{{route('index')}}">Home</a> <span class="mx-2 text-white-50">/</span> Recycled Products </h6>
 	 </div>
   </div>
  </div>
@@ -68,13 +68,13 @@
  
  <section id="team" class="p_3">
     <!-- Adjusted Search Form centered and with appropriate width -->
-<form method="GET" action="{{ route('FrontOffice.salesCenters.index') }}" class="mb-4 d-flex justify-content-center" id="searchForm">
+    <form method="GET" action="{{ route('FrontOffice.RecycledProduct.index', $salesCenter->id) }}" class="mb-4 d-flex justify-content-center" id="searchForm">
     <div class="row w-100 justify-content-center">
         <!-- Search Section -->
         <div class="col-md-6 col-lg-4 mb-3">
             <div class="input-group shadow-sm">
-                <span class="input-group-text bg-success text-white"><i class="fas fa-search"></i></span>
-                <input type="text" name="searchQuery" class="form-control border-0" placeholder="Search by Name, Address, or Phone Number" value="{{ request('searchQuery') }}" id="searchInput">
+            <span class="input-group-text bg-success text-white"><i class="fas fa-search"></i></span>
+            <input type="text" name="searchQuery" class="form-control border-0" placeholder="Search by Name or Description or Price" value="{{ request('searchQuery') }}" id="searchInput">
             </div>
         </div>
 
@@ -83,11 +83,13 @@
             <select name="sortBy" class="form-select shadow-sm border-0" id="sortSelect">
                 <option value="" disabled {{ request('sortBy') ? '' : 'selected' }}>Sort By</option>
                 <option value="name" {{ request('sortBy') === 'name' ? 'selected' : '' }}>Name</option>
-                <option value="address" {{ request('sortBy') === 'address' ? 'selected' : '' }}>Address</option>
-                <option value="phoneNumber" {{ request('sortBy') === 'phoneNumber' ? 'selected' : '' }}>Phone Number</option>
-                <option value="opening_hours" {{ request('sortBy') === 'opening_hours' ? 'selected' : '' }}>Opening Hours</option>
+                <option value="quantity" {{ request('sortBy') === 'quantity' ? 'selected' : '' }}>Quantity</option>
+                <option value="price" {{ request('sortBy') === 'price' ? 'selected' : '' }}>Price</option>
+                <option value="created_at" {{ request('sortBy') === 'created_at' ? 'selected' : '' }}>Date Added</option>
             </select>
         </div>
+
+      
     </div>
 </form>
 
@@ -109,23 +111,25 @@
 </script>
 
 
-
  <div class="container-xl">
         <div class="row team_1">
-            @foreach ($salesCenters as $center)
-            <div class="col-md-4">
+        @foreach ($recycledProducts as $product)
+        <div class="col-md-4">
                 <div class="team_1m text-center">
                     <div class="team_1m1 position-relative">
                         <div class="team_1m1i">
-                            <img src="{{ asset('storage/' . $center->image) }}" class="center-img" alt="{{ $center->name }}">
+                            <img src="{{ asset('storage/' . $product->image) }}" class="center-img" alt="{{ $product->name }}">
                         </div>
                         <div class="team_1m1i1 bg_back w-100 h-100 position-absolute top-0">
                             <ul class="mb-0">
                                 <li class="text-white d-inline-block">
                                 <a class="btn btn-outline-light text-uppercase font-weight-bold text-nowrap px-5 py-1 w-100" 
-                                href="{{ route('FrontOffice.RecycledProduct.index', $center->id) }}">
-                                    Our Recycled Products
-                                </a>
+   href="{{ route('FrontOffice.RecycledProduct.show', ['salesCenterId' => $salesCenter->id, 'productId' => $product->id]) }}" 
+   role="button" 
+   aria-label="View details for {{ $product->name }}">
+    Details
+</a>
+
 
                                 </li>
                                
@@ -133,13 +137,12 @@
                         </div>
                     </div>
                     <div class="team_1m2 p-4 shadow_box">
-    <h4 class="text-uppercase"><a href="{{ route('detail') }}">{{ $center->name }}</a></h4>
-    <h6 class="col_green">{{ $center->address }}</h6>
+    <h4 class="text-uppercase"><a href="{{ route('detail') }}">{{ $product->name }}</a></h4>
     <p class="mb-0 text-black">
-    <strong>Phone:</strong> <span class="text-muted">{{ $center->phoneNumber }}</span>
+    <strong>Quantity:</strong> <span class="text-muted">{{$product->quantity }}</span>
 </p>
-<p class="mb-0 text-black">
-    <strong>Opening Hours:</strong> <span class="text-muted">{{ $center->opening_hours }} - {{ $center->closing_hours }}</span>
+<p class="col_green">
+    <strong>Price:</strong> <span class="col_green text-muted">${{ $product->price  }} </span>
 </p>
 
 </div>
@@ -153,20 +156,20 @@
 
 
 </section>
-        <!-- Pagination -->
+    <!-- Pagination -->
 <div class="col-lg-12 d-flex justify-content-center">
     <div class="bs-component">
         <ul class="pagination ">
-            <li class="page-item {{ $salesCenters->onFirstPage() ? 'disabled' : '' }}">
-                <a class="page-link" href="{{ $salesCenters->previousPageUrl() }}">«</a>
+            <li class="page-item {{ $recycledProducts->onFirstPage() ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ $recycledProducts->previousPageUrl() }}">«</a>
             </li>
-            @for ($i = 1; $i <= $salesCenters->lastPage(); $i++)
-                <li class="page-item {{ $salesCenters->currentPage() == $i ? 'active' : '' }}">
-                    <a class="page-link" href="{{ $salesCenters->url($i) }}">{{ $i }}</a>
+            @for ($i = 1; $i <= $recycledProducts->lastPage(); $i++)
+                <li class="page-item {{ $recycledProducts->currentPage() == $i ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $recycledProducts->url($i) }}">{{ $i }}</a>
                 </li>
             @endfor
-            <li class="page-item {{ $salesCenters->hasMorePages() ? '' : 'disabled' }}">
-                <a class="page-link" href="{{ $salesCenters->nextPageUrl() }}">»</a>
+            <li class="page-item {{ $recycledProducts->hasMorePages() ? '' : 'disabled' }}">
+                <a class="page-link" href="{{ $recycledProducts->nextPageUrl() }}">»</a>
             </li>
         </ul>
     </div>

@@ -13,38 +13,45 @@ class RecycledProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $salesCenterId)
-    {
-        // Retrieve the sales center
-        $salesCenter = SalesCenter::findOrFail($salesCenterId);
-    
-        // Start building the query for recycled products
-        $query = RecycledProduct::where('sales_center_id', $salesCenterId);
-    
-        // Search functionality
-        if ($request->filled('searchQuery')) {
-            $searchQuery = $request->input('searchQuery');
-            $query->where(function ($q) use ($searchQuery) {
-                $q->where('name', 'LIKE', "%{$searchQuery}%")
-                  ->orWhere('description', 'LIKE', "%{$searchQuery}%");
-            });
-        }
-    
-        // Sort functionality
-        if ($request->filled('sortBy')) {
-            $sortBy = $request->input('sortBy');
-            // You might want to add validation to ensure that only allowed fields can be sorted
-            $query->orderBy($sortBy);
-        }
-    
-        // Paginate the results
-        $recycledProducts = $query->paginate(4); // Adjust the number of items per page as needed
-    
-        // Pass the data to the view
-        return view('BackOffice.recycledProduct.index', [
-            'salesCenter' => $salesCenter,
-            'recycledProducts' => $recycledProducts,
-        ]);
+{
+    // Retrieve the sales center
+    $salesCenter = SalesCenter::findOrFail($salesCenterId);
+
+    // Start building the query for recycled products
+    $query = RecycledProduct::where('sales_center_id', $salesCenterId);
+
+    // Search functionality
+    if ($request->filled('searchQuery')) {
+        $searchQuery = $request->input('searchQuery');
+        $query->where(function ($q) use ($searchQuery) {
+            $q->where('name', 'LIKE', "%{$searchQuery}%")
+              ->orWhere('description', 'LIKE', "%{$searchQuery}%")
+              ->orWhere('price', 'LIKE', "%{$searchQuery}%");
+        });
     }
+
+    // Sort functionality
+    if ($request->filled('sortBy')) {
+        $sortBy = $request->input('sortBy');
+        // You might want to add validation to ensure that only allowed fields can be sorted
+        $query->orderBy($sortBy);
+    }
+
+    // Paginate the results
+    $recycledProducts = $query->paginate(4); // Adjust the number of items per page as needed
+
+    // Determine the view based on the request path or other parameters
+    $view = $request->is('front/sales-centers/*') 
+        ? 'FrontOffice.RecycledProduct.index' 
+        : 'BackOffice.RecycledProduct.index';
+
+    // Pass the data to the appropriate view
+    return view($view, [
+        'salesCenter' => $salesCenter,
+        'recycledProducts' => $recycledProducts,
+    ]);
+}
+
     
 
     /**
@@ -104,13 +111,22 @@ class RecycledProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($salesCenterId, $productId)
-    {
-        $salesCenter = SalesCenter::findOrFail($salesCenterId);
-        $product = RecycledProduct::findOrFail($productId);
-    
-        return view('BackOffice.recycledProduct.show', compact('salesCenter', 'product'));
-    }
+
+     public function show($salesCenterId, $productId)
+     {
+         $salesCenter = SalesCenter::findOrFail($salesCenterId);
+         $product = RecycledProduct::findOrFail($productId);
+     
+         // Check if the current route is for the front office
+         if (request()->is('front/*')) {
+             // Logic for front office
+             return view('FrontOffice.recycledProduct.show', compact('salesCenter', 'product'));
+         } else {
+             // Logic for back office
+             return view('BackOffice.recycledProduct.show', compact('salesCenter', 'product'));
+         }
+     }
+     
     
 
     /**

@@ -149,3 +149,7 @@ Route::get('back-office/recycled-products/{salesCenterId}/{productId}/details', 
 
 
 Route::get('/front/sales-centers', [SalesCenterController::class, 'index'])->name('FrontOffice.salesCenters.index');
+// Route for recycled products related to a specific sales center in FrontOffice
+Route::get('/front/sales-centers/{salesCenter}/recycled-products', [RecycledProductController::class, 'index'])
+    ->name('FrontOffice.RecycledProduct.index');
+    Route::get('/front/sales-centers/{salesCenterId}/{productId}/details', [RecycledProductController::class, 'show'])->name('FrontOffice.RecycledProduct.show');
