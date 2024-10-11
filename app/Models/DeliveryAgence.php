@@ -16,4 +16,12 @@ class DeliveryAgence extends Model
         'opening_hours',
         'closing_hours',
     ];
+    public function specialServices()
+    {
+        return $this->hasMany(SpecialService::class);
+    }
+    public function distributions()
+    {
+        return $this->hasMany(Distribution::class); 
+    }
 }

@@ -18,4 +18,8 @@ class RecyclingCenter extends Model
         'opening_hours',
         'closing_hours',
     ];
+    public function distributions()
+    {
+        return $this->hasMany(Distribution::class); 
+    }
 }

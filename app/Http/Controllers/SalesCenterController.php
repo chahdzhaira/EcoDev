@@ -14,15 +14,33 @@ class SalesCenterController extends Controller
      */
     public function index(Request $request)
     {
+        $query = SalesCenter::query();
+    
+        if ($request->has('searchQuery') && $request->searchQuery != '') {
+            $searchTerm = $request->input('searchQuery');
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('address', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('phoneNumber', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+        // Handle sorting
+        if ($request->has('sortBy')) {
+            $sortField = $request->sortBy;
+            if (in_array($sortField, ['name', 'address', 'phoneNumber', 'opening_hours'])) {
+                $query->orderBy($sortField);
+            }
+        }
+        // Paginate the results
+        $salesCenters = $query->paginate(6);
+    
         if ($request->is('front/*')) {
-            $salesCenters = SalesCenter::all();
             return view('FrontOffice.salesCenters.index', compact('salesCenters'));
-
-        }else{
-        $salesCenters = SalesCenter::all();
-        return view('BackOffice.salesCenters.index', compact('salesCenters'));
+        } else {
+            return view('BackOffice.salesCenters.index', compact('salesCenters'));
         }
     }
+    
 
     /**
      * Show the form for creating a new sales center.

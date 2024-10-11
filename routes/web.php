@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SalesCenterController;
+use App\Http\Controllers\RecycledProductController;
 
 
 /*
@@ -135,5 +136,15 @@ Route::post('/sales_center_store', [SalesCenterController::class, 'store'])->nam
 Route::get('/sales_centers/{id}/edit', [SalesCenterController::class, 'edit'])->name('salesCenters.edit');
 Route::delete('/sales_centers/{id}', [SalesCenterController::class, 'destroy'])->name('salesCenters.destroy');
 Route::put('/sales-centers/{id}', [SalesCenterController::class, 'update'])->name('salesCenters.update');
+
+// Route for recycled products related to a specific sales center
+Route::get('salesCenters/{salesCenter}/recycledProducts', [RecycledProductController::class, 'index'])
+    ->name('BackOffice.RecycledProduct.index');
+Route::get('/sales_centers/{salesCenter}/recycled_products/create', [RecycledProductController::class, 'create'])->name('BackOffice.RecycledProduct.create');
+Route::post('/sales_centers/{salesCenter}/recycled_products', [RecycledProductController::class, 'store'])->name('BackOffice.RecycledProduct.store');
+Route::put('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}', [RecycledProductController::class, 'update'])->name('BackOffice.RecycledProduct.update');
+Route::get('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}/edit', [RecycledProductController::class, 'edit'])->name('BackOffice.RecycledProduct.edit');
+Route::delete('/recycled-products/{salesCenter}/{product}', [RecycledProductController::class, 'destroy'])->name('BackOffice.RecycledProduct.destroy');
+
 
 Route::get('/front/sales-centers', [SalesCenterController::class, 'index'])->name('FrontOffice.salesCenters.index');
