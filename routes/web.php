@@ -145,6 +145,7 @@ Route::post('/sales_centers/{salesCenter}/recycled_products', [RecycledProductCo
 Route::put('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}', [RecycledProductController::class, 'update'])->name('BackOffice.RecycledProduct.update');
 Route::get('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}/edit', [RecycledProductController::class, 'edit'])->name('BackOffice.RecycledProduct.edit');
 Route::delete('/recycled-products/{salesCenter}/{product}', [RecycledProductController::class, 'destroy'])->name('BackOffice.RecycledProduct.destroy');
+Route::get('back-office/recycled-products/{salesCenterId}/{productId}/details', [RecycledProductController::class, 'show'])->name('BackOffice.RecycledProduct.show');
 
 
 Route::get('/front/sales-centers', [SalesCenterController::class, 'index'])->name('FrontOffice.salesCenters.index');

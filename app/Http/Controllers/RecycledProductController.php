@@ -104,10 +104,14 @@ class RecycledProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($salesCenterId, $productId)
     {
-        //
+        $salesCenter = SalesCenter::findOrFail($salesCenterId);
+        $product = RecycledProduct::findOrFail($productId);
+    
+        return view('BackOffice.recycledProduct.show', compact('salesCenter', 'product'));
     }
+    
 
     /**
      * Show the form for editing the specified resource.

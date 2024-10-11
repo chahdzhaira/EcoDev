@@ -98,7 +98,6 @@
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Image</th>
-                                    <th>Description</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
                                     <th>Actions</th>
@@ -112,10 +111,12 @@
                                     <td>
                                         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="100">
                                     </td>                                   
-                                     <td>{{ $product->description }}</td>
                                     <td>{{ $product->quantity }}</td>
                                     <td>${{ number_format($product->price, 2) }}</td>
                                     <td>
+                                    <a href="{{ route('BackOffice.RecycledProduct.show', [$salesCenter->id, $product->id]) }}" class="btn btn-sm btn-info">
+                                    <i class="bi bi-eye"></i>
+                                    </a>
                                     <a href="{{ route('BackOffice.RecycledProduct.edit', [$salesCenter->id, $product->id]) }}" class="btn btn-sm btn-warning">
                                        <i class="bi bi-pencil"></i>
                                     </a>
