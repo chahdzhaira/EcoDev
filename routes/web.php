@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecyclingCenterController;
+use App\Http\Controllers\WasteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,8 +143,19 @@ Route::get('/index', function () {
     return view('FrontOffice.recycling_centers.index');
 })->name('index');
 
+
 Route::get('/recycling-centers', [RecyclingCenterController::class, 'userIndex'])->name('recycling-centers.index');
 
 // Routes existantes pour l'admin
 Route::resource('recycling_centers', RecyclingCenterController::class);
 Route::post('/recycling-centers/{center}/distribute', [RecyclingCenterController::class, 'distribute'])->name('distribute');
+
+
+// Route pour afficher la liste des déchets
+Route::get('/wastes', [WasteController::class, 'index'])->name('wastes.index');
+
+// Route pour afficher le formulaire de distribution (POST)
+Route::post('/waste/distribution/form', [WasteController::class, 'showDistributionForm'])->name('waste.distribution.form');
+
+// Route pour traiter la distribution des déchets (POST)
+Route::post('/waste/distribute', [WasteController::class, 'distribute'])->name('waste.distribute');

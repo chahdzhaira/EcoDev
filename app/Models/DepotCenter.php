@@ -19,4 +19,8 @@ class DepotCenter extends Model
         'phoneNumber',
         'manager_name',        
     ];
+    public function wastes()
+    {
+        return $this->hasMany(Waste::class);
+    }
 }
