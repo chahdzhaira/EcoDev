@@ -61,8 +61,8 @@ class eventController extends Controller
             // Stockage de l'image dans le dossier public/events
             $imagePath = $request->file('image')->store('events', 'public');
     
-            // Ajouter le chemin de l'image au tableau validé
-            $validatedData['image_url'] = $imagePath; // Assurez-vous que votre modèle 'Event' a un champ image_url
+            // Ajouter le chemin de l'image au tableau validé sous la clé 'image_url'
+            $validatedData['image_url'] = $imagePath;
         }
     
         // Créer un nouvel événement
@@ -71,8 +71,7 @@ class eventController extends Controller
         // Rediriger avec succès
         return redirect()->route('events.index')->with('success', 'Événement ajouté avec succès.');
     }
-  
-        
+    
     
     /**
      * Display the specified resource.

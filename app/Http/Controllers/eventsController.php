@@ -46,9 +46,14 @@ class eventsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        //
-    }
+{
+    // Récupérer l'événement par son ID
+    $event = Event::findOrFail($id);
+
+    // Retourner la vue avec les détails de l'événement
+    return view('FrontOffice.event.show', compact('event'));
+}
+
 
     /**
      * Show the form for editing the specified resource.

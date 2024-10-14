@@ -67,13 +67,15 @@
         @foreach ($event as $event) 
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm h-100"> <!-- Ajout de h-100 pour la hauteur égale des cartes --> 
+                    <img src="{{ asset('storage/' . $event->image_url) }}" alt="{{ $event->title }}" class="card-img-top" style="max-height: 200px; object-fit: cover;"> <!-- Ajout de l'image -->
                     <div class="card-body d-flex flex-column"> <!-- Flexbox pour alignement -->
                         <h5 class="card-title text-primary">{{ $event->title }}</h5> 
                         <p class="card-text">{{ Str::limit($event->description, 100) }}...</p>
                         <p><strong>Date:</strong> {{ $event->date }}</p>
                         <p><strong>Location:</strong> {{ $event->location }}</p>
                         <div class="mt-auto">
-                            <a href="{{ route('event.show', $event->id) }}" class="btn btn-outline-primary mt-2">View Details</a>
+                        <a href="{{ route('event.show', $event->id) }}" class="btn btn-outline-primary mt-2">View Details</a>
+
                             <a href="{{ route('event.participate', $event->id) }}" class="btn btn-success mt-2">Participate</a> <!-- New Participate button -->
                         </div>
                     </div>

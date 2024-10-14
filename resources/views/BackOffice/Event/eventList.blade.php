@@ -56,49 +56,63 @@
             </div>
         </form>
 
-        <!-- Event Cards -->
-        <div class="row">
-    @foreach($events as $event)
-    <div class="col-md-6 mb-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">{{ $event->title }}</h5>
-            </div>
-            <div class="card-body">
-                <p><strong>Description:</strong> {{ $event->description }}</p>
-                <p><strong>Date:</strong> {{ $event->date }}</p>
-                <p><strong>Location:</strong> {{ $event->location }}</p>
-                <p><strong>Organizer:</strong> {{ $event->organizer }}</p>
-                <p><strong>Max Participants:</strong> {{ $event->max_participants }}</p>
-                <p><strong>Image URL:</strong> <a href="{{ $event->image_url }}">{{ $event->image_url }}</a></p>
-                <p><strong>Created At:</strong> {{ $event->created_at }}</p>
-                <p><strong>Updated At:</strong> {{ $event->updated_at }}</p>
-
-                <!-- Boutons Modifier et Supprimer -->
-                <div class="mt-3">
-                    <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning btn-sm">
-                        <i class="bi bi-pencil"></i> Modifier
-                    </a>
-
-                    <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="bi bi-trash"></i> Supprimer
-                        </button>
-                    </form>
-                </div>
-            </div>
+        <!-- Event Table -->
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Organizer</th>
+                        <th>Max Participants</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($events as $event)
+                        <tr>
+                            <!-- Image -->
+                            <td>
+                                <img src="{{ asset('storage/' . $event->image_url) }}" alt="Event Image" style="width: 100px; height: auto;">
+                            </td>
+                            <!-- Title -->
+                            <td>{{ $event->title }}</td>
+                            <!-- Description -->
+                            <td>{{ \Illuminate\Support\Str::limit($event->description, 50) }}</td>
+                            <!-- Date -->
+                            <td>{{ $event->date }}</td>
+                            <!-- Location -->
+                            <td>{{ $event->location }}</td>
+                            <!-- Organizer -->
+                            <td>{{ $event->organizer }}</td>
+                            <!-- Max Participants -->
+                            <td>{{ $event->max_participants }}</td>
+                            <!-- Actions -->
+                            <td>
+                                <a href="{{ route('events.edit', $event->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil"></i> Modifier
+                                </a>
+                                <form action="{{ route('events.destroy', $event->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i> Supprimer
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-    </div>
-    @endforeach
-</div>
 
         <!-- Pagination Links -->
         <div class="d-flex justify-content-center mt-4">
             <nav>
                 <ul class="pagination pagination-sm">
-                    {{-- Lien vers la page précédente --}}
                     @if ($events->onFirstPage())
                         <li class="page-item disabled">
                             <a class="page-link" href="#" tabindex="-1">«</a>
@@ -109,7 +123,6 @@
                         </li>
                     @endif
 
-                    {{-- Lien vers les pages numérotées --}}
                     @foreach ($events->getUrlRange(1, $events->lastPage()) as $page => $url)
                         @if ($page == $events->currentPage())
                             <li class="page-item active">
@@ -122,7 +135,6 @@
                         @endif
                     @endforeach
 
-                    {{-- Lien vers la page suivante --}}
                     @if ($events->hasMorePages())
                         <li class="page-item">
                             <a class="page-link" href="{{ $events->nextPageUrl() }}">»</a>
