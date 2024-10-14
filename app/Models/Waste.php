@@ -31,4 +31,11 @@ class Waste extends Model
         return $this->distribution()->where('status', '!=', 'pending')->exists();
     }
     
+    // Waste.php
+    public function distributions()
+    {
+        return $this->hasMany(Distribution::class);
+    }
+    
+
 }

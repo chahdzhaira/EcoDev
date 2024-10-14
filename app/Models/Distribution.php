@@ -11,30 +11,24 @@ class Distribution extends Model
 
     protected $fillable = [
         'quantity_to_distribute',
-        'status',                
+        'status',
         'delivery_agence_id',  
         'recycling_center_id',
+        'waste_id', // 
     ];
 
-    // Relation to DepotCenter
-    public function depotCenter()
+    public function waste()
     {
-        return $this->belongsTo(DepotCenter::class); 
+        return $this->belongsTo(Waste::class); // Relation avec Waste
     }
 
-    // Relation to DeliveryAgence
-    public function deliveryAgence()
-    {
-        return $this->belongsTo(DeliveryAgence::class); 
-    }
-
-  
     public function recyclingCenter()
     {
         return $this->belongsTo(RecyclingCenter::class); 
     }
-    public function wastes()
+
+    public function deliveryAgence()
     {
-        return $this->hasMany(Waste::class);
+        return $this->belongsTo(DeliveryAgence::class); 
     }
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecyclingCenterController;
 use App\Http\Controllers\WasteController;
+use App\Http\Controllers\DistributionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -139,9 +140,7 @@ Route::get('/edit', function () {
     return view('BackOffice.recycling_centers.edit');
 })->name('edit');
 
-Route::get('/index', function () {
-    return view('FrontOffice.recycling_centers.index');
-})->name('index');
+
 
 
 Route::get('/recycling-centers', [RecyclingCenterController::class, 'userIndex'])->name('recycling-centers.index');
@@ -159,3 +158,19 @@ Route::post('/waste/distribution/form', [WasteController::class, 'showDistributi
 
 // Route pour traiter la distribution des déchets (POST)
 Route::post('/waste/distribute', [WasteController::class, 'distribute'])->name('waste.distribute');
+
+Route::get('/distributions', [DistributionController::class, 'index'])->name('distributions.index');
+
+Route::get('/waste/{id}/distribution-history', [WasteController::class, 'showDistributionHistory'])->name('waste.distribution.history');
+Route::get('/wastes/create', [WasteController::class, 'create'])->name('wastes.create');
+Route::post('/wastes/store', [WasteController::class, 'store'])->name('wastes.store');
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('distributions', DistributionController::class);
+});
+
+// Route pour afficher l'historique des distributions
+Route::get('/distributions', [DistributionController::class, 'index'])->name('distributions.index');
+
+Route::get('/distributions/export', [DistributionController::class, 'export'])->name('distributions.export');
