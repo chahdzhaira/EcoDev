@@ -32,7 +32,7 @@
         <h5>Location:</h5>
         <p>{{ $event->location }}</p>
 
-        <a href="{{ route('event.participate', $event->id) }}" class="btn btn-success mt-2">Participate</a>
+        <a href="{{ route('participations.create', $event->id) }}" class="btn btn-success mt-2">Participate</a>
     </div>
 </div>
 

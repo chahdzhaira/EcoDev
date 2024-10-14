@@ -63,11 +63,11 @@
                                 <textarea class="form-control" rows="4" placeholder="Enter event description" name="description" required></textarea>
                             </div>
 
-                            <!-- Date -->
-                            <div class="mb-3">
-                                <label class="form-label">Date</label>
-                                <input class="form-control" type="date" name="date" required>
-                            </div>
+                            <div class="form-group">
+    <label for="date">Date de l'événement</label>
+    <input type="date" class="form-control" id="date" name="date" value="2024-10-16" required>
+</div>
+
 
                             <!-- Location -->
                             <div class="mb-3">

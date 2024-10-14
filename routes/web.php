@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\eventController;
 use App\Http\Controllers\eventsController;
-
+use App\Http\Controllers\participationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -128,4 +128,8 @@ Route::get('/blank-page', function () {
 
 Route::resource('/events', EventController::class);
 Route::resource('/event', EventsController::class);
-Route::post('/events/{id}/participate', [EventController::class, 'participate'])->name('event.participate');
+
+// Route pour gérer la soumission du formulaire
+Route::post('/events/{event}/participate', [ParticipationController::class, 'store'])->name('participations.store');
+
+Route::get('/events/{event}/participate', [ParticipationController::class, 'create'])->name('participations.create');

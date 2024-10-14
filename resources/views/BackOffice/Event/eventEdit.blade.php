@@ -44,9 +44,9 @@
                 <textarea class="form-control" id="description" name="description" required>{{ $event->description }}</textarea>
             </div>
             <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" class="form-control" id="date" name="date" value="{{ $event->date }}" required>
-            </div>
+    <label for="date">Date de l'événement</label>
+    <input type="date" class="form-control" id="date" name="date" value="{{ $event->date }}" required>
+</div>
             <div class="form-group">
                 <label for="location">Location</label>
                 <input type="text" class="form-control" id="location" name="location" value="{{ $event->location }}" required>

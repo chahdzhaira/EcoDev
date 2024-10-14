@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Event ; 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class eventController extends Controller
 {
@@ -49,7 +50,7 @@ class eventController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'date' => 'required|date',
+            'date' => 'required|date', 
             'location' => 'required|string|max:255',
             'organizer' => 'required|string|max:255',
             'max_participants' => 'required|integer',
@@ -116,6 +117,7 @@ class eventController extends Controller
         ]);
     
         $event = Event::findOrFail($id);
+        $event->date = substr($event->date, 0, 10); // Prendre seulement 'YYYY-MM-DD'
         $event->update($request->all());
     
         return redirect()->route('events.index')->with('success', 'L\'événement a été mis à jour avec succès !');

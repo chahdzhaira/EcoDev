@@ -76,7 +76,7 @@
                         <div class="mt-auto">
                         <a href="{{ route('event.show', $event->id) }}" class="btn btn-outline-primary mt-2">View Details</a>
 
-                            <a href="{{ route('event.participate', $event->id) }}" class="btn btn-success mt-2">Participate</a> <!-- New Participate button -->
+                            <a href="{{ route('participations.create', $event->id) }}" class="btn btn-success">Participer</a>
                         </div>
                     </div>
                 </div>
