@@ -72,7 +72,7 @@
                 <a href="{{ route('dashboard') }}" class="btn btn-secondary">Retour au Dashboard</a>
             </div> -->
             <div class="col text-end">
-                <form action="{{ route('depot_centers.index') }}" method="GET" class="d-flex">
+                <form action="{{ route('depot_center.index') }}" method="GET" class="d-flex">
                     <input type="text" name="search" class="form-control me-2" placeholder="Rechercher un centre..." value="{{ request('search') }}">
                     <button class="btn btn-outline-primary" type="submit">Rechercher</button>
                 </form>
@@ -101,6 +101,10 @@
                         <p class="card-text"><i class="fa fa-users" aria-hidden="true"></i> <strong>Capacité:</strong> {{ $centre->capacity }}</p>
                         <p class="card-text"><i class="fa fa-clock-o" aria-hidden="true"></i> <strong>Heures d'ouverture et de fermeture:</strong> {{ $centre->opening_hours }}-{{ $centre->closing_hours }}</p>
                         <p class="card-text"><i class="fa fa-phone" aria-hidden="true"></i> <strong>Téléphone:</strong> {{ $centre->phoneNumber }}</p>
+                        <!-- Nouveau bouton pour créer un déchet -->
+                        <a href="{{ route('wastes.create', ['centre_id' => $centre->id]) }}" class="btn btn-primary">Créer un déchet</a>
+                        <a href="{{ route('wastes.byDepot', ['depotId' => $centre->id]) }}" class="btn btn-primary">voir déchet</a>
+
                         <!-- <a href="#" class="btn btn-primary">Voir plus</a> Optional button for more details -->
                     </div>
                 </div>
@@ -109,6 +113,7 @@
             <div class="col-md-12">
                 <div class="alert alert-warning" role="alert">Aucun centre trouvé.</div>
             </div>
+            
         @endforelse
     </div>
 </div>

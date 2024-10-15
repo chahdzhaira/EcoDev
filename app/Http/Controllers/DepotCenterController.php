@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DepotCenter; // Change RecyclingCenter to DepotCenter
+use App\Models\DepotCenter; 
 use Illuminate\Http\Request;
 
 class DepotCenterController extends Controller
@@ -10,7 +10,7 @@ class DepotCenterController extends Controller
     public function index(Request $request)
     {
         // Prepare query
-        $query = DepotCenter::query(); // Change RecyclingCenter to DepotCenter
+        $query = DepotCenter::query(); 
     
         // Search functionality (if needed)
         if ($request->has('search')) {
@@ -43,7 +43,7 @@ class DepotCenterController extends Controller
 
         //front index
 
-        public function show(Request $request)
+        public function userIndex(Request $request)
         {
             // Prepare query
             $query = DepotCenter::query();
@@ -56,9 +56,16 @@ class DepotCenterController extends Controller
         
             // Paginate results (5 items per page)
             $depotCenters = $query->paginate(5);
+
+            //$depotCenter = $depotCenters->first(); // ou utilisez une méthode spécifique pour obtenir un dépôt
+
         
             // Return the view with the depot centers
-            return view('FrontOffice.Depot-Center.index', compact('depotCenters'));
+            return view('FrontOffice.depot-center.index', compact('depotCenters'));
+            // return view('FrontOffice.depot-center.index', [
+            //     'depotCenters' => $depotCenters,
+            //     'depotCenter' => $depotCenter // Assurez-vous que ceci est défini
+            // ]);
         }
         
 

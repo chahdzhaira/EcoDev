@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DepotCenterController;
-
+use App\Http\Controllers\WasteController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -126,7 +126,7 @@ Route::get('/blank-page', function () {
 })->name('blank-page');
 
 
-
+//crud Depot_Center
 
 Route::get('/create', function () {
     return view('BackOffice.Depot-Center.create');
@@ -142,10 +142,33 @@ Route::get('/edit', function () {
 
 
 
-// Route::get('/frontoffice/show', function () {
+// Route::get('/show', function () {
 //     return view('FrontOffice.Depot-Center.index');
-// })->name('frontoffice.index');
+// })->name('show');
 
+Route::get('/depotCenters', [DepotCenterController::class, 'userIndex'])->name('depot_center.index');
+
+
+
+//crud Wastes
+Route::get('/index', function () {
+    return view('BackOffice.wastes.index');
+})->name('index');
+
+// Route::get('/create', function () {
+//     return view('FrontOffice.wastes.create');
+// })->name('create');
+
+Route::get('/wastes/create/{depotId}', [WasteController::class, 'create'])->name('wastes.create');
+//Route::get('/wastes/create/{depotId}', [WasteController::class, 'create'])->name('wastes.create');
+Route::post('/wastes/store', [WasteController::class, 'store'])->name('wastes.store');
+Route::get('/wastes/byDepot/{depotId}', [WasteController::class, 'getWastesByDepotCenter'])->name('wastes.byDepot');
+
+
+
+
+
+Route::Resource('wastes', WasteController::class);
 
 Route::resource('depot_centers', DepotCenterController::class);
 

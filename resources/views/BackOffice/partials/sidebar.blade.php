@@ -18,7 +18,7 @@
         </li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-trash"></i><span class="app-menu__label">Waste Management</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{{route('form-components')}}"><i class="icon bi bi-circle-fill"></i> Form Components</a></li>
+            <li><a class="treeview-item" href="{{route('wastes.index')}}"><i class="icon bi bi-circle-fill"></i> Waste </a></li>
             <li><a class="treeview-item"  href="{{route('form-samples')}}" ><i class="icon bi bi-circle-fill"></i> Form Samples</a></li>
           </ul>
         </li>
