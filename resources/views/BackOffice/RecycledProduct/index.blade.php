@@ -33,8 +33,14 @@
                 <li class="breadcrumb-item"><a href="#">Recycled Products</a></li>
             </ul>
         </div>
-
-        <div class="d-flex justify-content-end mb-3">
+  
+        <div class="d-flex justify-content-between mb-3">
+    <a href="{{ route('recycledProducts.download', $salesCenter->id) }}" class="btn btn-secondary">
+        <i class="bi bi-file-earmark-pdf"></i> Generate PDF
+    </a>
+    <a href="{{ route('recycledProducts.statistics', $salesCenter->id) }}" class="btn btn-info">
+        <i class="bi bi-bar-chart-line"></i> View Price Statistics
+    </a>
         <a href="{{ route('BackOffice.RecycledProduct.create', $salesCenter->id) }}" class="btn btn-primary">
         <i class="bi bi-plus-circle"></i> Add New Product
             </a>
@@ -81,7 +87,12 @@
         }
     });
 </script>
-
+   <!-- Back Button -->
+   <div class="mb-3">
+            <a href="{{ route('salesCenters.index') }}" class="btn btn-light">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
         <div class="row">
         @if(session('success'))
             <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">

@@ -111,7 +111,7 @@
                             <i class="bi bi-pencil"></i> Update
                         </button>
                         <a href="{{ route('salesCenters.index') }}" class="btn btn-secondary ms-2">
-        <i class="bi bi-arrow-left"></i> Retour
+        <i class="bi bi-arrow-left"></i> Back
     </a>
                     </div>
                 </form>

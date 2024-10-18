@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\SalesCenter; // Import SalesCenter model
-use App\Models\RecycledProduct; // Make sure to import RecycledProduct model too
+use App\Models\RecycledProduct; 
 use Illuminate\Http\Request;
+use PDF;
 
 class RecycledProductController extends Controller
 {
@@ -205,5 +206,44 @@ class RecycledProductController extends Controller
         return redirect()->route('BackOffice.RecycledProduct.index', $salesCenterId)
                          ->with('success', 'Product deleted successfully.');
     }
+
+    public function downloadPDF($salesCenterId)
+{
+    // Fetch recycled products for the specific sales center
+    $recycledProducts = RecycledProduct::where('sales_center_id', $salesCenterId)->get();
+
+  
+    // Fetch the sales center information
+    $salesCenter = SalesCenter::find($salesCenterId);
+
+    // Generate the PDF
+    $pdf = PDF::loadView('BackOffice.RecycledProduct.pdf', [
+        'salesCenter' => $salesCenter,
+        'recycledProducts' => $recycledProducts,
+    ]);
+
+    return $pdf->download('recycled_products.pdf');
+}
+public function showStatistics($salesCenterId)
+{
+    $recycledProducts = RecycledProduct::where('sales_center_id', $salesCenterId)->get();
     
+    // Categorizing the products by price
+    $lowPriceThreshold = 20; // Exemple de seuil pour bas prix
+    $highPriceThreshold = 100; // Exemple de seuil pour haut prix
+
+    $lowPrices = $recycledProducts->where('price', '<', $lowPriceThreshold)->count();
+    $mediumPrices = $recycledProducts->where('price', '>=', $lowPriceThreshold)
+                                     ->where('price', '<=', $highPriceThreshold)->count();
+    $highPrices = $recycledProducts->where('price', '>', $highPriceThreshold)->count();
+
+    return view('BackOffice.RecycledProduct.statistics', [
+        'lowPrices' => $lowPrices,
+        'mediumPrices' => $mediumPrices,
+        'highPrices' => $highPrices,
+        'salesCenter' => SalesCenter::find($salesCenterId),
+    ]);
+}
+
+
 }

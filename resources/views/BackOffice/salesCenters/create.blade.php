@@ -110,7 +110,7 @@
                             <i class="bi bi-plus-circle"></i> Create
                         </button>
                         <a href="{{ route('salesCenters.index') }}" class="btn btn-secondary ms-2">
-        <i class="bi bi-arrow-left"></i> Retour
+        <i class="bi bi-arrow-left"></i> Back
     </a>
                     </div>
                 </form>

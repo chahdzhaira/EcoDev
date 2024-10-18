@@ -33,8 +33,11 @@
                 <li class="breadcrumb-item"><a href="#">Sales Centers List</a></li>
             </ul>
         </div>
-        
-        <div class="d-flex justify-content-end mb-3">
+        <div class="d-flex justify-content-between mb-3">
+    <a href="{{ route('salesCenters.pdf') }}" class="btn btn-secondary">
+        <i class="bi bi-file-earmark-pdf"></i> Generate PDF
+    </a>
+
             <a href="{{ route('salesCenters.create') }}" class="btn btn-primary">
                 <i class="bi bi-plus-circle"></i> Create New Center
             </a>
@@ -110,35 +113,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse($salesCenters as $center)
-                                <tr>
-                                    <td>{{ $loop->iteration + ($salesCenters->currentPage() - 1) * $salesCenters->perPage() }}</td>
-                                    <td><a href="{{ route('BackOffice.RecycledProduct.index', $center->id) }}">{{ $center->name }}</a></td>
-                                    <td>{{ $center->address }}</td>
-                                    <td>{{ $center->phoneNumber }}</td>
-                                    <td>
-                                        <img src="{{ asset('storage/' . $center->image) }}" alt="{{ $center->name }}" width="100">
-                                    </td>
-                                    <td>{{ $center->opening_hours }}</td>
-                                    <td>{{ $center->closing_hours }}</td>
-                                    <td>
-                                        <a href="{{ route('salesCenters.edit', $center->id) }}" class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
-                                        <form action="{{ route('salesCenters.destroy', $center->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this center?');">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="8" class="text-center">No sales centers available.</td>
-                                </tr>
-                                @endforelse
+                            @forelse($salesCenters as $center)
+<tr>
+    <td>{{ $loop->iteration + ($salesCenters->currentPage() - 1) * $salesCenters->perPage() }}</td>
+    <td><a href="{{ route('BackOffice.RecycledProduct.index', $center->id) }}">{{ $center->name }}</a></td>
+    <td>{{ $center->address }}</td>
+    <td>{{ $center->phoneNumber }}</td>
+    <td>
+        <img src="{{ asset('storage/' . $center->image) }}" alt="{{ $center->name }}" width="100">
+    </td>
+    <td>{{ $center->opening_hours }}</td>
+    <td>{{ $center->closing_hours }}</td>
+    <td>
+        <a href="{{ route('salesCenters.edit', $center->id) }}" class="btn btn-sm btn-warning">
+            <i class="bi bi-pencil"></i>
+        </a>
+        <form action="{{ route('salesCenters.destroy', $center->id) }}" method="POST" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this center?');">
+                <i class="bi bi-trash"></i>
+            </button>
+        </form>
+        <!-- Button to View on Map -->
+        <a href="{{ route('salesCenters.map', $center->id) }}" class="btn btn-sm btn-info">
+            <i class="bi bi-map"></i> look on the map
+        </a>
+    </td>
+</tr>
+@empty
+<tr>
+    <td colspan="8" class="text-center">No sales centers available.</td>
+</tr>
+@endforelse
+
                             </tbody>
                         </table>
                     </div>

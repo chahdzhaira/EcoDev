@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SalesCenter;
 use Illuminate\Http\Request;
+use PDF;
 
 class SalesCenterController extends Controller
 {
@@ -191,4 +192,19 @@ class SalesCenterController extends Controller
 
         return redirect()->route('salesCenters.index')->with('success', 'Sales center deleted successfully.');
     }
+
+    public function generatePDF()
+    {
+        $salesCenters = SalesCenter::all();
+        
+        $pdf = PDF::loadView('BackOffice.salesCenters.pdf', compact('salesCenters'));
+
+        return $pdf->download('SalesCentersList.pdf');
+    }
+    public function showMap($id)
+{
+    $center = SalesCenter::findOrFail($id); // Récupérer le centre de vente
+    return view('BackOffice.salesCenters.map', compact('center'));
+}
+
 }

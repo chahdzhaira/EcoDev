@@ -20,5 +20,8 @@
         "postcss": "^8.1.14",
         "sass": "^1.56.1",
         "vite": "^5.4.7"
+    },
+    "dependencies": {
+        "chart.js": "^4.4.5"
     }
 }
