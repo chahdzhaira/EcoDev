@@ -16,4 +16,8 @@ class SalesCenter extends Model
         'opening_hours',
         'closing_hours',
     ];
+    public function recycledProducts()
+    {
+        return $this->hasMany(recycledProducts::class);
+    }
 }

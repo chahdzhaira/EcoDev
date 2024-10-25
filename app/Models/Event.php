@@ -17,4 +17,9 @@ class Event extends Model
         'max_participants',
         'image_url',
     ];
+    public function participations()
+{
+    return $this->hasMany(Participation::class);
+}
+
 }

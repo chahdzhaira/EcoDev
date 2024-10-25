@@ -156,7 +156,7 @@
         <i class="fa fa-phone me-1 col_green"></i> 
         {{ $agence->phoneNumber }}
     </li>
-    <span class="mx-2 text-muted">|</span> 
+    <span class="mx-1 text-muted">|</span> 
     <li class="d-inline-block">
         <i class="fa fa-clock-o me-1 col_green"></i> 
         <span>{{ $agence->opening_hours }}</span>
@@ -188,7 +188,12 @@
     </div>
 </div> -->
 
-        <h6 class="mb-0 fw-bold mt-2"><a href="{{ route('delivery-agences.show', $agence->id) }}">Learn More <i class="fa fa-chevron-right ms-1 font_12"></i></a></h6>
+        <!-- <h6 class="mb-0 fw-bold mt-2"><a href="{{ route('delivery-agences.show', $agence->id) }}">Learn More <i class="fa fa-chevron-right ms-1 font_12"></i></a></h6> -->
+        <h6 class="mb-0 fw-bold mt-2">
+    <a href="{{ route('front.deliveryagence.special-services', $agence->id) }}">View Services <i class="fa fa-chevron-right ms-1 font_12"></i></a>
+</h6>
+
+
     </div>
 
                 </div>

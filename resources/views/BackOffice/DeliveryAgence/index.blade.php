@@ -66,55 +66,96 @@
         </div>
 
         <div class="container">
-            <h1>List of Delivery Agencies</h1>
-    <div class="d-flex justify-content-end align-items-center mb-3">
-          <a href="{{ route('delivery-agences.create') }}" class="btn btn-primary">+ Add Delivery Agency</a>
+    <h1>List of Delivery Agencies</h1>
+    <div class="mb-4"></div> <!-- Ajout d'une marge avec Bootstrap -->
+
+    
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap"> 
+    <div class="d-flex flex-grow-1">
+        <!-- Formulaire de recherche -->
+        <form method="GET" action="{{ route('delivery-agences.index') }}" class="d-flex">
+            <div class="input-group flex-grow-1" style="max-width: 250px;"> <!-- Réduction de la largeur -->
+                <input type="text" name="search" class="form-control form-control-sm" placeholder="Search agencies..." value="{{ request('search') }}" style="height: 38px;"> <!-- Ajustement de la hauteur -->
+                <button type="submit" class="btn btn-primary btn-sm" style="height: 38px;">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+
+        <!-- Formulaire de tri -->
+        <form method="GET" action="{{ route('delivery-agences.index') }}" class="d-flex ms-2 align-items-center"> <!-- Assurez-vous que l'action pointe vers la bonne route -->
+            <select name="sort_by" id="sort_by" class="form-select form-select-sm me-2" style="max-width: 150px; height: 38px;"> <!-- Réduction de la largeur et de la hauteur -->
+                <option value="">Select</option>
+                <option value="name" {{ request('sort_by') === 'name' ? 'selected' : '' }}>Name</option>
+                <option value="address" {{ request('sort_by') === 'address' ? 'selected' : '' }}>Address</option> <!-- Ajout du tri par adresse -->
+                <!-- Ajoutez d'autres critères de tri si nécessaire -->
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm" style="height: 38px; padding: 0 10px;">
+                <i class="bi bi-sort-down"></i> Sort
+            </button>
+        </form>
     </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                    <th>Image</th>
 
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Phone</th>
-                        <th>Opening Hours</th>
-                        <th>Closing Hours</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($agences as $agence)
-                        <tr>
-                        <td>
-    @if($agence->image)
-        <img src="{{ asset($agence->image) }}" alt="{{ $agence->name }}">
-    @else
-        <span>No Image</span>
-    @endif
-</td>
+    <a href="{{ route('delivery-agences.create') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Add Delivery Agency
+    </a>
+</div>
 
-                            <td>{{ $agence->name }}</td>
-                            <td>{{ $agence->address }}</td>
-                            <td>{{ $agence->phoneNumber }}</td>
-                           
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Opening Hours</th>
+                <th>Closing Hours</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($agences as $agence)
+                <tr>
+                    <td>
+                        @if($agence->image)
+                            <img src="{{ asset($agence->image) }}" alt="{{ $agence->name }}">
+                        @else
+                            <span>No Image</span>
+                        @endif
+                    </td>
+                    <td>{{ $agence->name }}</td>
+                    <td>{{ $agence->address }}</td>
+                    <td>{{ $agence->phoneNumber }}</td>
+                    <td>{{ $agence->opening_hours }}</td>
+                    <td>{{ $agence->closing_hours }}</td>
+                    <td>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+                               
+                                  <!-- Bouton pour afficher les services spéciaux -->
+                                  <a href="{{ route('delivery-agences.services', $agence->id) }}" class="btn btn-primary">Services</a>
 
-                            <td>{{ $agence->opening_hours }}</td>
-                            <td>{{ $agence->closing_hours }}</td>
-                            <td>
-                                <!-- <a href="{{ route('delivery-agences.show', $agence->id) }}" class="btn btn-info">Details</a> -->
-                                <a href="{{ route('delivery-agences.edit', $agence->id) }}" class="btn btn-warning">Edit</a>
+                                <a href="{{ route('delivery-agences.edit', $agence->id) }}" class="btn btn-warning" title="Edit">
+    <i class="fas fa-edit"></i>
+</a>
                                 <form action="{{ route('delivery-agences.destroy', $agence->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <!-- <button type="submit" class="btn btn-danger">Delete</button> -->
+                                    <button type="submit" class="btn btn-danger" title="Delete">
+        <i class="fas fa-trash-alt"></i>
+    </button>
                                 </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center">
+        {!! $agences->links('pagination::bootstrap-5') !!}
+    </div>
+</div>
+
     </main>
 
     <!-- Essential javascripts for application to work-->
@@ -132,6 +173,8 @@
       	ga('create', 'UA-72504830-1', 'auto');
       	ga('send', 'pageview');
       }
+
+
     </script>
 </body>
 </html> 
