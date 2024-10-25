@@ -53,11 +53,44 @@
       </ul>
       
        <!-- Admin Panel Button -->
+
        <ul class="navbar-nav mb-0 ms-auto mt-1">
+    @if (Auth::check())
+        <!-- Si l'utilisateur est connecté -->
         <li class="nav-item">
-        <a class="btn btn-success" href="{{route('dashboard')}}" role="button">Admin Panel</a>
+            @if (Auth::user()->role != 0) <!-- Si le rôle n'est pas un utilisateur normal -->
+                <a class="btn btn-success" href="{{ route('dashboard') }}" role="button">Admin Panel</a>
+            @endif
         </li>
-      </ul>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : Vite::asset('resources/assets/img/anonyme.png') }}" 
+                     class="rounded-circle" alt="User Avatar" width="40" height="40">
+                {{ Auth::user()->username }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                <li>
+                    <a class="dropdown-item" href="{{ route('logout') }}" 
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
+        </li>
+    @else
+        <!-- Si l'utilisateur n'est pas connecté -->
+        <li class="nav-item">
+            <a class="btn btn-success" href="{{ route('login') }}" role="button">Log in</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary" href="{{ route('register') }}" role="button">Sign up</a>
+        </li>
+    @endif
+</ul>
+
     </div>
   </div>
 </nav>

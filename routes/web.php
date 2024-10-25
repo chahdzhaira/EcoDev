@@ -13,15 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard/todo', function () {
+return view('todo');
+})->name('dashboard-todo');
+
 Route::get('/', function () {
-    return view('BackOffice.page-login');
-})->name('page-login');
-
-// route FrontOffice
-
-Route::get('/indexFront', function () {
     return view('FrontOffice.index');
 })->name('index');
+
+Route::get('redirects' , 'App\Http\Controllers\HomeController@index');
+// route FrontOffice
+
+// Route::get('/indexFront', function () {
+//     return view('FrontOffice.index');
+// })->name('index');
 
 Route::get('/team', function () {
     return view('FrontOffice.team');
@@ -56,70 +61,70 @@ Route::get('/about', function () {
 
 // route BackOffice
 
-Route::get('/dashboard', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/dashboard', function () {
     return view('BackOffice.dashboard');
 })->name('dashboard');
 
-Route::get('/widgets', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/widgets', function () {
     return view('BackOffice.widgets');
 })->name('widgets');
 
-Route::get('/ui-cards', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/ui-cards', function () {
     return view('BackOffice.ui-cards');
 })->name('ui-cards');
 
-Route::get('/table-data-table', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/table-data-table', function () {
     return view('BackOffice.table-data-table');
 })->name('table-data-table');
 
-Route::get('/table-basic', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/table-basic', function () {
     return view('BackOffice.table-basic');
 })->name('table-basic');
 
-Route::get('/page-user', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/page-user', function () {
     return view('BackOffice.page-user');
 })->name('page-user');
 
-Route::get('/page-mailbox', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/page-mailbox', function () {
     return view('BackOffice.page-mailbox');
 })->name('page-mailbox');
 
-Route::get('/page-login', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/page-login', function () {
     return view('BackOffice.page-login');
 })->name('page-login');
 
-Route::get('/page-lockscreen', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/page-lockscreen', function () {
     return view('BackOffice.page-lockscreen');
 })->name('page-lockscreen');
 
-Route::get('/page-invoice', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/page-invoice', function () {
     return view('BackOffice.page-invoice');
 })->name('page-invoice');
 
-Route::get('/page-error', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/page-error', function () {
     return view('BackOffice.page-error');
 })->name('page-error');
 
-Route::get('/indexBack', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/indexBack', function () {
     return view('BackOffice.index');
 })->name('indexBack');
 
-Route::get('/form-samples', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/form-samples', function () {
     return view('BackOffice.form-samples');
 })->name('form-samples');
 
-Route::get('/form-components', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/form-components', function () {
     return view('BackOffice.form-components');
 })->name('form-components');
 
-Route::get('/docs', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/docs', function () {
     return view('BackOffice.docs');
 })->name('docs');
 
-Route::get('/bootstrap-components', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/bootstrap-components', function () {
     return view('BackOffice.bootstrap-components');
 })->name('bootstrap-components');
 
-Route::get('/blank-page', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/blank-page', function () {
     return view('BackOffice.blank-page');
 })->name('blank-page');
