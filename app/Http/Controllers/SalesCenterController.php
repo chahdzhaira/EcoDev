@@ -63,12 +63,40 @@ class SalesCenterController extends Controller
     {
         // Validate the request
         $request->validate([
-            'name' => 'required|string|max:30',
-            'address' => 'required|string|max:30',
+            'name' => 'required|string|min:3|max:30',
+            'address' => 'required|string|min:3|max:30',
             'phoneNumber' => 'required|string|digits:8',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'opening_hours' => 'required|string|max:255',
-            'closing_hours' => 'required|string|max:255',
+            'closing_hours' => 'required|string|max:255|after:opening_hours',
+        ], [
+            'name.required' => 'The center name is required.',
+            'name.string' => 'The center name must be a string.',
+            'name.min' => 'The center name must be at least 3 characters.',
+            'name.max' => 'The center name may not be greater than 30 characters.',
+    
+            'address.required' => 'The address is required.',
+            'address.string' => 'The address must be a string.',
+            'address.min' => 'The address must be at least 3 characters.',
+            'address.max' => 'The address may not be greater than 30 characters.',
+    
+            'phoneNumber.required' => 'The phone number is required.',
+            'phoneNumber.string' => 'The phone number must be a string.',
+            'phoneNumber.digits' => 'The phone number must be exactly 8 digits.',
+    
+            'image.required' => 'The center image is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+            'image.max' => 'The image may not be greater than 2048 kilobytes.',
+    
+            'opening_hours.required' => 'The opening hours are required.',
+            'opening_hours.string' => 'The opening hours must be a string.',
+            'opening_hours.max' => 'The opening hours may not be greater than 255 characters.',
+    
+            'closing_hours.required' => 'The closing hours are required.',
+            'closing_hours.string' => 'The closing hours must be a string.',
+            'closing_hours.max' => 'The closing hours may not be greater than 255 characters.',
+            'closing_hours.after' => 'The closing hour must be after the opening hour.',
         ]);
 
         try {
@@ -136,12 +164,40 @@ class SalesCenterController extends Controller
     {
         // Validate the request
         $request->validate([
-            'name' => 'required|string|max:30',
-            'address' => 'required|string|max:30',
-            'phoneNumber' => 'required|string|digits:8', // Change to digits:8 for phoneNumber
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Image is optional
+            'name' => 'required|string|min:3|max:30',
+            'address' => 'required|string|min:3|max:30',
+            'phoneNumber' => 'required|string|digits:8',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
             'opening_hours' => 'required|string|max:255',
-            'closing_hours' => 'required|string|max:255',
+            'closing_hours' => 'required|string|max:255|after:opening_hours',
+        ], [
+            'name.required' => 'The center name is required.',
+            'name.string' => 'The center name must be a string.',
+            'name.min' => 'The center name must be at least 3 characters.',
+            'name.max' => 'The center name may not be greater than 30 characters.',
+    
+            'address.required' => 'The address is required.',
+            'address.string' => 'The address must be a string.',
+            'address.min' => 'The address must be at least 3 characters.',
+            'address.max' => 'The address may not be greater than 30 characters.',
+    
+            'phoneNumber.required' => 'The phone number is required.',
+            'phoneNumber.string' => 'The phone number must be a string.',
+            'phoneNumber.digits' => 'The phone number must be exactly 8 digits.',
+    
+            'image.required' => 'The center image is required.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+            'image.max' => 'The image may not be greater than 2048 kilobytes.',
+    
+            'opening_hours.required' => 'The opening hours are required.',
+            'opening_hours.string' => 'The opening hours must be a string.',
+            'opening_hours.max' => 'The opening hours may not be greater than 255 characters.',
+    
+            'closing_hours.required' => 'The closing hours are required.',
+            'closing_hours.string' => 'The closing hours must be a string.',
+            'closing_hours.max' => 'The closing hours may not be greater than 255 characters.',
+            'closing_hours.after' => 'The closing hour must be after the opening hour.',
         ]);
 
         // Find the sales center

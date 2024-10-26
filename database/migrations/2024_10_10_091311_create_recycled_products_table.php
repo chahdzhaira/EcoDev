@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('recycled_products', function (Blueprint $table) {
             $table->id(); 
-            $table->string('name');  
+            $table->string('name'); 
+            $table->string('image')->nullable(); 
             $table->text('description'); 
             $table->integer('quantity');  
             $table->float('price', 8, 2); 

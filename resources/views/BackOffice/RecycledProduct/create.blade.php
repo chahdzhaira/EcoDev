@@ -37,16 +37,17 @@
             </ul>
         </div>
 
-        <div class="row">
-            @if (session('error'))
-                <div class="bs-component">
-                    <div class="alert alert-dismissible alert-danger">
-                        <button class="btn-close" type="button" data-bs-dismiss="alert"></button>
-                        <strong>Oh snap!</strong> {{ session('error') }}.
-                    </div>
-                </div>
-            @endif
+      <div class="row">
+    @if ($errors->any())
+        <div class="alert alert-danger" id="errorAlert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
+    @endif
+</div>
 
         <div class="col-md-12">
             <div class="tile">
@@ -59,22 +60,19 @@
                             <!-- Product Name -->
                             <div class="mb-3">
                                 <label class="form-label" for="name">Product Name</label>
-                                <input class="form-control" id="product_name" name="name" type="text" placeholder="Enter product name" value="{{ old('name') }}" maxlength="30" required>
-                                <div class="invalid-feedback">Please provide a valid product name.</div>
+                                <input class="form-control" id="product_name" name="name" type="text" placeholder="Enter product name" value="{{ old('name') }}" >
                             </div>
 
                             <!-- Description -->
                             <div class="mb-3">
                                 <label class="form-label" for="description">Description</label>
-                                <textarea class="form-control" id="description" name="description" placeholder="Enter product description" rows="3" required>{{ old('description') }}</textarea>
-                                <div class="invalid-feedback">Please provide a valid description.</div>
+                                <textarea class="form-control" id="description" name="description" placeholder="Enter product description" rows="3" >{{ old('description') }}</textarea>
                             </div>
 
                             <!-- Quantity -->
                             <div class="mb-3">
                                 <label class="form-label" for="quantity">Quantity</label>
-                                <input class="form-control" id="quantity" name="quantity" type="number" placeholder="Enter quantity" value="{{ old('quantity') }}" min="1" required>
-                                <div class="invalid-feedback">Please provide a valid quantity.</div>
+                                <input class="form-control" id="quantity" name="quantity" type="number" placeholder="Enter quantity" value="{{ old('quantity') }}">
                             </div>
 
                            
@@ -85,15 +83,13 @@
                             <!-- Price -->
                             <div class="mb-3">
                                 <label class="form-label" for="price">Price</label>
-                                <input class="form-control" id="price" name="price" type="number" step="0.01" placeholder="Enter price" value="{{ old('price') }}"  maxlength="30"  required>
-                                <div class="invalid-feedback">Please provide a valid price.</div>
+                                <input class="form-control" id="price" name="price" type="number" step="0.01" placeholder="Enter price" value="{{ old('price') }}"  >
                             </div>
 
                             <!-- Product Image -->
                             <div class="mb-3">
                                 <label class="form-label" for="image">Product Image</label>
-                                <input class="form-control" id="image" name="image" type="file" accept="image/jpeg, image/png" required>
-                                <div class="invalid-feedback">Please upload an image for the product (JPEG or PNG).</div>
+                                <input class="form-control" id="image" name="image" type="file" accept="image/jpeg, image/png" >
                                 <small class="form-text text-muted">Upload an image for the product (JPEG or PNG).</small>
                             </div>
                         </div>
@@ -116,20 +112,16 @@
 
   <!-- Essential javascripts -->
   @vite(['resources/assets/js/jquery-3.7.0.min.js', 'resources/assets/js/bootstrap.min.js', 'resources/assets/js/main - Back.js'])
-
   <script>
-      const form = document.getElementById('recycledProductForm');
-
-      form.addEventListener('input', function (event) {
-          if (event.target.validity.valid) {
-              event.target.classList.remove('is-invalid');
-              event.target.classList.add('is-valid');
-          } else {
-              event.target.classList.remove('is-valid');
-              event.target.classList.add('is-invalid');
-          }
-      });
-  </script>
+    // Check if the error alert exists
+    const errorAlert = document.getElementById('errorAlert');
+    if (errorAlert) {
+        // Set a timeout to hide the alert after 3 seconds
+        setTimeout(() => {
+            errorAlert.style.display = 'none'; // Hide the alert
+        }, 3000); // 3000 milliseconds = 3 seconds
+    }
+</script>
 </body>
 
 </html>

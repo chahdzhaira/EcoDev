@@ -179,5 +179,19 @@
     @vite(['resources/assets/js/jquery-3.7.0.min.js'])
     @vite(['resources/assets/js/bootstrap.min.js'])
     @vite(['resources/assets/js/main - Back.js'])
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const alert = document.getElementById('successAlert');
+            if (alert) {
+                setTimeout(function() {
+                    alert.classList.remove('show');
+                    alert.classList.add('fade');
+                    setTimeout(function() {
+                        alert.remove();
+                    }, 1000); 
+                }, 3000); 
+            }
+        });
+    </script>
 </body>
 </html>

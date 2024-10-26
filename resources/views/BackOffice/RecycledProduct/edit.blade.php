@@ -37,16 +37,19 @@
             </ul>
         </div>
 
+ 
         <div class="row">
-            @if (session('error'))
-                <div class="bs-component">
-                    <div class="alert alert-dismissible alert-danger">
-                        <button class="btn-close" type="button" data-bs-dismiss="alert"></button>
-                        <strong>Oh snap!</strong> {{ session('error') }}.
-                    </div>
+            @if ($errors->any())
+                <div class="alert alert-danger" id="errorAlert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
             @endif
         </div>
+
 
         <div class="col-md-12">
             <div class="tile">
@@ -60,22 +63,19 @@
                             <!-- Name -->
                             <div class="mb-3">
                                 <label class="form-label" for="name">Product Name</label>
-                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter product name" value="{{ old('name', $recycledProduct->name) }}" maxlength="30" required>
-                                <div class="invalid-feedback">Please provide a valid product name.</div>
+                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter product name" value="{{ old('name', $recycledProduct->name) }}" >
                             </div>
 
                             <!-- Description -->
                             <div class="mb-3">
                                 <label class="form-label" for="description">Description</label>
-                                <textarea class="form-control" id="description" name="description" placeholder="Enter product description" required>{{ old('description', $recycledProduct->description) }}</textarea>
-                                <div class="invalid-feedback">Please provide a valid description.</div>
+                                <textarea class="form-control" id="description" name="description" placeholder="Enter product description" >{{ old('description', $recycledProduct->description) }}</textarea>
                             </div>
 
                             <!-- Quantity -->
                             <div class="mb-3">
                                 <label class="form-label" for="quantity">Quantity</label>
-                                <input class="form-control" id="quantity" name="quantity" type="number" placeholder="Enter quantity" value="{{ old('quantity', $recycledProduct->quantity) }}" required>
-                                <div class="invalid-feedback">Please provide a valid quantity.</div>
+                                <input class="form-control" id="quantity" name="quantity" type="number" placeholder="Enter quantity" value="{{ old('quantity', $recycledProduct->quantity) }}" >
                             </div>
                         </div>
 
@@ -84,15 +84,13 @@
                             <!-- Price -->
                             <div class="mb-3">
                                 <label class="form-label" for="price">Price</label>
-                                <input class="form-control" id="price" name="price" type="text" placeholder="Enter price" value="{{ old('price', $recycledProduct->price) }}" required>
-                                <div class="invalid-feedback">Please provide a valid price.</div>
+                                <input class="form-control" id="price" name="price" type="text" placeholder="Enter price" value="{{ old('price', $recycledProduct->price) }}" >
                             </div>
 
                             <!-- Image -->
                             <div class="mb-3">
                                 <label class="form-label" for="image">Product Image</label>
                                 <input class="form-control" id="image" name="image" type="file" accept="image/jpeg, image/png">
-                                <div class="invalid-feedback">Please upload an image (JPEG or PNG).</div>
                                 <small class="form-text text-muted">Current Image: 
                                     <img src="{{ asset('storage/' . $recycledProduct->image) }}" alt="Current Image" style="max-width: 100px;" />
                                 </small>
@@ -118,15 +116,14 @@
     @vite(['resources/assets/js/jquery-3.7.0.min.js', 'resources/assets/js/bootstrap.min.js', 'resources/assets/js/main - Back.js'])
 
     <script>
-        const form = document.getElementById('recycledProductForm');
-
-        form.addEventListener('input', function (event) {
-            if (event.target.validity.valid) {
-                event.target.classList.remove('is-invalid');
-                event.target.classList.add('is-valid');
-            } else {
-                event.target.classList.remove('is-valid');
-                event.target.classList.add('is-invalid');
+        // Check if the error alert exists
+        document.addEventListener("DOMContentLoaded", function() {
+            const errorAlert = document.getElementById('errorAlert');
+            if (errorAlert) {
+                // Set a timeout to hide the alert after 3 seconds
+                setTimeout(() => {
+                    errorAlert.style.display = 'none'; // Hide the alert
+                }, 3000); // 3000 milliseconds = 3 seconds
             }
         });
     </script>

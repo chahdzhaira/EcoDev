@@ -77,12 +77,29 @@ class RecycledProductController extends Controller
     {
         // Validate the incoming request data
         $request->validate([
-            'name' => 'required|string|max:30',
-            'description' => 'nullable|string',
+            'name' => 'required|string|max:30|min:3',
+            'description' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:1',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Optional image validation
+        ], [
+            'name.required' => 'The product name is required.',
+            'name.string' => 'The product name must be a string.',
+            'name.max' => 'The product name may not be greater than 30 characters.',
+            'name.min' => 'The product name must be at least 3 characters.',
+            'description.string' => 'The description is required.',
+            'description.string' => 'The description must be a string.',
+            'quantity.required' => 'The quantity is required.',
+            'quantity.integer' => 'The quantity must be an integer.',
+            'quantity.min' => 'The quantity must be at least 1.',
+            'price.required' => 'The price is required.',
+            'price.numeric' => 'The price must be a float.',
+            'price.min' => 'The price must be at least 1.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+            'image.max' => 'The image may not be greater than 2MB.',
         ]);
+    
     
         // Create a new recycled product
         $recycledProduct = new RecycledProduct();
@@ -162,11 +179,27 @@ class RecycledProductController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'name' => 'required|string|max:30',
-            'description' => 'nullable|string',
+            'name' => 'required|string|max:30|min:3',
+            'description' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'price' => 'required|numeric|min:1',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Optional image validation
+        ], [
+            'name.required' => 'The product name is required.',
+            'name.string' => 'The product name must be a string.',
+            'name.max' => 'The product name may not be greater than 30 characters.',
+            'name.min' => 'The product name must be at least 3 characters.',
+            'description.string' => 'The description is required.',
+            'description.string' => 'The description must be a string.',
+            'quantity.required' => 'The quantity is required.',
+            'quantity.integer' => 'The quantity must be an integer.',
+            'quantity.min' => 'The quantity must be at least 1.',
+            'price.required' => 'The price is required.',
+            'price.numeric' => 'The price must be a float.',
+            'price.min' => 'The price must be at least 1.',
+            'image.image' => 'The uploaded file must be an image.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+            'image.max' => 'The image may not be greater than 2MB.',
         ]);
     
         // Retrieve the recycled product

@@ -36,17 +36,17 @@
                 <li class="breadcrumb-item"><a href="#">Create Sales Center</a></li>
             </ul>
         </div>
-
-        <div class="row">
-            @if (session('error'))
-                <div class="bs-component">
-                    <div class="alert alert-dismissible alert-danger">
-                        <button class="btn-close" type="button" data-bs-dismiss="alert"></button>
-                        <strong>Oh snap!</strong> {{ session('error') }}.
-                    </div>
-                </div>
-            @endif
+<div class="row">
+    @if ($errors->any())
+        <div class="alert alert-danger" id="errorAlert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
+    @endif
+</div>
 
         <div class="col-md-12">
             <div class="tile">
@@ -59,29 +59,25 @@
                             <!-- Name -->
                             <div class="mb-3">
                                 <label class="form-label" for="name">Center Name</label>
-                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter center name" value="{{ old('name') }}" maxlength="30" required>
-                                <div class="invalid-feedback">Please provide a valid center name.</div>
+                                <input class="form-control" id="name" name="name" type="text" placeholder="Enter center name" value="{{ old('name') }}" >
                             </div>
 
                             <!-- Address -->
                             <div class="mb-3">
                                 <label class="form-label" for="address">Address</label>
-                                <input class="form-control" id="address" name="address" type="text" placeholder="Enter address" value="{{ old('address') }}" maxlength="30" required>
-                                <div class="invalid-feedback">Please provide a valid address.</div>
+                                <input class="form-control" id="address" name="address" type="text" placeholder="Enter address" value="{{ old('address') }}" >
                             </div>
 
                             <!-- Phone Number -->
                             <div class="mb-3">
                                 <label class="form-label" for="phoneNumber">Phone Number</label>
-                                <input class="form-control" id="phoneNumber" name="phoneNumber" type="text" placeholder="Enter phone number" value="{{ old('phoneNumber') }}" maxlength="8" pattern="[0-9]{8}" required oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);">
-                                <div class="invalid-feedback">Please provide a valid phone number (8 digits).</div>
+                                <input class="form-control" id="phoneNumber" name="phoneNumber" type="text" placeholder="Enter phone number" value="{{ old('phoneNumber') }}"  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);" >
                             </div>
 
                             <!-- Image -->
                             <div class="mb-3">
                                 <label class="form-label" for="image">Center Image</label>
-                                <input class="form-control" id="image" name="image" type="file" accept="image/jpeg, image/png" required>
-                                <div class="invalid-feedback">Please upload an image for the sales center (JPEG or PNG).</div>
+                                <input class="form-control" id="image" name="image" type="file" >
                                 <small class="form-text text-muted">Upload an image for the sales center (JPEG or PNG).</small>
                             </div>
                         </div>
@@ -91,15 +87,13 @@
                             <!-- Opening Hours -->
                             <div class="mb-3">
                                 <label class="form-label" for="opening_hours">Opening Hours</label>
-                                <input class="form-control" id="opening_hours" name="opening_hours" type="time" value="{{ old('opening_hours') }}" required>
-                                <div class="invalid-feedback">Please provide valid opening hours.</div>
+                                <input class="form-control" id="opening_hours" name="opening_hours" type="time" value="{{ old('opening_hours') }}" >
                             </div>
 
                             <!-- Closing Hours -->
                             <div class="mb-3">
                                 <label class="form-label" for="closing_hours">Closing Hours</label>
-                                <input class="form-control" id="closing_hours" name="closing_hours" type="time" value="{{ old('closing_hours') }}" required>
-                                <div class="invalid-feedback">Please provide valid closing hours.</div>
+                                <input class="form-control" id="closing_hours" name="closing_hours" type="time" value="{{ old('closing_hours') }}" >
                             </div>
                         </div>
                     </div>
@@ -121,20 +115,17 @@
 
   <!-- Essential javascripts -->
   @vite(['resources/assets/js/jquery-3.7.0.min.js', 'resources/assets/js/bootstrap.min.js', 'resources/assets/js/main - Back.js'])
-
   <script>
-      const form = document.getElementById('salesCenterForm');
-
-      form.addEventListener('input', function (event) {
-          if (event.target.validity.valid) {
-              event.target.classList.remove('is-invalid');
-              event.target.classList.add('is-valid');
-          } else {
-              event.target.classList.remove('is-valid');
-              event.target.classList.add('is-invalid');
-          }
-      });
-  </script>
+    // Check if the error alert exists
+    const errorAlert = document.getElementById('errorAlert');
+    if (errorAlert) {
+        // Set a timeout to hide the alert after 3 seconds
+        setTimeout(() => {
+            errorAlert.style.display = 'none'; // Hide the alert
+        }, 3000); // 3000 milliseconds = 3 seconds
+    }
+</script>
+ 
 </body>
 
 </html>

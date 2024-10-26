@@ -153,9 +153,9 @@
             
         </div>
     </div>
-
-
+    <a href="{{ route('FrontOffice.salesCenters.index')}}" class="btn btn-success  ms-5">Back to Sales Centers</a>
 </section>
+
     <!-- Pagination -->
 <div class="col-lg-12 d-flex justify-content-center">
     <div class="bs-component">

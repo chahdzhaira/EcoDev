@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-    <a href="{{ route('FrontOffice.RecycledProduct.index', $salesCenter->id) }}" class="btn btn-success">Back to Products</a>
+    <a href="{{ route('FrontOffice.RecycledProduct.index', $salesCenter->id) }}" class="btn btn-success ms-5">Back to Products</a>
 
 </section>
 
