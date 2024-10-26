@@ -173,4 +173,14 @@ Route::middleware(['auth'])->group(function () {
 // Route pour afficher l'historique des distributions
 Route::get('/distributions', [DistributionController::class, 'index'])->name('distributions.index');
 
-Route::get('/distributions/export', [DistributionController::class, 'export'])->name('distributions.export');
+Route::get('/distributions/export', [DistributionController::class, 'exportPDF'])->name('distributions.export');
+
+
+Route::get('/recycling_centers/{id}', [RecyclingCenterController::class, 'show'])->name('recycling_centers.show');
+Route::post('/recycling_centers/{id}/review', [RecyclingCenterController::class, 'addReview'])->name('recycling_centers.addReview');
+
+Route::get('/recycling-centers/download-pdf', [RecyclingCenterController::class, 'downloadPdf'])->name('recycling_centers.download_pdf');
+
+Route::get('/distributions/archived', [DistributionController::class, 'showArchived'])->name('distributions.archived');
+Route::patch('/distributions/{id}/archive', [DistributionController::class, 'archive'])->name('distributions.archive');
+Route::patch('/distributions/{id}/unarchive', [DistributionController::class, 'unarchive'])->name('distributions.unarchive');

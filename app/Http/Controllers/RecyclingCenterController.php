@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Models\RecyclingCenter;
 use Illuminate\Http\Request;
 
@@ -152,4 +153,32 @@ class RecyclingCenterController extends Controller
  
          return redirect()->route('recycling_centers.index')->with('success', 'Déchets distribués avec succès au centre de dépôt: ' . $depotCenter->name);
      }
+        // ... Méthode show
+        public function show($id)
+        {
+            $recyclingCenter = RecyclingCenter::findOrFail($id);
+            return view('BackOffice.recycling_centers.show', compact('recyclingCenter'));
+        }
+        public function downloadPdf()
+{
+    $recyclingCenters = RecyclingCenter::all(); // Récupérer tous les centres de recyclage
+
+    // Configurer Dompdf
+    $options = new Options();
+    $options->set('defaultFont', 'DejaVu Sans'); // Choisissez une police qui supporte les caractères spéciaux
+    $dompdf = new Dompdf($options);
+
+    // Charger la vue dans Dompdf
+    $html = view('BackOffice.recycling_centers.pdf', compact('recyclingCenters'))->render();
+    $dompdf->loadHtml($html);
+    
+    // (Facultatif) Configurer le format de papier et l'orientation
+    $dompdf->setPaper('A4', 'landscape');
+
+    // Rendre le PDF
+    $dompdf->render();
+
+    // Envoyer le PDF au navigateur
+    return $dompdf->stream('centres_de_recyclage.pdf');
+}
 }

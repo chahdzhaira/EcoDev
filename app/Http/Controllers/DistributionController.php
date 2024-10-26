@@ -5,40 +5,36 @@ namespace App\Http\Controllers;
 use App\Models\Waste;
 use App\Models\Distribution;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class DistributionController extends Controller
 {
     // Display the distribution history with search functionality
     public function index(Request $request)
     {
-        // Récupérer le terme de recherche et les paramètres de tri
-        $search = $request->input('search');
-        $sortBy = $request->input('sortBy', 'created_at'); // Trier par défaut par la date
-        $sortDirection = $request->input('sortDirection', 'desc'); // Ordre décroissant par défaut
+        $query = Waste::whereHas('distributions', function($query) {
+            $query->where('is_archived', false); // Filtrer pour exclure les distributions archivées
+        });
     
-        // Requête pour les déchets et leurs distributions avec filtre de recherche et tri
-        $wastes = Waste::with(['distributions.recyclingCenter', 'distributions.deliveryAgence'])
-            ->when($search, function ($query, $search) {
-                $query->where('category', 'like', "%{$search}%") // Filtre sur les déchets
-                    ->orWhereHas('distributions.recyclingCenter', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%"); // Filtre sur les centres de recyclage
-                    })
-                    ->orWhereHas('distributions.deliveryAgence', function ($q) use ($search) {
-                        $q->where('name', 'like', "%{$search}%"); // Filtre sur les agences de livraison
-                    })
-                    ->orWhereHas('distributions', function ($q) use ($search) {
-                        $q->where('status', 'like', "%{$search}%"); // Filtre sur le statut
-                    });
-            })
-            ->with(['distributions' => function ($query) use ($sortBy, $sortDirection) {
-                $query->orderBy($sortBy, $sortDirection); // Appliquer le tri sur les distributions
-            }])
-            ->paginate(10);
+        // Recherche par catégorie de déchet
+        if ($request->filled('search')) {
+            $query->where('category', 'like', '%' . $request->search . '%');
+        }
     
-        return view('BackOffice.Distributions.index', compact('wastes', 'search', 'sortBy', 'sortDirection'));
+        // Tri par colonne
+        if ($request->filled('sort_by')) {
+            $sortDirection = $request->sortDirection === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($request->sort_by, $sortDirection);
+        } else {
+            // Tri par défaut par date de création
+            $query->orderBy('created_at', 'desc');
+        }
+    
+        $wastes = $query->paginate(10); // Pagination
+    
+        return view('BackOffice.Distributions.index', compact('wastes'));
     }
     
-
     // Form for creating a new distribution
     public function create()
     {
@@ -70,5 +66,59 @@ class DistributionController extends Controller
         return redirect()->route('distributions.index')->with('success', 'Distributions créées avec succès.');
     }
 
-    
+    // Export distributions as a PDF
+    public function export(Request $request)
+    {
+        $query = Waste::whereHas('distributions', function($query) {
+            $query->where('is_archived', false); // Exclure les distributions archivées
+        });
+
+        // Recherche et tri identiques à l'index
+        if ($request->filled('search')) {
+            $query->where('category', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->filled('sort_by')) {
+            $sortDirection = $request->sortDirection === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($request->sort_by, $sortDirection);
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $wastes = $query->get();
+
+        // Génération du PDF
+        $pdf = PDF::loadView('distributions.pdf', compact('wastes'));
+
+        return $pdf->download('historique_distributions.pdf');
+    }
+
+    public function showArchived()
+    {
+        // Récupérer les distributions archivées avec pagination
+        $archivedDistributions = Distribution::where('is_archived', true)->paginate(10);
+
+        // Retourner la vue 'archived' avec les données
+        return view('BackOffice.Distributions.archived', compact('archivedDistributions'));
+    }
+
+    // Méthode d'archivage d'une distribution
+    public function archive($id)
+    {
+        $distribution = Distribution::findOrFail($id);
+        $distribution->is_archived = true; // Archiver la distribution
+        $distribution->save();
+
+        return redirect()->back()->with('success', 'Distribution archivée avec succès.');
+    }
+
+    // Méthode de désarchivage d'une distribution
+    public function unarchive($id)
+    {
+        $distribution = Distribution::findOrFail($id);
+        $distribution->is_archived = false; // Désarchiver la distribution
+        $distribution->save();
+
+        return redirect()->back()->with('success', 'Distribution désarchivée avec succès.');
+    }
 }

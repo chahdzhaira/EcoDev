@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="EcoCycle - Création d'un centre de recyclage">
-    <title>Créer un centre de recyclage</title>
+    <meta name="description" content="EcoCycle - Create a recycling center">
+    <title>Create a Recycling Center</title>
     <!-- Main CSS -->
     @vite(['resources/assets/css/main.css'])
     <!-- Bootstrap Icons -->
@@ -66,65 +66,65 @@
         <div class="app-title">
             <div>
                 <h1><i class="bi bi-speedometer"></i> Dashboard</h1>
-                <p>Créer un centre de recyclage</p>
+                <p>Create a Recycling Center</p>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="bi bi-house-door"></i></li>
-                <li class="breadcrumb-item"><a href="{{ route('recycling_centers.index') }}">Centres de recyclage</a></li>
-                <li class="breadcrumb-item active">Créer</li>
+                <li class="breadcrumb-item"><a href="{{ route('recycling_centers.index') }}">Recycling Centers</a></li>
+                <li class="breadcrumb-item active">Create</li>
             </ul>
         </div>
 
         <div class="form-container">
-            <h3 class="form-title">Créer un centre de recyclage</h3>
+            <h3 class="form-title">Create a Recycling Center</h3>
 
             <form id="recyclingForm" action="{{ route('recycling_centers.store') }}" method="POST" enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="form-group">
-                    <label for="name">Nom <span class="text-danger">*</span></label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Nom du centre" required minlength="3">
-                    <div class="invalid-feedback">Le nom doit comporter au moins 3 caractères.</div>
+                    <label for="name">Name <span class="text-danger">*</span></label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Center Name" required minlength="3">
+                    <div class="invalid-feedback">The name must be at least 3 characters long.</div>
                 </div>
                 <div class="form-group">
-                    <label for="address">Adresse <span class="text-danger">*</span></label>
-                    <textarea id="address" name="address" class="form-control" placeholder="Adresse du centre" rows="3" required minlength="10"></textarea>
-                    <div class="invalid-feedback">L'adresse doit comporter au moins 10 caractères.</div>
+                    <label for="address">Address <span class="text-danger">*</span></label>
+                    <textarea id="address" name="address" class="form-control" placeholder="Center Address" rows="3" required minlength="10"></textarea>
+                    <div class="invalid-feedback">The address must be at least 10 characters long.</div>
                 </div>
                 <div class="form-group">
-                    <label for="phoneNumber">Téléphone</label>
-                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Numéro de téléphone" pattern="^\+?[0-9]{8}$">
-                    <div class="invalid-feedback">Veuillez entrer un numéro de téléphone valide.</div>
+                    <label for="phoneNumber">Phone</label>
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Phone Number" pattern="^\+?[0-9]{8}$">
+                    <div class="invalid-feedback">Please enter a valid phone number.</div>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Email de contact" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                    <small class="form-text text-muted">Ex : contact@exemple.com</small>
-                    <div class="invalid-feedback">Veuillez entrer une adresse email valide.</div>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Contact Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                    <small class="form-text text-muted">E.g. contact@example.com</small>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
                 </div>
                 <div class="form-group">
-                    <label for="manager_name">Nom du responsable</label>
-                    <input type="text" id="manager_name" name="manager_name" class="form-control" placeholder="Nom du responsable" minlength="3">
-                    <div class="invalid-feedback">Le nom du responsable doit comporter au moins 3 caractères.</div>
+                    <label for="manager_name">Manager's Name</label>
+                    <input type="text" id="manager_name" name="manager_name" class="form-control" placeholder="Manager's Name" minlength="3">
+                    <div class="invalid-feedback">The manager's name must be at least 3 characters long.</div>
                 </div>
                 <div class="form-group">
-                    <label for="opening_hours">Heures d'ouverture <span class="text-danger">*</span></label>
+                    <label for="opening_hours">Opening Hours <span class="text-danger">*</span></label>
                     <input type="time" id="opening_hours" name="opening_hours" class="form-control" required>
-                    <div class="invalid-feedback">Veuillez indiquer les heures d'ouverture.</div>
+                    <div class="invalid-feedback">Please indicate the opening hours.</div>
                 </div>
                 <div class="form-group">
-                    <label for="closing_hours">Heures de fermeture <span class="text-danger">*</span></label>
+                    <label for="closing_hours">Closing Hours <span class="text-danger">*</span></label>
                     <input type="time" id="closing_hours" name="closing_hours" class="form-control" required>
-                    <div class="invalid-feedback">Veuillez indiquer les heures de fermeture.</div>
+                    <div class="invalid-feedback">Please indicate the closing hours.</div>
                 </div>
                 <div class="form-group">
-                    <label for="image">Image du centre</label>
+                    <label for="image">Center Image</label>
                     <input type="file" id="image" name="image" class="form-control" accept="image/*">
-                    <div class="invalid-feedback">Veuillez fournir une image valide.</div>
+                    <div class="invalid-feedback">Please provide a valid image.</div>
                 </div>
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <button type="submit" class="btn btn-primary">Save</button>
             </form>
 
-            <a href="{{ route('recycling_centers.index') }}" class="btn btn-secondary mt-3">Retour à la liste des centres</a>
+            <a href="{{ route('recycling_centers.index') }}" class="btn btn-secondary mt-3">Back to Recycling Centers List</a>
         </div>
     </main>
 

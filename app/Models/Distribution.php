@@ -31,4 +31,9 @@ class Distribution extends Model
     {
         return $this->belongsTo(DeliveryAgence::class); 
     }
+    public function distributions()
+{
+    return $this->hasMany(Distribution::class);
+}
+
 }

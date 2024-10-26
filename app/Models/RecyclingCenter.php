@@ -17,9 +17,20 @@ class RecyclingCenter extends Model
         'manager_name',
         'opening_hours',
         'closing_hours',
+        'latitude',  // Assurez-vous que ces colonnes existent dans votre table
+        'longitude',
     ];
     public function distributions()
     {
         return $this->hasMany(Distribution::class); 
+    }
+    protected $casts = [
+        'reviews' => 'array', // Convertir les avis en tableau
+    ];
+
+    // Ajouter une méthode pour récupérer les avis ou retourner un tableau vide
+    public function getReviewsAttribute($value)
+    {
+        return $value ?? []; // Retourne un tableau vide si aucun avis n'est présent
     }
 }

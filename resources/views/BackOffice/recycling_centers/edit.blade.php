@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="EcoCycle - Modifier un centre de recyclage">
-    <title>Modifier Centre de Recyclage</title>
+    <meta name="description" content="EcoCycle - Edit a recycling center">
+    <title>Edit Recycling Center</title>
     <!-- Main CSS -->
     @vite(['resources/assets/css/main.css'])
     <!-- Bootstrap Icons -->
@@ -58,38 +58,38 @@
       <div class="app-title">
         <div>
           <h1><i class="bi bi-speedometer"></i> Dashboard</h1>
-          <p>Modifier un centre de recyclage</p>
+          <p>Edit a Recycling Center</p>
         </div>
         <ul class="app-breadcrumb breadcrumb">
           <li class="breadcrumb-item"><i class="bi bi-house-door"></i></li>
-          <li class="breadcrumb-item"><a href="{{ route('recycling_centers.index') }}">Centres de recyclage</a></li>
-          <li class="breadcrumb-item active">Modifier</li>
+          <li class="breadcrumb-item"><a href="{{ route('recycling_centers.index') }}">Recycling Centers</a></li>
+          <li class="breadcrumb-item active">Edit</li>
         </ul>
       </div>
 
       <div class="form-container">
-        <h3 class="form-title">Modifier un centre de recyclage</h3>
+        <h3 class="form-title">Edit a Recycling Center</h3>
         
-        <!-- Formulaire de modification du centre de recyclage -->
+        <!-- Recycling Center Edit Form -->
         <form action="{{ route('recycling_centers.update', $recyclingCenter->id) }}" method="POST" enctype="multipart/form-data">
           @csrf
           @method('PUT')
           <div class="form-group">
-            <label for="name">Nom <span class="text-danger">*</span></label>
+            <label for="name">Name <span class="text-danger">*</span></label>
             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $recyclingCenter->name) }}" required>
             @error('name')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
           <div class="form-group">
-            <label for="address">Adresse <span class="text-danger">*</span></label>
+            <label for="address">Address <span class="text-danger">*</span></label>
             <textarea name="address" class="form-control @error('address') is-invalid @enderror" rows="3" required>{{ old('address', $recyclingCenter->address) }}</textarea>
             @error('address')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>
           <div class="form-group">
-            <label for="phoneNumber">Téléphone</label>
+            <label for="phoneNumber">Phone</label>
             <input type="text" name="phoneNumber" class="form-control @error('phoneNumber') is-invalid @enderror" value="{{ old('phoneNumber', $recyclingCenter->phoneNumber) }}">
             @error('phoneNumber')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -103,21 +103,21 @@
             @enderror
           </div>
           <div class="form-group">
-            <label for="image">Image du centre</label>
+            <label for="image">Center Image</label>
             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror">
             @error('image')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
             @if ($recyclingCenter->image)
-                <img src="{{ asset('images/' . $recyclingCenter->image) }}" alt="Image actuelle" class="img-thumbnail mt-2">
+                <img src="{{ asset('images/' . $recyclingCenter->image) }}" alt="Current Image" class="img-thumbnail mt-2">
             @else
-                <p>Aucune image disponible</p>
+                <p>No image available</p>
             @endif
           </div>
-          <button type="submit" class="btn btn-primary">Mettre à jour</button>
+          <button type="submit" class="btn btn-primary">Update</button>
         </form>
 
-        <a href="{{ route('recycling_centers.index') }}" class="btn btn-secondary mt-3">Annuler</a>
+        <a href="{{ route('recycling_centers.index') }}" class="btn btn-secondary mt-3">Cancel</a>
       </div>
     </main>
 

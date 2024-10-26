@@ -15,11 +15,14 @@ class CreateDistributionsTable extends Migration
             $table->foreignId('delivery_agence_id')->constrained();
             $table->foreignId('recycling_center_id')->constrained();
             $table->timestamps();
+            $table->boolean('is_archived')->default(false);
+
         });
     }
 
     public function down()
     {
         Schema::dropIfExists('distributions');
+
     }
 }
