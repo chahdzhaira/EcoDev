@@ -128,3 +128,5 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/bootstrap-compon
 Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/blank-page', function () {
     return view('BackOffice.blank-page');
 })->name('blank-page');
+
+

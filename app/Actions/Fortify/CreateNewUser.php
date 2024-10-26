@@ -40,6 +40,12 @@ class CreateNewUser implements CreatesNewUsers
             ]), function (User $user) {
                 $this->createTeam($user);
             });
+
+            if ($user instanceof MustVerifyEmail) {
+                $user->sendEmailVerificationNotification();
+            }
+            return $user;
+    
         });
     }
 

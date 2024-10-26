@@ -1,7 +1,9 @@
 <aside class="app-sidebar">
-      <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://randomuser.me/api/portraits/men/1.jpg" alt="User Image">
+      <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : Vite::asset('resources/assets/img/avatars/user-avatar.png') }}" 
+         alt="User Image" 
+        >
         <div>
-          <p class="app-sidebar__user-name">John Doe</p>
+        <p class="app-sidebar__user-name">{{ Auth::user()->username }}</p> <!-- Dynamic username -->
           <p class="app-sidebar__user-designation">Frontend Developer</p>
         </div>
       </div>
@@ -59,7 +61,13 @@
             <li><a class="treeview-item" href="{{route('table-data-table')}}" ><i class="icon bi bi-circle-fill"></i> Data Tables</a></li>
           </ul>
         </li>
-        
+        <li>
+    <a class="app-menu__item" href="{{ route('index') }}">
+        <i class="app-menu__icon bi bi-house-door"></i> <!-- Updated icon -->
+        <span class="app-menu__label">Front page</span>
+    </a>
+</li>
+
         <li><a class="app-menu__item" href="{{route('page-login')}}"><i class="app-menu__icon bi bi-door-open"></i><span class="app-menu__label">Logout</span></a></li>
 
       </ul>
