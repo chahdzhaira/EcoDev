@@ -135,7 +135,8 @@ Route::prefix('delivery-agences')->group(function () {
     Route::get('/create', [DeliveryAgenceController::class, 'create'])->name('delivery-agences.create');
     Route::post('/', [DeliveryAgenceController::class, 'store'])->name('delivery-agences.store');
 
-    
+    // Route::post('/special-services/{agencyId}/store', [SpecialServiceController::class, 'store'])->name('special-services.store');
+
     Route::get('/{id}/services', [DeliveryAgenceController::class, 'showServices'])->name('delivery-agences.services');
     Route::get('/{agencyId}/special-services', [SpecialServiceController::class, 'index'])->name('special-services.index'); // Route manquante ajoutée ici
     Route::get('/{agencyId}/special-services/create', [SpecialServiceController::class, 'create'])->name('special-services.create');

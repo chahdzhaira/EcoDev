@@ -97,45 +97,64 @@ public function showServices($id)
 //    }
 public function store(Request $request)
 {
+    // Validation des données avec des messages personnalisés
     $validator = Validator::make($request->all(), [
-        'name' => 'required|string|max:255|unique:delivery_agences,name',
-        'address' => 'required|string|max:255',
-        'phoneNumber' => 'required|string|regex:/^\d{8,}$/', // Assurez-vous que le numéro de téléphone est valide
+'name' => 'required|string|min:5|max:255|unique:delivery_agences,name|regex:/^[\p{L} ]+$/u',
+        'address' => 'required|string|regex:/^(?=.*[a-zA-Z])(?=.*[0-9]).+$/|max:255',
+        'phoneNumber' => 'required|digits:8',
         'opening_hours' => 'required|date_format:H:i',
         'closing_hours' => 'required|date_format:H:i|after:opening_hours',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image est optionnelle
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jfif|max:2048',
+    ], [
+        'name.required' => 'The name field is required.',
+        'name.min' => 'The name must be at least 5 characters long.',
+        'name.regex' => 'The name may only contain letters and spaces.',
+        'name.unique' => 'This agency name is already taken.',
+        'address.required' => 'The address field is required.',
+        'address.regex' => 'The address must contain both letters and numbers.',
+        'phoneNumber.required' => 'The phone number field is required.',
+        'phoneNumber.digits' => 'The phone number must contain exactly 8 digits.',
+        'opening_hours.required' => 'The opening hours field is required.',
+        'closing_hours.required' => 'The closing hours field is required.',
+        'closing_hours.after' => 'Closing hours must be after opening hours.',
+        'image.image' => 'The file must be an image.',
+        'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, jfif.',
+        'image.max' => 'The image may not be greater than 2MB.',
     ]);
 
+    // Vérification des erreurs de validation
     if ($validator->fails()) {
         return redirect()->back()->withErrors($validator)->withInput();
     }
 
     try {
-        $agency = DeliveryAgence::create([
+        // Gestion de l'image
+        if ($request->hasFile('image')) {
+            // Générer un nom unique pour l'image
+            $imageName = time() . '.' . $request->image->extension();
+            // Déplacer l'image vers le dossier public/images/agencies
+            $request->image->move(public_path('images/agencies'), $imageName);
+            // Stocker le chemin de l'image
+            $validated['image'] = 'images/agencies/' . $imageName;
+        } else {
+            $validated['image'] = null; // Si aucune image n'est téléchargée
+        }
+
+        // Création de l'agence
+        DeliveryAgence::create([
             'name' => $request->name,
             'address' => $request->address,
             'phoneNumber' => $request->phoneNumber,
             'opening_hours' => $request->opening_hours,
             'closing_hours' => $request->closing_hours,
-            'image' => $request->file('image') ? $request->file('image')->store('images') : null, // Gérer le stockage de l'image
+            'image' => $validated['image'], // Stocker le chemin de l'image
         ]);
 
-        return redirect()->route('delivery-agences.index')->with('success', 'Agence créée avec succès !');
+        return redirect()->route('delivery-agences.index')->with('success', 'Agency created successfully!');
     } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Une erreur est survenue : ' . $e->getMessage());
+        return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
     }
 }
-   public function show($id)
-   {
-       $agence = DeliveryAgence::findOrFail($id); 
-       return view('BackOffice.DeliveryAgence.show', compact('agence'));  
-   }
-
-   public function edit($id)
-   {
-       $agence = DeliveryAgence::findOrFail($id); 
-       return view('BackOffice.DeliveryAgence.edit', compact('agence')); 
-   }
 
 //    public function update(Request $request, $id)
 //    {
@@ -177,52 +196,77 @@ public function store(Request $request)
 //        $agence->update($validated);
    
 //        return redirect()->route('delivery-agences.index')->with('success', 'Agence de livraison mise à jour avec succès.');
-public function update(Request $request, $id)
+
+public function edit($id)
 {
-    // Define custom error messages
-    $messages = [
-        'name.required' => 'The name is required.',
-        'name.string' => 'The name must be a string.',
-        'name.max' => 'The name cannot exceed 255 characters.',
-        'address.required' => 'The address is required.',
-        'address.string' => 'The address must be a string.',
-        'address.max' => 'The address cannot exceed 255 characters.',
-        'phoneNumber.required' => 'The phone number is required.',
-        'phoneNumber.integer' => 'The phone number must be an integer.',
-        'image.image' => 'The file must be an image.',
-        'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, jfif.',
-        'image.max' => 'The image cannot exceed 2 MB.',
-        'opening_hours.required' => 'Opening hours are required.',
-        'closing_hours.required' => 'Closing hours are required.',
-        'closing_hours.after' => 'Closing hours must be after opening hours.',
-    ];
-
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'address' => 'required|string|max:255',
-        'phoneNumber' => 'required|integer',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jfif|max:2048', 
-        'opening_hours' => 'required',
-        'closing_hours' => 'required|after:opening_hours',
-    ], $messages);
-
-    $agence = DeliveryAgence::findOrFail($id);
-    
-    if ($request->hasFile('image')) {
-        $imageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('images/agencies'), $imageName);
-        
-        $validated['image'] = 'images/agencies/' . $imageName;
-    } else {
-        $validated['image'] = $agence->image; 
-    }
-
-    $agence->update($validated);
-
-
-    return redirect()->route('delivery-agences.index')->with('success', 'Delivery agency updated successfully.');
+    $agence = DeliveryAgence::findOrFail($id);  // Trouve l'agence ou renvoie une erreur 404
+    return view('BackOffice.DeliveryAgence.edit', compact('agence'));  // Affiche la vue du formulaire d'édition
 }
 
+public function update(Request $request, $id)
+{
+    // Debugging: Truncate seconds from the time fields
+    $request->merge([
+        'opening_hours' => date('H:i', strtotime($request->opening_hours)),
+        'closing_hours' => date('H:i', strtotime($request->closing_hours)),
+    ]);
+
+    // Validation des données
+    $validator = Validator::make($request->all(), [
+'name' => 'required|string|min:5|max:255|unique:delivery_agences,name,' . $id . '|regex:/^[\p{L} ]+$/u',        'address' => 'required|string|regex:/^(?=.*[a-zA-Z])(?=.*[0-9]).+$/|max:255',
+        'phoneNumber' => 'required|digits:8',
+        'opening_hours' => 'required|date_format:H:i',
+        'closing_hours' => 'required|date_format:H:i|after:opening_hours',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,jfif|max:2048', // Image est facultative
+    ], [
+        'name.required' => 'The name field is required.',
+        'name.min' => 'The name must be at least 5 characters long.',
+        'name.regex' => 'The name may only contain letters and spaces.',
+        'name.unique' => 'This agency name is already taken.',
+        'address.required' => 'The address field is required.',
+        'address.regex' => 'The address must contain both letters and numbers.',
+        'phoneNumber.required' => 'The phone number field is required.',
+        'phoneNumber.digits' => 'The phone number must contain exactly 8 digits.',
+        'opening_hours.required' => 'The opening hours field is required.',
+        'closing_hours.required' => 'The closing hours field is required.',
+        'closing_hours.after' => 'Closing hours must be after opening hours.',
+        'image.image' => 'The file must be an image.',
+        'image.mimes' => 'The image must be a file of type: jpeg, png, jpg, gif, jfif.',
+        'image.max' => 'The image may not be greater than 2MB.',
+    ]);
+
+    // Vérification des erreurs de validation
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    try {
+        $agence = DeliveryAgence::findOrFail($id);
+        
+        // Gestion de l'image
+        if ($request->hasFile('image')) {
+            // Générer un nom unique pour l'image
+            $imageName = time() . '.' . $request->image->extension();
+            // Déplacer l'image vers le dossier public/images/agencies
+            $request->image->move(public_path('images/agencies'), $imageName);
+            // Mettre à jour le chemin de l'image
+            $agence->image = 'images/agencies/' . $imageName;
+        }
+
+        // Mise à jour des autres champs
+        $agence->name = $request->name;
+        $agence->address = $request->address;
+        $agence->phoneNumber = $request->phoneNumber;
+        $agence->opening_hours = $request->opening_hours;
+        $agence->closing_hours = $request->closing_hours;
+
+        $agence->save(); // Sauvegarder les modifications
+
+        return redirect()->route('delivery-agences.index')->with('success', 'Delivery agency updated successfully!');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+    }
+}
 
    public function destroy($id)
    {

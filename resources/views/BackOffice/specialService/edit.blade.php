@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,78 +24,13 @@
         .form-label {
             font-weight: bold;
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #5a6268;
-        }
-        .invalid-feedback {
-            color: red;
-        }
         .error-message {
-            color: red;
+            color: red; /* Couleur rouge pour le message d'erreur */
             font-size: 0.9em;
             margin-top: 5px;
             display: block;
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const form = document.getElementById('editServiceForm');
-            const nameInput = document.getElementById('name');
-            const costInput = document.getElementById('additional_cost');
-            const dateInput = document.getElementById('expiration_date');
-
-            const nameError = document.getElementById('nameError');
-            const costError = document.getElementById('costError');
-            const dateError = document.getElementById('dateError');
-
-            const nameRegex = /^[a-zA-Z\s]+$/;
-
-            nameInput.addEventListener('input', function () {
-                if (!nameRegex.test(nameInput.value)) {
-                    nameError.textContent = 'Service name should contain only letters.';
-                } else {
-                    nameError.textContent = '';
-                }
-            });
-
-            costInput.addEventListener('input', function () {
-                if (costInput.value < 0) {
-                    costError.textContent = 'Cost must be a positive number.';
-                } else {
-                    costError.textContent = '';
-                }
-            });
-
-            dateInput.addEventListener('input', function () {
-                const selectedDate = new Date(dateInput.value);
-                const today = new Date();
-                if (selectedDate < today) {
-                    dateError.textContent = 'Expiration date must be in the future.';
-                } else {
-                    dateError.textContent = '';
-                }
-            });
-
-            form.addEventListener('submit', function (event) {
-                if (nameError.textContent || costError.textContent || dateError.textContent) {
-                    event.preventDefault();
-                }
-            });
-        });
-    </script>
 </head>
 <body class="app sidebar-mini">
     <header class="app-header">
@@ -116,25 +52,30 @@
                 @method('PUT')
 
                 <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="name" class="form-label">Service Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $service->name) }}" required>
-                    <span id="nameError" class="error-message"></span>
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Service Name</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $service->name) }}" required >
+                        @error('name')
+                            <div class="error-message text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-6">
+                        <label for="additional_cost" class="form-label">Additional Cost (TND)</label>
+                        <input type="number" class="form-control @error('additional_cost') is-invalid @enderror" id="additional_cost" name="additional_cost" value="{{ old('additional_cost', $service->additional_cost) }}" required >
+                        @error('additional_cost')
+                            <div class="error-message text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <label for="additional_cost" class="form-label">Additional Cost (TND)</label>
-                    <input type="number" class="form-control" id="additional_cost" name="additional_cost" value="{{ old('additional_cost', $service->additional_cost) }}" required>
-                    <span id="costError" class="error-message"></span>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="expiration_date" class="form-label">Expiration Date</label>
+                        <input type="date" class="form-control @error('expiration_date') is-invalid @enderror" id="expiration_date" name="expiration_date" value="{{ old('expiration_date', $service->expiration_date) }}" required >
+                        @error('expiration_date')
+                            <div class="error-message text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="expiration_date" class="form-label">Expiration Date</label>
-                    <input type="date" class="form-control" id="expiration_date" name="expiration_date" value="{{ old('expiration_date', $service->expiration_date) }}" required>
-                    <span id="dateError" class="error-message"></span>
-                </div>
-            </div>
-
 
                 <div class="d-flex justify-content-between">
                     <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('delivery-agences.services', $service->delivery_agence_id) }}'">Cancel</button>

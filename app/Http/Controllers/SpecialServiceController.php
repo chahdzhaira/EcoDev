@@ -84,11 +84,57 @@ class SpecialServiceController extends Controller
     // }
 
 
-    public function store(Request $request, $agencyId)
+//     public function store(Request $request, $agencyId)
+// {
+//     $messages = [
+//         'name.required' => 'The service name is required.',
+//         'name.regex' => 'The service name should only contain letters.',
+//         'name.unique' => 'The service name must be unique for this agency.',
+//         'additional_cost.required' => 'The additional cost is required.',
+//         'additional_cost.numeric' => 'The additional cost must be a number.',
+//         'additional_cost.min' => 'The additional cost must be a positive value.',
+//         'expiration_date.required' => 'The expiration date is required.',
+//         'expiration_date.date' => 'The expiration date must be a valid date.',
+//         'expiration_date.after' => 'The expiration date must be a future date.',
+//     ];
+
+//     $validator = Validator::make($request->all(), [
+//         'name' => [
+//             'required',
+//             'string',
+//             'regex:/^[a-zA-Z\s]+$/',
+//             Rule::unique('special_services')->where(function ($query) use ($agencyId) {
+//                 return $query->where('delivery_agence_id', $agencyId);
+//             }),
+//         ],
+//         'additional_cost' => 'required|numeric|min:0', 
+//         'expiration_date' => 'required|date|after:today', 
+//     ], $messages);
+
+//     if ($validator->fails()) {
+//         return redirect()->back()
+//             ->withErrors($validator)
+//             ->withInput();
+//     }
+
+//     SpecialService::create([
+//         'name' => $request->input('name'),
+//         'additional_cost' => $request->input('additional_cost'),
+//         'expiration_date' => $request->input('expiration_date'),
+//         'delivery_agence_id' => $agencyId,
+//     ]);
+
+//     return redirect()->route('delivery-agences.services', $agencyId)
+//         ->with('success', 'Special Service added successfully!');
+// }
+
+
+public function store(Request $request, $agencyId)
 {
     $messages = [
         'name.required' => 'The service name is required.',
-        'name.regex' => 'The service name should only contain letters.',
+        'name.regex' => 'The service name can only contain letters.',
+        'name.regex_no_numbers' => 'The service name cannot contain numbers.',
         'name.unique' => 'The service name must be unique for this agency.',
         'additional_cost.required' => 'The additional cost is required.',
         'additional_cost.numeric' => 'The additional cost must be a number.',
@@ -102,13 +148,14 @@ class SpecialServiceController extends Controller
         'name' => [
             'required',
             'string',
-            'regex:/^[a-zA-Z\s]+$/',
+            'regex:/^[a-zA-Z\s]+$/', // Vérifie que le nom ne contient que des lettres et des espaces
+            'regex:/^[^\d]*$/', // Vérifie que le nom ne contient pas de chiffres
             Rule::unique('special_services')->where(function ($query) use ($agencyId) {
                 return $query->where('delivery_agence_id', $agencyId);
             }),
         ],
-        'additional_cost' => 'required|numeric|min:0', 
-        'expiration_date' => 'required|date|after:today', 
+        'additional_cost' => 'required|numeric|min:0',
+        'expiration_date' => 'required|date|after:today',
     ], $messages);
 
     if ($validator->fails()) {
@@ -125,17 +172,8 @@ class SpecialServiceController extends Controller
     ]);
 
     return redirect()->route('delivery-agences.services', $agencyId)
-        ->with('success', 'Special Service added successfully!');
+        ->with('success', 'Special service added successfully!');
 }
-
-    public function edit($agencyId, $id)
-    {
-        $service = SpecialService::findOrFail($id);
-        $agency = DeliveryAgence::findOrFail($agencyId);
-        
-        return view('BackOffice.specialService.edit', compact('service', 'agency'));
-    }
-    
 //     public function update(Request $request, $agencyId, $id)
 // {
 //     $request->validate([
@@ -157,6 +195,13 @@ class SpecialServiceController extends Controller
 
 //     return redirect()->route('delivery-agences.services', $agencyId)->with('success', 'Service updated successfully!');
 // }
+public function edit($agencyId, $id)
+{
+    $service = SpecialService::findOrFail($id);
+    $agency = DeliveryAgence::findOrFail($agencyId);
+    
+    return view('BackOffice.specialService.edit', compact('service', 'agency'));
+}
 public function update(Request $request, $agencyId, $id)
 {
     $messages = [
@@ -187,7 +232,7 @@ public function update(Request $request, $agencyId, $id)
     if ($validator->fails()) {
         return redirect()->back()
             ->withErrors($validator)
-            ->withInput();
+            ->withInput(); // This ensures old input is retained
     }
 
     $service = SpecialService::findOrFail($id);
@@ -200,8 +245,6 @@ public function update(Request $request, $agencyId, $id)
     return redirect()->route('delivery-agences.services', $agencyId)
         ->with('success', 'Special Service updated successfully!');
 }
-
-
 
 
     public function destroy($agencyId, $id)
