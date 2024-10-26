@@ -68,7 +68,6 @@
    <div class="container-xl">
       <div class="row blog_1">
          <div class="col-md-8">
-            <!-- Publication Model -->
             <div class="blog_1l">
 			@include('FrontOffice.Publication.PublicationModel' , ['publications' => $publications] )
             </div>

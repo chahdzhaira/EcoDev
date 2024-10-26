@@ -62,9 +62,7 @@
                         </div> -->
                         <div class="mb-3">
                             <label class="form-label">Image</label>
-                            <!-- On change le type du champ image à file -->
                             <input class="form-control " type="file" name="content">
-                            <!-- Afficher l'image actuelle -->
                             @if($publication->content)
                                 <p>Current Image:</p>
                                 <img src="{{ asset($publication->content) }}" alt="{{ $publication->title }}" style="width: 150px;">

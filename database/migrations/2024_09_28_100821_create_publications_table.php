@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title'); 
             $table->longText('description'); 
             $table->longText('content')->nullable(); 
-            $table->string('category'); 
+            $table->enum('category', ['Reducing waste', 'Recycling'])->default('Recycling'); 
             $table->string('tags')->nullable(); 
             $table->timestamps(); 
         });

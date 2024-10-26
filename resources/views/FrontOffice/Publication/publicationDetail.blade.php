@@ -80,20 +80,34 @@
                                 </div>
                             </div>
                             <ul class="mt-3">
-                                <li class="d-inline-block"><i class="fa fa-user me-1 col_green"></i> <a href="#">Dolor Porta</a> <span class="text-muted mx-2">|</span></li>
-                                <li class="d-inline-block"><i class="fa fa-comments me-1 col_green"></i> <a href="#">3 Comments</a> <span class="text-muted mx-2">|</span></li>
-                                <li class="d-inline-block"><i class="fa fa-clock-o me-1 col_green"></i> <a href="#">{{ $publication->created_at->format('d F, Y') }}</a> </li>
+                                <li class="d-inline-block"><i class="fa fa-user me-1 col_green"></i> Admin admin <span class="text-muted mx-2">|</span></li>
+                                <li class="d-inline-block"><i class="fa fa-comments me-1 col_green"></i> {{ $commentCount }} Comment<span class="text-muted mx-2">|</span></li>
+                                <li class="d-inline-block"><i class="fa fa-clock-o me-1 col_green"></i> {{ $publication->created_at->format('d F, Y') }} </li>
                             </ul>
                             <h3 class="mt-3 mb-5">{{ $publication->title }}</h3>
-                            <p>{{ $publication->description }}</p>
-                            <h5 class="mb-3 col_green center_sm">Tags :</h5>
-                            <ul class="mb-0 tags center_sm">
-                                <li class="d-inline-block"><a href="blog_detail.html">nature</a></li>
-                                <li class="d-inline-block"><a href="blog_detail.html">Environment</a></li>
-                                <li class="d-inline-block"><a href="blog_detail.html">Recycle</a></li>
-                                <li class="d-inline-block"><a href="blog_detail.html">Reduce</a></li>
-                                <li class="d-inline-block"><a href="blog_detail.html">waste</a></li>
-                            </ul>
+                            <hr class="my-4 text-primary border-4 w-100 mx-auto">
+                            <p>{!! $publication->description !!}</p>
+                            <hr class="my-4 text-primary border-4 w-100 mx-auto mt-4">
+                            
+                            <h3 class="mt-3 mb-5"> <i class="fa fa-solid fa-comments "></i> Comment...</h3>
+                            @include('FrontOffice.Comments.index')    
+
+                            <div class="col-md-6 mt-4">
+                            <div class="sched_1i">
+                                <form action="{{ route('comment.store', ['publication' => $publication->id]) }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="input-group mb-3  textarea-large">
+                                    <textarea name="content" placeholder="Add a comment" rows="4" class="form-control border-4"></textarea>
+                                    <span class="input-group-append">
+                                        <button class="btn btn-primary col_green bg-transparent p-3 mt-3 px-4 border-0" type="submit">
+                                            <i class="fa fa-regular fa-paper-plane fa-2x"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                  
                         @else
                             <p>Publication non trouvée.</p>
                         @endif

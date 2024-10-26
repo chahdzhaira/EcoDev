@@ -65,9 +65,10 @@ class PublicationController extends Controller
      */
     public function show($id)
     {
-        $publication = Publication::find($id);
+        $publication = Publication::with('comments')->find($id);
         $latestPublications = Publication::orderBy('created_at', 'desc')->take(3)->get();
-        return view('FrontOffice.Publication.publicationDetail', compact('publication', 'latestPublications'));
+        $commentCount = $publication->comments()->count();
+        return view('FrontOffice.Publication.publicationDetail', compact('publication', 'latestPublications' , 'commentCount'));
     }
 
     /**

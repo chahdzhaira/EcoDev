@@ -21,12 +21,11 @@
                      </div>
                   </div>
                   <ul class="mt-3">
-                     <li class="d-inline-block"><i class="fa fa-user me-1 col_green"></i> <a href="blog_detail.html">Dolor Porta</a> <span class="text-muted mx-2">|</span></li>
-                     <li class="d-inline-block"><i class="fa fa-comments me-1 col_green"></i> <a href="blog_detail.html">3 Comments</a> <span class="text-muted mx-2">|</span></li>
-                     <li class="d-inline-block"><i class="fa fa-clock-o me-1 col_green"></i> <a href="blog_detail.html">29 July, 2021</a> </li>
+                     <li class="d-inline-block"><i class="fa fa-user me-1 col_green"></i> Admin admin <span class="text-muted mx-2">|</span></li>
+                     <li class="d-inline-block"><i class="fa fa-clock-o me-1 col_green"></i> {{ $publication->created_at->format('d F, Y') }} </li>
                   </ul>
                   <h3 class="mt-3">{{$publication->title}}</h3>
-                  <p class="mt-3">{{ Str::limit($publication->description, 300) }}</p>
+                  <p class="mt-3">{!! Str::limit(strip_tags($publication->description), 300) !!}</p>
                   <div class="blog_1l1i row mt-4">
                      <div class="col-md-4">
                         <div class="blog_1l1il">

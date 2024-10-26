@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BackOffice\PublicationAdminController  ;
 use App\Http\Controllers\FrontOffice\PublicationController  ;
+use App\Http\Controllers\FrontOffice\CommentController;
+
 
 
 /*
@@ -66,6 +68,14 @@ Route::resource('/awareness', PublicationController::class);
 Route::get('/publicationDetail', function () {
     return view('FrontOffice.Publication.publicationDetail');
 })->name('publicationDetail');
+
+Route::resource('comment', CommentController::class);
+
+Route::post('/awareness/{publication}/comment', [CommentController::class, 'store'])->name('comment.store');
+Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comment.update');
+Route::get('comment/{id}/edit', [CommentController::class, 'edit'])->name('comment.edit');
+Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comment.destroy');
+Route::post('/comments/{id}/like', [CommentController::class, 'like'])->name('comment.like');
 
 // route BackOffice
 
@@ -138,4 +148,13 @@ Route::get('/blank-page', function () {
 })->name('blank-page');
 
 Route::resource('/publication', PublicationAdminController::class); 
+
+Route::post('publication/{id}',[PublicationAdminController::class,'update']);
+Route::get('create',[PublicationAdminController::class,'createByTextEditor']);
+Route::post('post',[PublicationAdminController::class,'storeByTextEditor']);
+Route::get('edit/{id}',[PublicationAdminController::class,'editByTextEditor']);
+Route::put('update/{id}', [PublicationAdminController::class, 'updateByTextEditor']);
+Route::get('delete/{id}',[PublicationAdminController::class,'destroyByTextEditor']);
+Route::get('/search', [PublicationAdminController::class, 'search'])->name('search');
+
 

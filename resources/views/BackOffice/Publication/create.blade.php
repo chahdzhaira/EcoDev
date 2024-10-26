@@ -37,7 +37,6 @@
     @include('BackOffice.partials.navbar')
 
     </header>
-    <!-- Sidebar menu-->
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
     @include('BackOffice.partials.sidebar')
     <main class="app-content">
@@ -68,7 +67,10 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Category</label>
-                            <input class="form-control {{ $errors->has('category') ? 'is-invalid' : '' }}" type="text" name = "category"  value="{{ old('category') }}"  placeholder="recycling, reducing waste ... ">
+                            <select class="form-control {{ $errors->has('category') ? 'is-invalid' : '' }}" name="category" id="category">
+                                <option value="Reducing waste">Reducing waste</option>
+                                <option value="Recycling" selected >Recycling</option>
+                            </select>
                             @error('category')
                                 <div class="form-control-feedback text-danger">{{ $message }}</div>
                             @enderror
@@ -93,6 +95,7 @@
             </div>
         </div>
     </main>
+    
    <!-- Essential javascripts for application to work-->
    @vite(['resources/assets/js/jquery-3.7.0.min.js'])
     @vite(['resources/assets/js/bootstrap.min.js'])
