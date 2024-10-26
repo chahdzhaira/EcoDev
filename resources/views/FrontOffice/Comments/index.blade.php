@@ -33,7 +33,7 @@
      @foreach($publication->comments as $comment)
     <div class="comment mt-2 p-3 bg-light shadow-sm rounded border-thick">
         <div class="d-flex justify-content-between align-items-center">
-            <p class="small text-muted mb-0">Foulen Ben Foulen</p>
+            <p class="small text-muted mb-0">{{ $comment->user->name }}</p>
             <div class="button-group">
                 <form action="{{ route('comment.like', $comment->id) }}" method="POST" style="display:inline;">
                     @csrf

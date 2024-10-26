@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comment ; 
 use App\Models\Publication ; 
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -50,6 +51,7 @@ class CommentController extends Controller
             'publication_id' => $publication->id,
             'content' => $request->content,
             'status' => 'pending',
+            'user_id' => Auth::id(),
         ]);
 
         return redirect()->back()->with('success', 'Commentaire ajouté avec succès.');
@@ -74,8 +76,12 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
+        // // Vérifiez si l'utilisateur connecté est l'auteur du commentaire
+        // if ($comment->user_id !== Auth::id()) {
+        //     return redirect()->back()->with('error', "You can't modify this comment");
+        // }
         $comment = Comment::findOrFail($id);
-        $comment->isEditing = true; // Ajoute une propriété pour indiquer que le commentaire est en mode édition
+        $comment->isEditing = true; 
         return back();
     }
 
@@ -94,6 +100,11 @@ class CommentController extends Controller
             'content.required' => "You can't add an empty comment !",
         ]);
 
+        // // Vérifiez si l'utilisateur connecté est l'auteur du commentaire
+        // if ($comment->user_id !== Auth::id()) {
+        //     return redirect()->back()->with('error', 'Vous ne pouvez pas modifier ce commentaire.');
+        // }
+
         $comment->update([
             'content' => $request->input('content'),
         ]);
@@ -111,8 +122,13 @@ class CommentController extends Controller
     public function destroy($id)
     {
         $comment = Comment::findOrFail($id);
-        $comment->delete();
 
+        // // Vérifiez si l'utilisateur connecté est l'auteur du commentaire
+        // if ($comment->user_id !== Auth::id()) {
+        //     return redirect()->back()->with('error', 'Vous ne pouvez pas supprimer ce commentaire.');
+        // }
+
+        $comment->delete();
         return redirect()->back()->with('success', 'Commentaire supprimé avec succès.');
     }
 

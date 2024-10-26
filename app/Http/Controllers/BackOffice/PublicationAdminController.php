@@ -68,6 +68,8 @@ class PublicationAdminController extends Controller
         $publication->title = $request->title ;
         $publication->description = $request->description ;
         $publication->category = $request->category ;
+        $publication->user_id = auth()->id();
+        
         // Gestion de l'image (s'assurer qu'une image a été fournie)
         if ($request->hasFile('content')) {
         $imageName = time() . '.' . $request->content->extension();

@@ -21,7 +21,7 @@
                      </div>
                   </div>
                   <ul class="mt-3">
-                     <li class="d-inline-block"><i class="fa fa-user me-1 col_green"></i> Admin admin <span class="text-muted mx-2">|</span></li>
+                     <li class="d-inline-block"><i class="fa fa-user me-1 col_green"></i> {{$publication->user->name}} <span class="text-muted mx-2">|</span></li>
                      <li class="d-inline-block"><i class="fa fa-clock-o me-1 col_green"></i> {{ $publication->created_at->format('d F, Y') }} </li>
                   </ul>
                   <h3 class="mt-3">{{$publication->title}}</h3>

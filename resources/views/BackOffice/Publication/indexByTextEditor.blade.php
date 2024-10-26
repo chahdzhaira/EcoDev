@@ -143,7 +143,7 @@
                   <tr>
                     <td>{{ $p->id }}</td>
                     <td class="truncateTitle">{{ $p->title }}</td>
-                    <td></td>
+                    <td>{{$p->user->name}}</td>
                     <td>{{ $p->category }}</td>
                     <!-- <td class="truncateText">{!! extractFirstLine($p->description) !!}</td> -->
                     <td>{{ $p->created_at->format('d-M-Y , H:i') }}</td>

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('likes')->default(0); 
             $table->boolean('is_edited')->default(false); 
             $table->foreignId('publication_id')->constrained()->onDelete('cascade'); 
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
