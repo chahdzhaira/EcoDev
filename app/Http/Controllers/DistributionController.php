@@ -12,6 +12,7 @@ class DistributionController extends Controller
     // Display the distribution history with search functionality
     public function index(Request $request)
     {
+        // Filtrer les déchets qui ont des distributions non archivées
         $query = Waste::whereHas('distributions', function($query) {
             $query->where('is_archived', false); // Filtrer pour exclure les distributions archivées
         });
@@ -120,5 +121,37 @@ class DistributionController extends Controller
         $distribution->save();
 
         return redirect()->back()->with('success', 'Distribution désarchivée avec succès.');
+    }
+
+    public function stats()
+    {
+        // Compter les distributions pour chaque statut
+        $pendingCount = Distribution::where('status', 'Pending')->count();
+        $completedCount = Distribution::where('status', 'Completed')->count();
+        $canceledCount = Distribution::where('status', 'Canceled')->count();
+
+        // Retourner une vue avec les données
+        return view('BackOffice.Distributions.stats', compact('pendingCount', 'completedCount', 'canceledCount'));
+    }
+
+    public function edit($id)
+    {
+        $distribution = Distribution::findOrFail($id);
+        return view('BackOffice.Distributions.edit', compact('distribution'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'quantity_to_distribute' => 'required|integer',
+            'status' => 'required|string',
+        ]);
+
+        $distribution = Distribution::findOrFail($id);
+        $distribution->quantity_to_distribute = $request->quantity_to_distribute;
+        $distribution->status = $request->status;
+        $distribution->save();
+
+        return redirect()->route('distributions.index')->with('success', 'Distribution updated successfully.');
     }
 }

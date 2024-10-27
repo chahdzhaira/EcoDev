@@ -89,8 +89,8 @@
             @enderror
           </div>
           <div class="form-group">
-            <label for="phoneNumber">Phone</label>
-            <input type="text" name="phoneNumber" class="form-control @error('phoneNumber') is-invalid @enderror" value="{{ old('phoneNumber', $recyclingCenter->phoneNumber) }}">
+            <label for="phoneNumber">Phone <span class="text-danger">*</span></label>
+            <input type="text" name="phoneNumber" class="form-control @error('phoneNumber') is-invalid @enderror" value="{{ old('phoneNumber', $recyclingCenter->phoneNumber) }}" required>
             @error('phoneNumber')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -99,6 +99,27 @@
             <label for="email">Email</label>
             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $recyclingCenter->email) }}">
             @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
+          <div class="form-group">
+            <label for="manager_name">Manager Name</label>
+            <input type="text" name="manager_name" class="form-control @error('manager_name') is-invalid @enderror" value="{{ old('manager_name', $recyclingCenter->manager_name) }}">
+            @error('manager_name')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
+          <div class="form-group">
+            <label for="opening_hours">Opening Hours <span class="text-danger">*</span></label>
+            <input type="time" name="opening_hours" class="form-control @error('opening_hours') is-invalid @enderror" value="{{ old('opening_hours', $recyclingCenter->opening_hours) }}" required>
+            @error('opening_hours')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+          </div>
+          <div class="form-group">
+            <label for="closing_hours">Closing Hours <span class="text-danger">*</span></label>
+            <input type="time" name="closing_hours" class="form-control @error('closing_hours') is-invalid @enderror" value="{{ old('closing_hours', $recyclingCenter->closing_hours) }}" required>
+            @error('closing_hours')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
           </div>

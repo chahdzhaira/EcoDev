@@ -62,34 +62,38 @@ class RecyclingCenterController extends Controller
     {
         return view('BackOffice.recycling_centers.create');
     }
-
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|min:3|max:100',
-            'address' => 'required',
-            'phoneNumber' => 'required',
+            'address' => 'required|string|min:10|max:255',
+            'phoneNumber' => 'nullable|regex:/^\+?[0-9]{8,15}$/',
             'email' => 'nullable|email|max:100',
-            'manager_name' => 'nullable|string|max:100',
+            'manager_name' => 'nullable|string|min:3|max:100',
             'opening_hours' => 'required|date_format:H:i',
             'closing_hours' => 'required|date_format:H:i|after:opening_hours',
+            'latitude' => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-        $data = $request->all();
-
-        // Gérer l'upload de l'image
+        // Récupérer toutes les données, y compris l'image
+        $data = $validatedData;
+    
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
             $data['image'] = $imageName;
         }
-
+    
+        // Créer le centre de recyclage avec toutes les données
         RecyclingCenter::create($data);
-
+    
         return redirect()->route('recycling_centers.index')
             ->with('success', 'Centre de recyclage créé avec succès.');
     }
+    
+
 
     public function edit(RecyclingCenter $recyclingCenter)
     {
@@ -98,36 +102,38 @@ class RecyclingCenterController extends Controller
 
     public function update(Request $request, RecyclingCenter $recyclingCenter)
     {
-        $request->validate([
+        // Validation des données
+        $validatedData = $request->validate([
             'name' => 'required|string|min:3|max:100',
             'address' => 'required|string|min:10|max:255',
-            'phoneNumber' => 'required',
+            'phoneNumber' => 'required|string|max:15', // Ajoutez une validation pour le format du numéro de téléphone
             'email' => 'nullable|email|max:100',
             'manager_name' => 'nullable|string|max:100',
-            'opening_hours' => 'date_format:H:i',
-            'closing_hours' => 'date_format:H:i|after:opening_hours',
+            'opening_hours' => 'required|date_format:H:i', // Rendre cette validation obligatoire
+            'closing_hours' => 'required|date_format:H:i|after:opening_hours', // Rendre cette validation obligatoire
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        $data = $request->all();
-
+    
         // Gérer l'upload de l'image
         if ($request->hasFile('image')) {
             // Supprimer l'ancienne image si elle existe
             if ($recyclingCenter->image && file_exists(public_path('images/' . $recyclingCenter->image))) {
                 unlink(public_path('images/' . $recyclingCenter->image));
             }
-
+    
+            // Gérer le nouvel upload d'image
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
-            $data['image'] = $imageName;
+            $validatedData['image'] = $imageName; // Utiliser les données validées
         }
-
-        $recyclingCenter->update($data);
-
+    
+        // Mettre à jour le centre de recyclage avec les données validées
+        $recyclingCenter->update($validatedData);
+    
         return redirect()->route('recycling_centers.index')
             ->with('success', 'Centre de recyclage mis à jour avec succès.');
     }
+    
 
     public function destroy(RecyclingCenter $recyclingCenter)
     {

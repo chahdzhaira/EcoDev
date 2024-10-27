@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historique des Distributions</title>
+    <title>Distribution History</title>
     @vite(['resources/assets/css/main.css'])
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
@@ -47,38 +47,39 @@
     <main class="app-content">
         <div class="container mt-4">
             <div class="app-title">
-                <h1><i class="bi bi-trash"></i> Historique des Distributions</h1>
-                <p>Affichez l'historique des distributions des déchets</p>
+                <h1><i class="bi bi-trash"></i> Distribution History</h1>
+                <p>View the distribution history of waste items</p>
             </div>
 
-            <!-- Bouton Retour au Dashboard -->
+            <!-- Back to Dashboard Button -->
             <div class="mb-3">
-                <a href="{{ route('dashboard') }}" class="btn btn-primary">Retour au Dashboard</a>
+                <a href="{{ route('dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
             </div>
 
-            <!-- Formulaire de recherche -->
+            <!-- Search Form -->
             <div class="mb-4">
                 <form method="GET" action="{{ route('distributions.index') }}" class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Rechercher un déchet..." value="{{ request('search') }}">
-                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                    <input type="text" name="search" class="form-control" placeholder="Search for a waste item..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
 
-            <!-- Dropdown pour le tri -->
+            <!-- Dropdown for Sorting -->
             <div class="mb-4 text-end">
                 <form action="{{ route('distributions.index') }}" method="GET" class="d-inline">
                     <select name="sort_by" class="form-select d-inline-block" style="width: auto;" onchange="this.form.submit()">
-                        <option value="">Trier par</option>
+                        <option value="">Sort by</option>
                         <option value="created_at" {{ request('sort_by') === 'created_at' ? 'selected' : '' }}>Date</option>
-                        <option value="category" {{ request('sort_by') === 'category' ? 'selected' : '' }}>Déchet</option>
+                        <option value="category" {{ request('sort_by') === 'category' ? 'selected' : '' }}>Waste Item</option>
                     </select>
                     <input type="hidden" name="search" value="{{ request('search') }}">
                 </form>
             </div>
 
             <div class="mb-3">
-                <a href="{{ route('distributions.archived') }}" class="btn btn-secondary">Voir les archives</a>
+                <a href="{{ route('distributions.archived') }}" class="btn btn-secondary">View Archives</a>
             </div>
+            <a href="{{ route('distributions.stats') }}" class="btn btn-info">Voir statistiques </a>
 
             <div class="card">
                 <div class="card-body">
@@ -87,16 +88,16 @@
                             <tr>
                                 <th>
                                     <a href="{{ route('distributions.index', array_merge(request()->all(), ['sort_by' => 'category', 'sortDirection' => request('sortDirection', 'asc') === 'asc' ? 'desc' : 'asc'])) }}">
-                                        Déchet
+                                        Waste Item
                                         @if(request('sort_by') === 'category')
                                             <i class="bi bi-arrow-{{ request('sortDirection') === 'asc' ? 'up' : 'down' }}"></i>
                                         @endif
                                     </a>
                                 </th>
-                                <th>Quantité Distribuée</th>
-                                <th>Statut</th>
-                                <th>Centre de Recyclage</th>
-                                <th>Agence de Livraison</th>
+                                <th>Distributed Quantity</th>
+                                <th>Status</th>
+                                <th>Recycling Center</th>
+                                <th>Delivery Agency</th>
                                 <th>
                                     <a href="{{ route('distributions.index', array_merge(request()->all(), ['sort_by' => 'created_at', 'sortDirection' => request('sortDirection', 'asc') === 'asc' ? 'desc' : 'asc'])) }}">
                                         Date
@@ -105,43 +106,36 @@
                                         @endif
                                     </a>
                                 </th>
-                                <th>Actions</th> <!-- Nouvelle colonne pour les actions -->
+                                <th>Actions</th> <!-- New column for actions -->
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($wastes as $waste)
                                 @if($waste->distributions->isNotEmpty())
                                     @foreach($waste->distributions as $distribution)
-                                        <tr>
-                                            <td>{{ $waste->category }}</td>
-                                            <td>{{ $distribution->quantity_to_distribute }}</td>
-                                            <td class="{{ $distribution->status === 'Completed' ? 'status-completed' : ($distribution->status === 'Pending' ? 'status-pending' : 'status-failed') }}">
-                                                {{ $distribution->status }}
-                                            </td>
-                                            <td>{{ $distribution->recyclingCenter->name ?? 'Non défini' }}</td>
-                                            <td>{{ $distribution->deliveryAgence->name ?? 'Non défini' }}</td>
-                                            <td>{{ $distribution->created_at->format('d/m/Y H:i') }}</td>
-                                            <td>
-                                                @if(!$distribution->is_archived)
-                                                    <form action="{{ route('distributions.archive', $distribution->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Avez-vous vraiment archivé cette distribution ?');">
+                                        @if(!$distribution->is_archived) <!-- Exclure les distributions archivées -->
+                                            <tr>
+                                                <td>{{ $waste->category }}</td>
+                                                <td>{{ $distribution->quantity_to_distribute }}</td>
+                                                <td class="{{ $distribution->status === 'Completed' ? 'status-completed' : ($distribution->status === 'Pending' ? 'status-pending' : 'status-failed') }}">
+                                                    {{ $distribution->status }}
+                                                </td>
+                                                <td>{{ $distribution->recyclingCenter->name ?? 'Not defined' }}</td>
+                                                <td>{{ $distribution->deliveryAgence->name ?? 'Not defined' }}</td>
+                                                <td>{{ $distribution->created_at->format('d/m/Y H:i') }}</td>
+                                                <td>
+                                                    <form action="{{ route('distributions.archive', $distribution->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to archive this distribution?');">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <button type="submit" class="btn btn-warning btn-sm">Archiver</button>
+                                                        <button type="submit" class="btn btn-warning btn-sm">Archive</button>
                                                     </form>
-                                                @else
-                                                    <form action="{{ route('distributions.unarchive', $distribution->id) }}" method="POST" style="display:inline;">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <button type="submit" class="btn btn-success btn-sm">Désarchiver</button>
-                                                    </form>
-                                                @endif
-                                            
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="7">Aucune distribution trouvée pour le déchet {{ $waste->category }}.</td>
+                                        <td colspan="7">No distribution found for the waste item {{ $waste->category }}.</td>
                                     </tr>
                                 @endif
                             @endforeach

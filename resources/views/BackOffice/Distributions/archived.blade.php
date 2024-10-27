@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archives des Distributions</title>
+    <title>Archived Distributions</title>
     @vite(['resources/assets/css/main.css'])
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css">
@@ -34,7 +34,7 @@
 </head>
 <body class="app sidebar-mini">
     <header class="app-header">
-        <a class="app-header__logo" href="{{ route('indexBack') }}">EcoCycle</a>
+        <a class="app-header__logo" href="{{ route('dashboard') }}">EcoCycle</a>
         @include('BackOffice.partials.navbar')
     </header>
 
@@ -44,40 +44,41 @@
     <main class="app-content">
         <div class="container mt-4">
             <div class="app-title">
-                <h1><i class="bi bi-trash"></i> Archives des Distributions</h1>
-                <p>Affichez l'historique des distributions archivées des déchets</p>
+                <h1><i class="bi bi-trash"></i> Archived Distributions</h1>
+                <p>View the historical record of archived waste distributions</p>
             </div>
 
-            <!-- Bouton Retour au Dashboard -->
+            <!-- Back to Dashboard Button -->
             <div class="mb-3">
-                <a href="{{ route('indexBack') }}" class="btn btn-primary">Retour au Dashboard</a>
+                <a href="{{ route('indexBack') }}" class="btn btn-primary">Back to Dashboard</a>
             </div>
 
-            <!-- Formulaire de recherche -->
+            <!-- Back to Distributions List Button -->
+            <div class="mb-3">
+                <a href="{{ route('distributions.index') }}" class="btn btn-secondary">Back to Distributions List</a>
+            </div>
+
+            <!-- Search Form -->
             <div class="mb-4">
                 <form method="GET" action="{{ route('distributions.archived') }}" class="input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Rechercher un déchet..." value="{{ request('search') }}">
-                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                    <input type="text" name="search" class="form-control" placeholder="Search for a waste..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
                 </form>
             </div>
 
-            <!-- Bouton pour télécharger le PDF -->
-            <div class="mb-3 pdf-button">
-                <a href="{{ route('distributions.exportArchived', request()->all()) }}" class="btn btn-secondary">Télécharger en PDF</a>
-            </div>
-
+            <!-- Table displaying archived distributions -->
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered table-hover">
                         <thead class="table-dark">
                             <tr>
-                                <th>Déchet</th>
-                                <th>Quantité Distribuée</th>
-                                <th>Statut</th>
-                                <th>Centre de Recyclage</th>
-                                <th>Agence de Livraison</th>
+                                <th>Waste</th>
+                                <th>Quantity Distributed</th>
+                                <th>Status</th>
+                                <th>Recycling Center</th>
+                                <th>Delivery Agency</th>
                                 <th>Date</th>
-                                <th>Actions</th> <!-- Nouvelle colonne pour les actions -->
+                                <th>Actions</th> <!-- New column for actions -->
                             </tr>
                         </thead>
                         <tbody>
@@ -88,14 +89,15 @@
                                     <td class="{{ $distribution->status === 'Completed' ? 'status-completed' : ($distribution->status === 'Pending' ? 'status-pending' : 'status-failed') }}">
                                         {{ $distribution->status }}
                                     </td>
-                                    <td>{{ $distribution->recyclingCenter->name ?? 'Non défini' }}</td>
-                                    <td>{{ $distribution->deliveryAgence->name ?? 'Non défini' }}</td>
+                                    <td>{{ $distribution->recyclingCenter->name ?? 'Undefined' }}</td>
+                                    <td>{{ $distribution->deliveryAgence->name ?? 'Undefined' }}</td>
                                     <td>{{ $distribution->created_at->format('d/m/Y H:i') }}</td>
                                     <td>
+                                        <!-- Unarchive button -->
                                         <form action="{{ route('distributions.unarchive', $distribution->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="btn btn-success btn-sm">Désarchiver</button>
+                                            <button type="submit" class="btn btn-success btn-sm">Unarchive</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -105,13 +107,14 @@
                 </div>
             </div>
 
-            <!-- Pagination -->
+            <!-- Pagination Links -->
             <div class="mt-3">
                 {{ $archivedDistributions->appends(request()->all())->links() }}
             </div>
         </div>
     </main>
 
+    <!-- Scripts -->
     @vite(['resources/assets/js/jquery-3.7.0.min.js'])
     @vite(['resources/assets/js/bootstrap.min.js'])
     @vite(['resources/assets/js/main.js'])

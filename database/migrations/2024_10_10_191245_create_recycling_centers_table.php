@@ -14,8 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('recycling_centers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); 
+            $table->string('image')->nullable(); 
+            $table->string('name');
+            $table->string('address');
+            $table->integer('phoneNumber');
+            $table->string('email');
+            $table->string('manager_name');
+            $table->time('opening_hours'); 
+            $table->time('closing_hours'); 
+            $table->timestamps(); 
         });
     }
 

@@ -60,7 +60,9 @@
                                         <option value="{{ $agency->id }}">{{ $agency->name }}</option>
                                     @endforeach
                                 </select>
-                                <div class="invalid-feedback">Veuillez sélectionner une agence de livraison.</div>
+                                @error('delivery_agency')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
 
                                 <label for="recycling_center_{{ $waste->id }}" class="mt-2">Centre de recyclage :</label>
                                 <select name="recycling_center" id="recycling_center_{{ $waste->id }}" class="form-control" required>
@@ -69,7 +71,9 @@
                                         <option value="{{ $center->id }}">{{ $center->name }}</option>
                                     @endforeach
                                 </select>
-                                <div class="invalid-feedback">Veuillez sélectionner un centre de recyclage.</div>
+                                @error('recycling_center')
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>

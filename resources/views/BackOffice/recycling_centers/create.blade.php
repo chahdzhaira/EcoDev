@@ -23,32 +23,11 @@
             color: #007bff;
             font-weight: bold;
         }
-        .form-control {
-            border-radius: 6px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .btn-primary {
-            border-radius: 6px;
-            background-color: #007bff;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-        }
-        .btn:hover {
-            opacity: 0.9;
-        }
-        .text-danger {
-            font-size: 0.875em;
-            margin-top: 0.25rem;
+        .form-control.is-invalid {
+            border-color: #dc3545;
         }
         .invalid-feedback {
-            display: none;
-            color: red;
-        }
-        .form-control.is-invalid ~ .invalid-feedback {
-            display: block;
+            color: #dc3545;
         }
     </style>
 </head>
@@ -78,48 +57,63 @@
         <div class="form-container">
             <h3 class="form-title">Create a Recycling Center</h3>
 
-            <form id="recyclingForm" action="{{ route('recycling_centers.store') }}" method="POST" enctype="multipart/form-data" novalidate>
+            <form action="{{ route('recycling_centers.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="name">Name <span class="text-danger">*</span></label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Center Name" required minlength="3">
-                    <div class="invalid-feedback">The name must be at least 3 characters long.</div>
+                    <input type="text" id="name" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Center Name" value="{{ old('name') }}">
+                    @error('name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="address">Address <span class="text-danger">*</span></label>
-                    <textarea id="address" name="address" class="form-control" placeholder="Center Address" rows="3" required minlength="10"></textarea>
-                    <div class="invalid-feedback">The address must be at least 10 characters long.</div>
+                    <textarea id="address" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Center Address" rows="3">{{ old('address') }}</textarea>
+                    @error('address')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="phoneNumber">Phone</label>
-                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Phone Number" pattern="^\+?[0-9]{8}$">
-                    <div class="invalid-feedback">Please enter a valid phone number.</div>
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control @error('phoneNumber') is-invalid @enderror" placeholder="Phone Number" value="{{ old('phoneNumber') }}">
+                    @error('phoneNumber')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="Contact Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                    <small class="form-text text-muted">E.g. contact@example.com</small>
-                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                    <input type="email" id="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Contact Email" value="{{ old('email') }}">
+                    @error('email')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="manager_name">Manager's Name</label>
-                    <input type="text" id="manager_name" name="manager_name" class="form-control" placeholder="Manager's Name" minlength="3">
-                    <div class="invalid-feedback">The manager's name must be at least 3 characters long.</div>
+                    <input type="text" id="manager_name" name="manager_name" class="form-control @error('manager_name') is-invalid @enderror" placeholder="Manager's Name" value="{{ old('manager_name') }}">
+                    @error('manager_name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="opening_hours">Opening Hours <span class="text-danger">*</span></label>
-                    <input type="time" id="opening_hours" name="opening_hours" class="form-control" required>
-                    <div class="invalid-feedback">Please indicate the opening hours.</div>
+                    <input type="time" id="opening_hours" name="opening_hours" class="form-control @error('opening_hours') is-invalid @enderror" value="{{ old('opening_hours') }}">
+                    @error('opening_hours')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="closing_hours">Closing Hours <span class="text-danger">*</span></label>
-                    <input type="time" id="closing_hours" name="closing_hours" class="form-control" required>
-                    <div class="invalid-feedback">Please indicate the closing hours.</div>
+                    <input type="time" id="closing_hours" name="closing_hours" class="form-control @error('closing_hours') is-invalid @enderror" value="{{ old('closing_hours') }}">
+                    @error('closing_hours')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="image">Center Image</label>
-                    <input type="file" id="image" name="image" class="form-control" accept="image/*">
-                    <div class="invalid-feedback">Please provide a valid image.</div>
+                    <input type="file" id="image" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+                    @error('image')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
@@ -127,48 +121,6 @@
             <a href="{{ route('recycling_centers.index') }}" class="btn btn-secondary mt-3">Back to Recycling Centers List</a>
         </div>
     </main>
-
-    <!-- Essential Scripts -->
     @vite(['resources/assets/js/main.js'])
-
-    <!-- Form validation with real-time feedback -->
-    <script>
-        (function () {
-            'use strict';
-
-            // Fetch the form element
-            var form = document.getElementById('recyclingForm');
-
-            // Function to validate a field on blur
-            function validateField(field) {
-                // Check if the field is valid
-                if (!field.checkValidity()) {
-                    // If invalid, apply the Bootstrap invalid class
-                    field.classList.add('is-invalid');
-                } else {
-                    // If valid, remove the invalid class
-                    field.classList.remove('is-invalid');
-                }
-            }
-
-            // Loop through all form controls and add event listener for 'blur' event
-            var inputs = form.querySelectorAll('.form-control');
-            inputs.forEach(function (input) {
-                input.addEventListener('blur', function () {
-                    validateField(input);
-                });
-            });
-
-            // Prevent form submission if fields are invalid
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-
-                form.classList.add('was-validated');
-            }, false);
-        })();
-    </script>
 </body>
 </html>

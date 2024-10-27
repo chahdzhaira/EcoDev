@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecyclingCenterController;
 use App\Http\Controllers\WasteController;
 use App\Http\Controllers\DistributionController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -166,9 +167,7 @@ Route::get('/wastes/create', [WasteController::class, 'create'])->name('wastes.c
 Route::post('/wastes/store', [WasteController::class, 'store'])->name('wastes.store');
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::resource('distributions', DistributionController::class);
-});
+
 
 // Route pour afficher l'historique des distributions
 Route::get('/distributions', [DistributionController::class, 'index'])->name('distributions.index');
@@ -184,3 +183,6 @@ Route::get('/recycling-centers/download-pdf', [RecyclingCenterController::class,
 Route::get('/distributions/archived', [DistributionController::class, 'showArchived'])->name('distributions.archived');
 Route::patch('/distributions/{id}/archive', [DistributionController::class, 'archive'])->name('distributions.archive');
 Route::patch('/distributions/{id}/unarchive', [DistributionController::class, 'unarchive'])->name('distributions.unarchive');
+
+Route::get('/distributions/stats', [DistributionController::class, 'stats'])->name('distributions.stats');
+

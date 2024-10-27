@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $recyclingCenter->name }} - Centre de Recyclage</title>
+    <title>{{ $recyclingCenter->name }} - Recycling Center</title>
     @vite(['resources/assets/css/main.css'])
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -21,24 +21,24 @@
     </header>
 
     <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
-    @include('BackOffice.partials.sidebar') <!-- Sidebar incluse ici -->
+    @include('BackOffice.partials.sidebar') <!-- Sidebar included here -->
 
     <main class="app-content">
         <div class="app-title">
             <div>
                 <h1><i class="bi bi-recycle"></i> {{ $recyclingCenter->name }}</h1>
-                <p>Détails du centre de recyclage</p>
+                <p>Details of the recycling center</p>
             </div>
             <ul class="app-breadcrumb breadcrumb">
                 <li class="breadcrumb-item"><i class="bi bi-house-door"></i></li>
-                <li class="breadcrumb-item"><a href="{{ route('recycling_centers.index') }}">Centres de Recyclage</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('recycling_centers.index') }}">Recycling Centers</a></li>
                 <li class="breadcrumb-item active">{{ $recyclingCenter->name }}</li>
             </ul>
         </div>
 
         <div class="row mb-4">
             <div class="col-md-4">
-                <a href="{{ route('recycling_centers.index') }}" class="btn btn-secondary">Retour à la liste</a>
+                <a href="{{ route('recycling_centers.index') }}" class="btn btn-secondary">Back to list</a>
             </div>
             <div class="col-md-4 text-end">
                 @if(session('success'))
@@ -49,11 +49,11 @@
                 @endif
             </div>
             <div class="col-md-4 text-end">
-                <a href="{{ route('recycling_centers.edit', $recyclingCenter->id) }}" class="btn btn-warning">Modifier</a>
+                <a href="{{ route('recycling_centers.edit', $recyclingCenter->id) }}" class="btn btn-warning">Edit</a>
                 <form action="{{ route('recycling_centers.destroy', $recyclingCenter->id) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
-                    <button class="btn btn-danger" type="submit" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce centre ?')">Supprimer</button>
+                    <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure you want to delete this center?')">Delete</button>
                 </form>
             </div>
         </div>
@@ -62,13 +62,13 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
-                        <p><strong>Adresse:</strong> {{ $recyclingCenter->address }}</p>
-                        <p><strong>Téléphone:</strong> {{ $recyclingCenter->phoneNumber }}</p>
+                        <p><strong>Address:</strong> {{ $recyclingCenter->address }}</p>
+                        <p><strong>Phone:</strong> {{ $recyclingCenter->phoneNumber }}</p>
                         <p><strong>Email:</strong> {{ $recyclingCenter->email }}</p>
                         <p><strong>Manager:</strong> {{ $recyclingCenter->manager_name }}</p>
-                        <p><strong>Heures d'ouverture:</strong> {{ $recyclingCenter->opening_hours }} - {{ $recyclingCenter->closing_hours }}</p>
+                        <p><strong>Opening Hours:</strong> {{ $recyclingCenter->opening_hours }} - {{ $recyclingCenter->closing_hours }}</p>
                         
-                        <div id="map"></div> <!-- Div pour la carte -->
+                        <div id="map"></div> <!-- Div for the map -->
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
 
     <footer class="app-footer">
         <div>
-            <p>&copy; 2024 EcoCycle. Tous droits réservés.</p>
+            <p>&copy; 2024 EcoCycle. All rights reserved.</p>
         </div>
     </footer>
 
