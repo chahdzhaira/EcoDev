@@ -77,9 +77,9 @@ class CommentController extends Controller
     public function edit($id)
     {
         // // Vérifiez si l'utilisateur connecté est l'auteur du commentaire
-        // if ($comment->user_id !== Auth::id()) {
-        //     return redirect()->back()->with('error', "You can't modify this comment");
-        // }
+        if ($comment->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', "You can't modify this comment");
+        }
         $comment = Comment::findOrFail($id);
         $comment->isEditing = true; 
         return back();
@@ -101,16 +101,16 @@ class CommentController extends Controller
         ]);
 
         // // Vérifiez si l'utilisateur connecté est l'auteur du commentaire
-        // if ($comment->user_id !== Auth::id()) {
-        //     return redirect()->back()->with('error', 'Vous ne pouvez pas modifier ce commentaire.');
-        // }
+        if ($comment->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas modifier ce commentaire.');
+        }
 
         $comment->update([
             'content' => $request->input('content'),
         ]);
 
 
-        return redirect()->back()->with('success', 'Commentaire mis à jour avec succès');
+        return redirect()->back()->with('success', 'Comment updated successfully');
     }
 
     /**
@@ -124,12 +124,12 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
 
         // // Vérifiez si l'utilisateur connecté est l'auteur du commentaire
-        // if ($comment->user_id !== Auth::id()) {
-        //     return redirect()->back()->with('error', 'Vous ne pouvez pas supprimer ce commentaire.');
-        // }
+        if ($comment->user_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas supprimer ce commentaire.');
+        }
 
         $comment->delete();
-        return redirect()->back()->with('success', 'Commentaire supprimé avec succès.');
+        return redirect()->back()->with('success', 'Comment delete successfully');
     }
 
     public function like($id)

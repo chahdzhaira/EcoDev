@@ -35,18 +35,22 @@
         <div class="d-flex justify-content-between align-items-center">
             <p class="small text-muted mb-0">{{ $comment->user->name }}</p>
             <div class="button-group">
-                <form action="{{ route('comment.like', $comment->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn col_green mt-0 border-0" title="Like">
-                        <i class="fa fa-solid fa-thumbs-up"></i> {{ $comment->likes }}
-                    </button>
-                </form>
+                @if( Auth::id() !== $comment->user_id)
+                    <form action="{{ route('comment.like', $comment->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn col_green mt-0 border-0" title="Like">
+                            <i class="fa fa-solid fa-thumbs-up"></i> {{ $comment->likes }}
+                        </button>
+                    </form>
+                @endif
+                 @if(Auth::id() === $comment->user_id)  <!-- verif si auteur de comment  -->
                 <button type="button" class="btn col_green mt-0 border-0" data-bs-toggle="modal" data-bs-target="#editModal-{{ $comment->id }}" title="Modifier">
                     <i class="fa fa-solid fa-pencil"></i>
                 </button>
                 <button type="button" class="btn col_green mt-0 border-0" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $comment->id }}" title="Supprimer">
                     <i class="fa fa-solid fa-trash"></i>
                 </button>
+                @endif
             </div>
         </div>
         <p class="comment-content" id="content-{{ $comment->id }}">{{ $comment->content }}</p>
