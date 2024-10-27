@@ -15,7 +15,7 @@ class Publication extends Model
         'category',
         'tags',
     ];
-    
+
     public function comments()
     {
         return $this->hasMany(Comment::class);
@@ -26,4 +26,5 @@ class Publication extends Model
         return $this->belongsTo(User::class);
     }
     
+
 }

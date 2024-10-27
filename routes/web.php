@@ -6,6 +6,9 @@ use App\Http\Controllers\FrontOffice\PublicationController  ;
 use App\Http\Controllers\FrontOffice\CommentController;
 
 
+use App\Http\Controllers\DeliveryAgenceController;
+
+use App\Http\Controllers\SpecialServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -161,5 +164,43 @@ Route::get('edit/{id}',[PublicationAdminController::class,'editByTextEditor']);
 Route::put('update/{id}', [PublicationAdminController::class, 'updateByTextEditor']);
 Route::get('delete/{id}',[PublicationAdminController::class,'destroyByTextEditor']);
 Route::get('/search', [PublicationAdminController::class, 'search'])->name('search');
+
+
+// Route Backoffice pour l'affichage des agences de livraison
+Route::prefix('delivery-agences')->group(function () {
+    Route::get('/', [DeliveryAgenceController::class, 'index'])->name('delivery-agences.index');
+    Route::get('/create', [DeliveryAgenceController::class, 'create'])->name('delivery-agences.create');
+    Route::post('/', [DeliveryAgenceController::class, 'store'])->name('delivery-agences.store');
+
+    // Route::post('/special-services/{agencyId}/store', [SpecialServiceController::class, 'store'])->name('special-services.store');
+
+    Route::get('/{id}/services', [DeliveryAgenceController::class, 'showServices'])->name('delivery-agences.services');
+    Route::get('/{agencyId}/special-services', [SpecialServiceController::class, 'index'])->name('special-services.index'); // Route manquante ajoutée ici
+    Route::get('/{agencyId}/special-services/create', [SpecialServiceController::class, 'create'])->name('special-services.create');
+    Route::post('/{agencyId}/special-services', [SpecialServiceController::class, 'store'])->name('special-services.store');
+    Route::get('/{agencyId}/special-services/{id}/edit', [SpecialServiceController::class, 'edit'])->name('special-services.edit');
+    Route::put('/{agencyId}/special-services/{id}', [SpecialServiceController::class, 'update'])->name('special-services.update');
+    Route::delete('/{agencyId}/special-services/{id}', [SpecialServiceController::class, 'destroy'])->name('special-services.destroy');
+
+    Route::get('/{id}', [DeliveryAgenceController::class, 'show'])->name('delivery-agences.show');
+    Route::get('/{id}/edit', [DeliveryAgenceController::class, 'edit'])->name('delivery-agences.edit');
+    Route::put('/{id}', [DeliveryAgenceController::class, 'update'])->name('delivery-agences.update');
+    Route::delete('/{id}', [DeliveryAgenceController::class, 'destroy'])->name('delivery-agences.destroy');
+});
+
+// Route FrontOffice pour l'affichage des agences de livraison
+Route::prefix('front/delivery-agences')->group(function () {
+    Route::get('/', [DeliveryAgenceController::class, 'indexFrontend'])->name('front.deliveryagence.index');
+    Route::get('/{id}', [DeliveryAgenceController::class, 'showFrontend'])->name('front.deliveryagence.show');
+// Route FrontOffice pour l'affichage des services spéciaux d'une agence de livraison
+Route::get('/{agencyId}/special-services', [DeliveryAgenceController::class, 'showServicesFront'])->name('front.deliveryagence.special-services'); // Ajout de cette route
+
+
+
+
+
+
+});
+
 
 
