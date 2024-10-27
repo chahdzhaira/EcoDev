@@ -14,6 +14,7 @@ class Comment extends Model
         'status',        
         'likes',          
         'is_edited',
+        'user_id'
     ];
 
     public function publication()
