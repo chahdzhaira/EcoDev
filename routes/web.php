@@ -133,3 +133,6 @@ Route::resource('/event', EventsController::class);
 Route::post('/events/{event}/participate', [ParticipationController::class, 'store'])->name('participations.store');
 
 Route::get('/events/{event}/participate', [ParticipationController::class, 'create'])->name('participations.create');
+Route::delete('/participation/{participationId}', [ParticipationController::class, 'destroy'])->name('participation.destroy');
+Route::get('participation/voucher/{eventId}/{participationId}', [ParticipationController::class, 'voucher'])->name('participation.voucher');
+Route::post('voucher/download/{eventId}/{participationId}', [ParticipationController::class, 'downloadVoucher'])->name('voucher.download');

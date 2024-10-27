@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Participation;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class participationController extends Controller
 {
@@ -37,41 +38,52 @@ class participationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request , $eventId)
+    public function store(Request $request, $eventId)
     {
-       // Valider les données du formulaire
-       $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|max:255',
-        'phone' => 'required|string|max:20',
-    ]);
-
-    // Récupérer l'événement
-    $event = Event::findOrFail($eventId);
-
-    // Vérifier s'il reste de la place pour cet événement
-    if ($event->participations()->count() >= $event->max_participants) {
-        return redirect()->back()->with('error', 'Le nombre maximum de participants a été atteint.');
+        // Valider les données du formulaire
+        $validated = $request->validate([
+            'name' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'phone' => 'required|string|max:8',
+        ]);
+    
+        // Récupérer l'événement
+        $event = Event::findOrFail($eventId);
+    
+        // Vérifier si l'utilisateur a déjà une participation à cet événement
+        $existingParticipation = Participation::where('event_id', $event->id)
+            ->where('email', $validated['email'])
+            ->where('name', $validated['name'])
+            ->first();
+    
+        if ($existingParticipation) {
+            return redirect()->back()->with('error', 'Vous avez déjà participé à cet événement.');
+        }
+    
+        // Vérifier s'il reste de la place pour cet événement
+        if ($event->participations()->count() >= $event->max_participants) {
+            return redirect()->back()->with('error', 'Le nombre maximum de participants a été atteint.');
+        }
+    
+        // Créer une nouvelle participation
+        $participation = Participation::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'registration_date' => now(),
+            'event_id' => $event->id,
+        ]);
+    
+        // Décrémenter max_participants si nécessaire
+        $event->decrement('max_participants');
+    
+        // Rediriger vers la vue de voucher avec l'événement et la participation
+        return redirect()->route('participation.voucher', [
+            'eventId' => $event->id, 
+            'participationId' => $participation->id
+        ])->with('success', 'Vous avez été inscrit avec succès à cet événement.');
     }
-
-    // Créer une nouvelle participation
-    Participation::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'phone' => $validated['phone'],
-        'registration_date' => now(),
-        'event_id' => $event->id,
-    ]);
-
-    // Optionnel : Décrémenter max_participants si nécessaire (ou l'ajuster selon votre logique)
-    // Si vous souhaitez réellement modifier la capacité disponible (plutôt qu'un comptage dynamique)
-    $event->decrement('max_participants');
-
-    // Rediriger avec un message de succès
-    return redirect()->back()->with('success', 'Vous avez été inscrit avec succès à cet événement.');
-
-    }
-
+    
     /**
      * Display the specified resource.
      *
@@ -112,8 +124,48 @@ class participationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($participationId)
     {
-        //
+        // Récupérer la participation en utilisant l'ID fourni
+        $participation = Participation::findOrFail($participationId);
+    
+        // Vérifier que l'utilisateur connecté est le propriétaire de la participation
+        if ($participation->user_id !== auth()->id()) {
+            return redirect()->back()->with('error', 'Vous ne pouvez pas annuler cette participation.');
+        }
+    
+        // Supprimer la participation
+        $participation->delete();
+    
+        // Rediriger avec un message de succès
+        return redirect()->back()->with('success', 'Votre participation a été annulée avec succès.');
     }
+
+    public function downloadVoucher($eventId, $participationId)
+    {
+        $event = Event::findOrFail($eventId);
+        $participation = Participation::findOrFail($participationId);
+    
+        // Charger la vue du voucher dans le PDF
+        $pdf = \PDF::loadView('FrontOffice.Event.voucher', compact('event', 'participation'));
+    
+        // Télécharger le PDF
+        return $pdf->download('voucher_' . $event->id . '.pdf');
+    }
+
+    public function voucher($eventId, $participationId)
+{
+    // Récupérer l'événement et la participation
+    $event = Event::findOrFail($eventId);
+    $participation = Participation::findOrFail($participationId);
+
+    // Afficher la vue du voucher
+    return view('FrontOffice.Event.voucher', compact('event', 'participation'));
 }
+public function showUserParticipations($userId)
+{
+    $user = User::with('participations')->findOrFail($userId);
+    return view('user.participations', compact('user'));
+}
+}
+
