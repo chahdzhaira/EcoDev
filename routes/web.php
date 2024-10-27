@@ -14,6 +14,9 @@ use App\Http\Controllers\SpecialServiceController;
 
 use App\Http\Controllers\DepotCenterController;
 use App\Http\Controllers\WasteController;
+use App\Http\Controllers\eventController;
+use App\Http\Controllers\eventsController;
+use App\Http\Controllers\participationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -298,3 +301,14 @@ Route::get('/distributions/archived', [DistributionController::class, 'showArchi
 Route::patch('/distributions/{id}/archive', [DistributionController::class, 'archive'])->name('distributions.archive');
 Route::patch('/distributions/{id}/unarchive', [DistributionController::class, 'unarchive'])->name('distributions.unarchive');
 Route::get('/distributions/stats', [DistributionController::class, 'stats'])->name('distributions.stats');
+
+Route::resource('/events', EventController::class);
+Route::resource('/back/event', EventsController::class);
+
+// Route pour gérer la soumission du formulaire
+Route::post('/events/{event}/participate', [ParticipationController::class, 'store'])->name('participations.store');
+
+Route::get('/events/{event}/participate', [ParticipationController::class, 'create'])->name('participations.create');
+Route::delete('/participation/{participationId}', [ParticipationController::class, 'destroy'])->name('participation.destroy');
+Route::get('participation/voucher/{eventId}/{participationId}', [ParticipationController::class, 'voucher'])->name('participation.voucher');
+Route::post('voucher/download/{eventId}/{participationId}', [ParticipationController::class, 'downloadVoucher'])->name('voucher.download');

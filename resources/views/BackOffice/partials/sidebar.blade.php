@@ -30,6 +30,7 @@
           <li><a class="treeview-item" href="{{route('table-data-table')}}" ><i class="icon bi bi-circle-fill"></i> Data Tables</a></li>
           </ul>
         </li>
+        <li><a class="treeview-item" href="{{ route('events.index') }}"><i class="icon bi bi-info-circle"></i> Event Management </a></li>
 
         <li class="treeview">
     <a class="app-menu__item" href="#" data-toggle="treeview">

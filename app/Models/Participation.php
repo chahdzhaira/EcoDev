@@ -14,9 +14,15 @@ class Participation extends Model
         'email',              
         'phone',              
         'registration_date',  
-        'event_id',           
+        'event_id',
+        'user_id',
+         
     ];
-
+// Définir la relation avec User
+public function user()
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
     public function event()
     {
         return $this->belongsTo(Event::class);

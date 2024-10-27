@@ -15,7 +15,7 @@ class Event extends Model
         'location',
         'organizer',
         'max_participants',
-        'image_url',
+        'image',
     ];
     public function participations()
 {
