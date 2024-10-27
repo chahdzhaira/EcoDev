@@ -2,161 +2,156 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DepotCenter; 
+use App\Models\DepotCenter;
 use Illuminate\Http\Request;
 
 class DepotCenterController extends Controller
 {
+    // Display a listing of depot centers
     public function index(Request $request)
     {
-        // Prepare query
-        $query = DepotCenter::query(); 
-    
-        // Search functionality (if needed)
+        $query = DepotCenter::query();
+        
         if ($request->has('search')) {
             $query->where('name', 'like', '%' . $request->search . '%')
                   ->orWhere('address', 'like', '%' . $request->search . '%');
         }
+
+        
+ // Sorting functionality
+ if ($request->has('sort_by') && in_array($request->sort_by, ['name', 'address', 'capacity', 'total_quantity_available'])) {
+    $query->orderBy($request->sort_by, $request->sort_direction === 'desc' ? 'desc' : 'asc');
+}
+
+
+
+        $depotCenters = $query->paginate(5);
+
+        return view('BackOffice.Depot-Center.index', compact('depotCenters'));
+    }
+
     
-    //     // Paginate results
-    //     $depotCenters = $query->paginate(10); // 
-    
-    //     return view('BackOffice.Depot-Center.index', compact('depotCenters')); // 
-    // }
-
-
-
-
-            // Pagination des résultats (5 éléments par page)
-            $depotCenters = $query->paginate(5);
-
-            return view('BackOffice.Depot-Center.index', compact('depotCenters'));
+    // Display a listing for the front-end
+    public function userIndex(Request $request)
+    {
+        $query = DepotCenter::query();
+        
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('address', 'like', '%' . $request->search . '%');
         }
 
+        $depotCenters = $query->paginate(5);
 
+        return view('FrontOffice.depot-center.index', compact('depotCenters'));
+    }
 
-
-
-
-
-
-
-        //front index
-
-        public function userIndex(Request $request)
-        {
-            // Prepare query
-            $query = DepotCenter::query();
-        
-            // Search functionality (if needed)
-            if ($request->has('search')) {
-                $query->where('name', 'like', '%' . $request->search . '%')
-                      ->orWhere('address', 'like', '%' . $request->search . '%');
-            }
-        
-            // Paginate results (5 items per page)
-            $depotCenters = $query->paginate(5);
-
-            //$depotCenter = $depotCenters->first(); // ou utilisez une méthode spécifique pour obtenir un dépôt
-
-        
-            // Return the view with the depot centers
-            return view('FrontOffice.depot-center.index', compact('depotCenters'));
-            // return view('FrontOffice.depot-center.index', [
-            //     'depotCenters' => $depotCenters,
-            //     'depotCenter' => $depotCenter // Assurez-vous que ceci est défini
-            // ]);
-        }
-        
-
-
-
-
-        
-    
-    
-    
+    // Show the form for creating a new depot center
     public function create()
     {
-        return view('BackOffice.Depot-Center.create'); 
+        return view('BackOffice.Depot-Center.create');
     }
 
+    // Store a newly created depot center in storage
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'address' => 'required',
-            'capacity' => 'required|numeric', // Added capacity validation
-            'phoneNumber' => 'nullable|string',
-            'manager_name' => 'nullable|string', // Added manager_name validation
-            'opening_hours' => 'nullable|string', // Added opening_hours validation
-            'closing_hours' => 'nullable|string', // Added closing_hours validation
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        $data = $request->all();
+        $data = $this->validateDepotCenter($request);
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $data['image'] = $imageName;
+            $data['image'] = $this->uploadImage($request);
         }
 
-        DepotCenter::create($data); 
+        DepotCenter::create($data);
 
         return redirect()->route('depot_centers.index')
-        ->with('success', 'Centre de dépôt créé avec succès.'); 
+                         ->with('success', 'Centre de dépôt créé avec succès.');
     }
 
-    public function edit(DepotCenter $depotCenter) 
+    // Show the form for editing the specified depot center
+    public function edit(DepotCenter $depotCenter)
     {
-        return view('BackOffice.Depot-Center.edit', compact('depotCenter')); 
+        return view('BackOffice.Depot-Center.edit', compact('depotCenter'));
     }
 
-    public function update(Request $request, DepotCenter $depotCenter) 
+    // Update the specified depot center in storage
+    public function update(Request $request, DepotCenter $depotCenter)
     {
-        $request->validate([
-            'name' => 'required',
-            'address' => 'required',
-            'capacity' => 'required|numeric', // Added capacity validation
-            'phoneNumber' => 'nullable|string',
-            'manager_name' => 'nullable|string', // Added manager_name validation
-            'opening_hours' => 'nullable|string', // Added opening_hours validation
-            'closing_hours' => 'nullable|string', // Added closing_hours validation
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        $data = $this->validateDepotCenter($request, $depotCenter->id);
 
-        $data = $request->all();
-
-        // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete the old image if it exists
-            if ($depotCenter->image && file_exists(public_path('images/' . $depotCenter->image))) {
-                unlink(public_path('images/' . $depotCenter->image));
-            }
-
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $data['image'] = $imageName;
+            // Delete the old image
+            $this->deleteImage($depotCenter->image);
+            $data['image'] = $this->uploadImage($request);
         }
 
-        $depotCenter->update($data); 
+        $depotCenter->update($data);
 
-        return redirect()->route('depot_centers.index') 
-            ->with('success', 'Centre de dépôt mis à jour avec succès.'); 
+        return redirect()->route('depot_centers.index')
+                         ->with('success', 'Centre de dépôt mis à jour avec succès.');
     }
 
-    public function destroy(DepotCenter $depotCenter) 
+    // Remove the specified depot center from storage
+    public function destroy(DepotCenter $depotCenter)
     {
         // Delete the associated image if it exists
-        if ($depotCenter->image && file_exists(public_path('images/' . $depotCenter->image))) {
-            unlink(public_path('images/' . $depotCenter->image));
-        }
+        $this->deleteImage($depotCenter->image);
 
-        $depotCenter->delete(); 
+        $depotCenter->delete();
 
-        return redirect()->route('depot_centers.index') 
-            ->with('success', 'Centre de dépôt supprimé avec succès.'); 
+        return redirect()->route('depot_centers.index')
+                         ->with('success', 'Centre de dépôt supprimé avec succès.');
     }
+
+    // Private function to handle validation rules
+    private function validateDepotCenter(Request $request, $id = null)
+    {
+        return $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:500',
+            'capacity' => 'required|integer|min:1',
+             'total_quantity_available' => 'required|integer|min:0',
+            'phoneNumber' => 'nullable|string|regex:/^[0-9]{8}$/',
+            'manager_name' => 'nullable|string|max:255',
+            'opening_hours' => 'required|date_format:H:i',
+            'closing_hours' => 'required|date_format:H:i|after:opening_hours',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'name.required' => 'Le nom est obligatoire.',
+            'address.required' => 'L\'adresse est obligatoire.',
+            'capacity.required' => 'La capacité est obligatoire.',
+            'phoneNumber.regex' => 'Le numéro de téléphone doit contenir 10 chiffres.',
+            'closing_hours.after' => 'L\'heure de fermeture doit être après l\'heure d\'ouverture.',
+        ]);
+    }
+
+    // Private function to handle image upload
+    private function uploadImage(Request $request)
+    {
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+        return $imageName;
+    }
+
+    // Private function to delete image if exists
+    private function deleteImage($imageName)
+    {
+        if ($imageName && file_exists(public_path('images/' . $imageName))) {
+            unlink(public_path('images/' . $imageName));
+        }
+    }
+
+    public function depotStatistics($depot)
+{
+    $statistics = Waste::select('category', \DB::raw('COUNT(*) as total'))
+        ->whereHas('depot', function($query) use ($depot) {
+            $query->where('name', $depot);
+        })
+        ->groupBy('category')
+        ->get();
+
+    return view('BackOffice.wastes.depot_statistics', compact('depot', 'statistics'));
 }
+
+}
+

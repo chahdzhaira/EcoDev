@@ -117,13 +117,13 @@
                         @enderror
                     </div>
                     
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="collection_date">Date de Collecte <span class="text-danger">*</span></label>
                         <input type="date" name="collection_date" class="form-control" value="{{ old('collection_date') }}" required>
                         @error('collection_date')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label for="collection_location">Lieu de Collecte <span class="text-danger">*</span></label>

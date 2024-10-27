@@ -163,6 +163,8 @@ Route::get('/wastes/create/{depotId}', [WasteController::class, 'create'])->name
 //Route::get('/wastes/create/{depotId}', [WasteController::class, 'create'])->name('wastes.create');
 Route::post('/wastes/store', [WasteController::class, 'store'])->name('wastes.store');
 Route::get('/wastes/byDepot/{depotId}', [WasteController::class, 'getWastesByDepotCenter'])->name('wastes.byDepot');
+Route::get('/wastes/statistics', [WasteController::class, 'statistics'])->name('wastes.statistics');
+Route::get('/statistics/depot/{depot}', [YourController::class, 'depotStatistics'])->name('statistics.depot');
 
 
 

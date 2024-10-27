@@ -118,13 +118,13 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="collection_date">Date de Collecte <span class="text-danger">*</span></label>
                         <input type="date" class="form-control" id="collection_date" name="collection_date" value="{{ old('collection_date', $waste->collection_date) }}" required>
                         @error('collection_date')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> -->
 
                     <div class="form-group">
                         <label for="collection_location">Lieu de Collecte <span class="text-danger">*</span></label>
@@ -150,13 +150,13 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="depot_id">ID du dépôt <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="depot_id" name="depot_id" value="{{ old('depot_id', $waste->depot_id) }}" required>
                         @error('depot_id')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                    </div>
+                    </div> -->
                     <div class="form-group">
                 <label for="image">Image du centre</label>
                 <input type="file" name="image" class="form-control-file">

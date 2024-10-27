@@ -44,6 +44,10 @@
           <div class="col">
               <a href="{{ route('dashboard') }}" class="btn btn-secondary">Retour au Dashboard</a>
           </div>
+          <div class="col">
+        <a href="{{ route('dashboard') }}" class="btn btn-secondary">Retour au Dashboard</a>
+        <a href="{{ route('wastes.statistics') }}" class="btn btn-primary ms-2">Statistiques</a>
+    </div>
           <div class="col text-end">
               <form action="{{ route('wastes.index') }}" method="GET" class="d-flex">
                   <input type="text" name="search" class="form-control me-2" placeholder="Rechercher un déchet..." value="{{ request('search') }}">
@@ -52,6 +56,29 @@
           </div>
           
       </div>
+
+       <!-- Sorting Form -->
+       <form method="GET" action="{{ route('wastes.index') }}" class="mb-4">
+            <div class="row">
+                <div class="col-md-4">
+                    <select name="sort_by" class="form-select">
+                        <option value="id" {{ request('sort_by') == 'id' ? 'selected' : '' }}>ID</option>
+                        <option value="quantity" {{ request('sort_by') == 'quantity' ? 'selected' : '' }}>Quantité</option>
+                        <option value="collection_date" {{ request('sort_by') == 'collection_date' ? 'selected' : '' }}>Date de collecte</option>
+                        <option value="category" {{ request('sort_by') == 'category' ? 'selected' : '' }}>Catégorie</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select name="sort_direction" class="form-select">
+                        <option value="asc" {{ request('sort_direction') == 'asc' ? 'selected' : '' }}>Ascendant</option>
+                        <option value="desc" {{ request('sort_direction') == 'desc' ? 'selected' : '' }}>Descendant</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Trier</button>
+                </div>
+            </div>
+        </form>
 
       <div class="row">
           <div class="col-md-12">

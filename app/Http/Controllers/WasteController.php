@@ -20,6 +20,19 @@ class WasteController extends Controller
                    ->orWhere('collection_location', 'like', '%' . $request->search . '%');
         }
 
+
+        // Gestion du tri
+    $sortBy = $request->get('sort_by', 'id'); // Attribut par défaut pour le tri
+    $sortDirection = $request->get('sort_direction', 'asc'); // Direction par défaut (asc ou desc)
+
+    // Vérifier si l'attribut de tri est valide
+    if (in_array($sortBy, ['id', 'quantity', 'collection_date', 'category'])) {
+        $query->orderBy($sortBy, $sortDirection);
+    } else {
+        // Si l'attribut de tri n'est pas valide, triez par défaut par ID
+        $query->orderBy('id', 'asc');
+    }
+
         // Récupérer tous les déchets avec pagination
         $wastes= $query->paginate(6); // Changez le nombre selon vos besoins
 
@@ -43,19 +56,43 @@ class WasteController extends Controller
         \Log::info('Store request data:', $request->all());
         // Set a static user ID for now (replace '1' with the actual user ID)
         $staticUserId = 1;
+
     
         // Validation des données entrantes
         $validatedData = $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'quantity' => 'required|integer',
-            'collection_date' => 'required|date',
+            // 'collection_date' => 'required|date',
             'collection_location' => 'required|string',
             'category' => 'required|in:papier,bois,plastique,verre,métal',
             'depot_id' => 'required|exists:depot_centers,id',
+        ], [
+            'image.image' => 'Le fichier doit être une image.',
+            'image.mimes' => 'L\'image doit être au format : jpeg, png, jpg, ou gif.',
+            'image.max' => 'L\'image ne doit pas dépasser 2 Mo.',
+            
+            'quantity.required' => 'La quantité est obligatoire.',
+            'quantity.integer' => 'La quantité doit être un nombre entier.',
+        
+            'collection_location.required' => 'Le lieu de collecte est obligatoire.',
+            'collection_location.string' => 'Le lieu de collecte doit être une chaîne de caractères.',
+        
+            'category.required' => 'La catégorie est obligatoire.',
+            'category.in' => 'La catégorie doit être l\'une des suivantes : papier, bois, plastique, verre, métal.',
+        
+            'depot_id.required' => 'Le centre de dépôt est obligatoire.',
+            'depot_id.exists' => 'Le centre de dépôt sélectionné n\'existe pas.',
         ]);
     
         // Add static user_id
         $validatedData['user_id'] = $staticUserId;
+        
+        $validatedData['collection_date'] = now();
+        \Log::info('Collection date ajoutée', ['collection_date' => $validatedData['collection_date']]);
+    
+        $validatedData['image'] = $validatedData['image'] ?? 'default.jpg';
+
+
     // Handle image upload
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->extension();
@@ -120,11 +157,13 @@ public function update(Request $request, $id)
     $validatedData = $request->validate([
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'quantity' => 'sometimes|required|integer',
-        'collection_date' => 'sometimes|required|date',
+        // 'collection_date' => 'sometimes|required|date',
         'collection_location' => 'sometimes|required|string',
         'category' => 'sometimes|required|in:papier,bois,plastique,verre,métal',
         'depot_id' => 'sometimes|required|exists:depot_centers,id',
     ]);
+    $validatedData['collection_date'] = now();
+    \Log::info('Collection date ajoutée', ['collection_date' => $validatedData['collection_date']]);
 
     // Handle image upload
     if ($request->hasFile('image')) {
@@ -151,4 +190,20 @@ public function update(Request $request, $id)
         $waste->delete(); // Supprimer le déchet
   return redirect()->route('depot_center.index') 
             ->with('success', 'Centre de dépôt supprimé avec succès.');     }
+            public function statistics(Request $request)
+            {
+                // Récupérer les statistiques de déchets par catégorie et par centre de dépôt
+                $statistics = Waste::select('wastes.category', 'depot_centers.name as depot_name', \DB::raw('COUNT(*) as total'))
+                    ->join('depot_centers', 'wastes.depot_id', '=', 'depot_centers.id')
+                    ->groupBy('wastes.category', 'depot_centers.name')
+                    ->get()
+                    ->groupBy('depot_name'); // Regrouper par nom de centre de dépôt
+            
+                // Passer les statistiques à la vue
+                return view('BackOffice.wastes.statistics', compact('statistics'));
+            }
+            
+            
+
 }
+

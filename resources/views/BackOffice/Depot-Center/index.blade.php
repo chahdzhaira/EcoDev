@@ -53,7 +53,32 @@
             <div class="col text-end">
                 <a href="{{ route('depot_centers.create') }}" class="btn btn-primary">Créer un nouveau centre</a>
             </div>
+            <div class="col text-end">
+            </div>
         </div>
+         <!-- Sorting Form -->
+         <form method="GET" action="{{ route('depot_centers.index') }}">
+            <div class="row mb-4">
+                <div class="col">
+                    <select name="sort_by" class="form-select">
+                        <option value="name">Nom</option>
+                        <option value="address">Adresse</option>
+                        <option value="capacity">Capacité</option>
+                        <option value="total_quantity_available">Quantité Totale Disponible</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select name="sort_direction" class="form-select">
+                        <option value="asc">Ascendant</option>
+                        <option value="desc">Descendant</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-outline-primary">Trier</button>
+                </div>
+            </div>
+        </form>
+
 
 
         <div class="row">
