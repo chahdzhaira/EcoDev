@@ -43,6 +43,15 @@
             object-fit: cover; 
             border-radius: 5px; 
         }
+        .badge {
+    font-size: 0.9em; /* Ajuster la taille du texte dans les badges */
+    padding: 0.5em 0.7em; /* Ajuster le rembourrage */
+}
+
+.btn {
+    font-size: 0.9em; /* Ajuster la taille du texte dans les boutons */
+    padding: 0.3em 0.6em; /* Ajuster le rembourrage */
+}
     </style>
 </head>
 <body class="app sidebar-mini">
@@ -104,61 +113,70 @@
     </div>
 
     <table class="table">
-            <thead >
-                    <tr>
-                        <th>#</th>
-                        <th>Service Name</th>
-                        <th>Additional Cost (TND)</th>
-                        <th>Expiration Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @forelse($specialServices as $service)
-                                    <tr>
-                        <td>{{ $service->id }}</td>
-                        <td>{{ $service->name }}</td>
-                        <td>{{ $service->additional_cost }}</td>
-                        <td>{{ $service->expiration_date }}</td>
-                        <td>
-    <a href="{{ route('special-services.edit', ['agencyId' => $service->delivery_agence_id, 'id' => $service->id]) }}" class="btn btn-sm btn-warning" title="Edit">
-        <i class="fas fa-edit"></i> 
-    </a>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Service Name</th>
+            <th>Additional Cost (TND)</th>
+            <th>Expiration Date</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse($specialServices as $service)
+            <tr>
+                <td>{{ $service->id }}</td>
+                <td>{{ $service->name }}</td>
+                <td>{{ $service->additional_cost }}</td>
+                <td>{{ $service->expiration_date }}</td>
+                <td>{{ $service->description }}</td>
+                <td>
+                    @if($service->status === 'active')
+                        <span class="badge text-bg-success">Active</span> 
+                    @elseif($service->status === 'inactive')
+                        <span class="badge text-bg-danger">Inactive</span> 
+                    @else
+                        <span class="badge text-bg-secondary">Unknown</span> 
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('special-services.edit', ['agencyId' => $service->delivery_agence_id, 'id' => $service->id]) }}" class="btn btn-sm btn-warning" title="Edit">
+                        <i class="fas fa-edit"></i> 
+                    </a>
 
-    <form id="deleteForm-{{ $service->id }}" action="{{ route('special-services.destroy', ['agencyId' => $service->delivery_agence_id, 'id' => $service->id]) }}" method="POST" style="display:inline;">
-    @csrf
-    @method('DELETE')
-    <button type="button" class="btn btn-sm btn-danger" title="Delete" onclick="confirmDelete({{ $service->id }})">
-        <i class="fas fa-trash-alt"></i> 
-    </button>
-</form>
+                    <form id="deleteForm-{{ $service->id }}" action="{{ route('special-services.destroy', ['agencyId' => $service->delivery_agence_id, 'id' => $service->id]) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-sm btn-danger" title="Delete" onclick="confirmDelete({{ $service->id }})">
+                            <i class="fas fa-trash-alt"></i> 
+                        </button>
+                    </form>
+                   
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="7">No special services found for this agency.</td>
+            </tr>
 
-<script>
+        @endforelse
+        <script>
     function confirmDelete(serviceId) {
         if (window.confirm('Are you sure you want to delete this service?')) {
             document.getElementById('deleteForm-' + serviceId).submit();
         }
     }
 </script>
-
-</td>
-
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5">No special services found for this agency.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-                </div>
-            </table>
- 
+    </tbody>
+</table>
 <!-- Pagination -->
 <div class="d-flex justify-content-center">
 {!! $specialServices->links() !!}
 </div>
 
-            <div class="d-flex justify-content-between mt-3">
+<div class="d-flex justify-content-between mt-3">
         <button onclick="window.location='{{ route('delivery-agences.index') }}'" class="btn btn-secondary">
             <i class="bi bi-arrow-left"></i> Back
         </button>

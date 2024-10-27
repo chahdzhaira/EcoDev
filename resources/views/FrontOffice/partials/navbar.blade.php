@@ -23,8 +23,8 @@
                     <ul class="dropdown-menu drop_1" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item {{ Route::currentRouteNamed('depot_center.index') ? 'active' : '' }}" href="{{route('depot_center.index') }}"> Depot Centers</a></li>
                     <li>    <a class="dropdown-item border-0 {{ Route::currentRouteNamed('front.deliveryagence.index') ? 'active' : '' }}" href="{{ route('front.deliveryagence.index') }}">Delivery Centers</a></li>
-                        <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Recycling Centers</a></li>
-                        <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Sales Centers</a></li>
+                    <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('recycling-centers.index') ? 'active' : '' }}" href="{{route('recycling-centers.index')}}"> Recycling Centers</a></li>
+                    <li><a class="dropdown-item border-0 {{ Route::currentRouteNamed('detail') ? 'active' : '' }}" href="{{route('detail')}}"> Sales Centers</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -85,6 +85,7 @@
                     </li>
                 @endif
             </ul>
+
 
 
 

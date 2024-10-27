@@ -6,6 +6,8 @@ use App\Models\Waste;
 use App\Models\DepotCenter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\DeliveryAgence;
+use App\Models\RecyclingCenter;
 
 class WasteController extends Controller
 {
@@ -14,7 +16,8 @@ class WasteController extends Controller
     {
         // Récupérer les déchets de la base de données
         $query = Waste::query();
-
+        $deliveryAgencies = DeliveryAgence::all();
+        $recyclingCenters = RecyclingCenter::all();
         // Si une recherche est effectuée, appliquez le filtre
         if ($request->has('search')) {
             $query->where('category', 'like', '%' . $request->search . '%')
@@ -103,7 +106,7 @@ class WasteController extends Controller
         // Create the waste entry
          $waste = Waste::create($validatedData);
 
-         return redirect()->route('wastes.create')
+         return redirect()->route('depot_center.index')
          ->with('success', 'Waste created successfully!'); 
 
     }
@@ -205,5 +208,56 @@ public function update(Request $request, $id)
             }
             
             
+
+
+
+
+    // Afficher le formulaire de distribution
+    public function showDistributionForm(Request $request)
+    {
+        $selectedWasteIds = $request->input('selected_wastes', []);
+        $selectedWastes = Waste::whereIn('id', $selectedWasteIds)->get(); // Récupérez les déchets sélectionnés
+        $deliveryAgencies = DeliveryAgence::all();
+        $recyclingCenters = RecyclingCenter::all();
+
+        return view('BackOffice.wastes.distribution_form', compact('selectedWastes', 'deliveryAgencies', 'recyclingCenters'));
+    }
+
+    // Traiter la distribution
+    // app/Http/Controllers/WasteController.php
+
+    public function distribute(Request $request)
+    {
+        // Validation des entrées
+        $request->validate([
+            'delivery_agency' => 'required|exists:delivery_agences,id',
+            'recycling_center' => 'required|exists:recycling_centers,id',
+            'waste_id' => 'required|exists:wastes,id', // Ensure you validate waste_id
+        ]);
+    
+        // Récupérer le déchet à partir de l'ID passé dans la requête
+        $wasteId = $request->input('waste_id');
+        $waste = Waste::findOrFail($wasteId); // Use findOrFail for better error handling
+    
+        // Vérifier si le déchet a déjà été distribué
+        if ($waste->isDistributed()) {
+            return redirect()->route('wastes.index')->with('error', 'Ce déchet a déjà été distribué.');
+        }
+    
+        // Créer la distribution pour le déchet
+        $distribution = $waste->distribution()->create([
+            'delivery_agence_id' => $request->input('delivery_agency'),
+            'recycling_center_id' => $request->input('recycling_center'),
+            'quantity_to_distribute' => $waste->quantity,
+            'status' => 'pending',
+            'waste_id' => $wasteId, // Include waste_id in the distribution
+        ]);
+    
+        // Mettre à jour le statut de la distribution une fois qu'elle a été créée
+        $distribution->status = 'completed'; // or keep as 'pending' based on your logic
+        $distribution->save();
+    
+        return redirect()->route('wastes.index')->with('success', 'Distribution effectuée avec succès !');
+    }
 
 }

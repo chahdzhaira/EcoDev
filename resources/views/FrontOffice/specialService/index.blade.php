@@ -157,8 +157,34 @@ body {
     .form-check-label:hover {
         background-color: #d4edda; /* Vert pâle */
         color: #28a745;
-    }
+    }   .badge {
+            color: white; /* Couleur du texte des badges */
+        }
 
+        .text-bg-success {
+            background-color: #28a745; /* Vert */
+        }
+
+        .text-bg-danger {
+            background-color: #dc3545; /* Rouge */
+        }
+
+        .text-bg-secondary {
+            background-color: #6c757d; /* Gris */
+        }
+        .description-box {
+    border: 1px solid #ccc; /* Bordure grise */
+    border-radius: 8px; /* Coins arrondis */
+    padding: 10px; /* Réduire l'espacement interne */
+    margin-top: 10px; /* Espacement au-dessus du cadre */
+    background-color: #a9a9a9; /* Fond clair */
+}
+
+.card-text {
+    font-size: 0.9rem; /* Réduire légèrement la taille de la police */
+    margin-bottom: 5px; /* Réduire l'espace entre les paragraphes */
+    
+}
     </style>
 </head>
 <body>
@@ -185,20 +211,33 @@ body {
                 
             @else
             @foreach($specialServices as $service)
-                <div class="col-md-4">
-                    <div class="box">
-                        <div class="our-services settings">
-                       
-                        <h4>{{ $service->name }}</h4>
-                        <p class="card-text">Additional Cost: <span class="text-success">{{ $service->additional_cost }} TND</span></p>
-                   <p class="card-text">Expiration Date: <span class="text-success">{{ $service->expiration_date }}</span></p>
-                   <div class="form-check">
-    <input class="form-check-input" type="checkbox" name="services[]" value="{{ $service->id }}" id="service-{{ $service->id }}">
+            <div class="col-md-4">
+    <div class="box">
+        <div class="our-services settings">
+             <div class="form-check">
+             <h4>{{ $service->name }}</h4>
+             <p class="card-text" style="margin-bottom: 0;"> 
+                    @if($service->status === 'active')
+                        <span class="badge text-bg-success">Active</span>
+                    @elseif($service->status === 'inactive')
+                        <span class="badge text-bg-danger">Inactive</span>
+                    @else
+                        <span class="badge text-bg-secondary">Unknown</span>
+                    @endif
+                </p>
+            </div> 
+            <p class="card-text">Additional Cost: <span class="text-success">{{ $service->additional_cost }} TND</span></p>
+            <p class="card-text">Expiration Date: <span class="text-success">{{ $service->expiration_date }}</span></p>
 
-</div>                      
-                </div>
-                    </div>
-                </div>
+            <p class="card-text"><strong>Description:</strong></p>
+            <div class="description-box">
+                <p class="card-text" style="margin-bottom: 0;">{{ $service->description }}</p>
+            </div>
+
+           
+        </div>
+    </div>
+</div>
             @endforeach
 
 

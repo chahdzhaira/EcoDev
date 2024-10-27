@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('special_services', function (Blueprint $table) {
             $table->id();
-            $table->string('name');               // Nom du service spécial
-            $table->float('additional_cost', 8, 2); // Coût additionnel du service
-            $table->date('expiration_date')->nullable(); // Date d'expiration du service
-            
-            // Clé étrangère vers DeliveryAgence
+            $table->string('name');               
+            $table->float('additional_cost', 8, 2); 
+            $table->date('expiration_date')->nullable(); 
+
             $table->foreignId('delivery_agence_id')->constrained()->onDelete('cascade');
+
+            // Ajout des nouveaux champs
+            $table->text('description')->nullable(); 
+            $table->string('status')->default('active'); // Statut du service (par défaut 'active')
 
             $table->timestamps();
         });

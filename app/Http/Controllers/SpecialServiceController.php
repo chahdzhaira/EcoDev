@@ -20,47 +20,47 @@ class SpecialServiceController extends Controller
     // }
     
     public function index(Request $request, $agencyId)
-{
-    $agency = DeliveryAgence::findOrFail($agencyId);
-
-    $query = SpecialService::where('delivery_agence_id', $agencyId);
-
-    // Fonctionnalité de recherche
-    if ($request->has('search')) {
-        $searchTerm = '%' . $request->search . '%';
-        
-        $query->where(function($query) use ($searchTerm) {
-            $query->where('name', 'like', $searchTerm)
-                  ->orWhere('additional_cost', 'like', $searchTerm)
-                  ->orWhere('expiration_date', 'like', $searchTerm);
-        });
-    }
-
-    // Fonctionnalité de tri
-    if ($request->has('sort_by')) {
-        if ($request->sort_by === 'name') {
-            $query->orderBy('name', 'asc');
-        } elseif ($request->sort_by === 'additional_cost') {
-            $query->orderBy('additional_cost', 'asc');
-        } elseif ($request->sort_by === 'expiration_date') {
-            $query->orderBy('expiration_date', 'asc');
-        }
-    }
-    $specialServices = $query->paginate(4)->appends($request->query());
-
-    return view('BackOffice.deliveryagence.services', compact('specialServices', 'agency'));
-}
-
-    public function create($id)
     {
-        $agency = DeliveryAgence::find($id);
-        if (!$agency) {
-            abort(404, "Agency not found");
+        $agency = DeliveryAgence::findOrFail($agencyId);
+    
+        $query = SpecialService::where('delivery_agence_id', $agencyId);
+    
+        // Fonctionnalité de recherche
+        if ($request->has('search')) {
+            $searchTerm = '%' . $request->search . '%';
+            
+            $query->where(function($query) use ($searchTerm) {
+                $query->where('name', 'like', $searchTerm)
+                      ->orWhere('additional_cost', 'like', $searchTerm)
+                      ->orWhere('expiration_date', 'like', $searchTerm);
+            });
         }
     
-        return view('BackOffice.specialService.create', compact('agency'));
+        // Fonctionnalité de tri
+        if ($request->has('sort_by')) {
+            if ($request->sort_by === 'name') {
+                $query->orderBy('name', 'asc');
+            } elseif ($request->sort_by === 'additional_cost') {
+                $query->orderBy('additional_cost', 'asc');
+            } elseif ($request->sort_by === 'expiration_date') {
+                $query->orderBy('expiration_date', 'asc');
+            }
+        }
+        $specialServices = $query->paginate(4)->appends($request->query());
+    
+        return view('BackOffice.deliveryagence.services', compact('specialServices', 'agency'));
     }
     
+        public function create($id)
+        {
+            $agency = DeliveryAgence::find($id);
+            if (!$agency) {
+                abort(404, "Agency not found");
+            }
+        
+            return view('BackOffice.specialService.create', compact('agency'));
+        }
+        
     // public function store(Request $request, $agencyId)
     // {
     //     $request->validate([
@@ -142,20 +142,24 @@ public function store(Request $request, $agencyId)
         'expiration_date.required' => 'The expiration date is required.',
         'expiration_date.date' => 'The expiration date must be a valid date.',
         'expiration_date.after' => 'The expiration date must be a future date.',
+        'status.required' => 'The status is required.',
+        'description.max' => 'The description may not be greater than :max characters.',
     ];
 
     $validator = Validator::make($request->all(), [
         'name' => [
             'required',
             'string',
-            'regex:/^[a-zA-Z\s]+$/', // Vérifie que le nom ne contient que des lettres et des espaces
-            'regex:/^[^\d]*$/', // Vérifie que le nom ne contient pas de chiffres
+            'regex:/^[a-zA-Z\s]+$/',
+            'regex:/^[^\d]*$/',
             Rule::unique('special_services')->where(function ($query) use ($agencyId) {
                 return $query->where('delivery_agence_id', $agencyId);
             }),
         ],
         'additional_cost' => 'required|numeric|min:0',
         'expiration_date' => 'required|date|after:today',
+        'status' => 'required|in:active,inactive', // Ajout de la validation pour le statut
+        'description' => 'nullable|string|max:25',
     ], $messages);
 
     if ($validator->fails()) {
@@ -168,6 +172,8 @@ public function store(Request $request, $agencyId)
         'name' => $request->input('name'),
         'additional_cost' => $request->input('additional_cost'),
         'expiration_date' => $request->input('expiration_date'),
+        'status' => $request->input('status'), // Ajoutez le statut ici
+        'description' => $request->input('description'),
         'delivery_agence_id' => $agencyId,
     ]);
 
@@ -214,6 +220,9 @@ public function update(Request $request, $agencyId, $id)
         'expiration_date.required' => 'The expiration date is required.',
         'expiration_date.date' => 'The expiration date must be a valid date.',
         'expiration_date.after' => 'The expiration date must be a future date.',
+        'status.required' => 'The status is required.',
+
+        'description.max' => 'The description may not be greater than :max characters.', // Message pour la description
     ];
 
     $validator = Validator::make($request->all(), [
@@ -227,6 +236,7 @@ public function update(Request $request, $agencyId, $id)
         ],
         'additional_cost' => 'required|numeric|min:0', 
         'expiration_date' => 'required|date|after:today', 
+        'description' => 'nullable|string|max:25', // Validation pour description
     ], $messages);
 
     if ($validator->fails()) {
@@ -240,6 +250,9 @@ public function update(Request $request, $agencyId, $id)
         'name' => $request->input('name'),
         'additional_cost' => $request->input('additional_cost'),
         'expiration_date' => $request->input('expiration_date'),
+                'status' => $request->input('status'), // Ajoutez le statut ici
+
+        'description' => $request->input('description'), // Ajout de la description
     ]);
 
     return redirect()->route('delivery-agences.services', $agencyId)

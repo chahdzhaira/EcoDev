@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,14 +53,14 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="name" class="form-label">Service Name</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $service->name) }}" required >
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $service->name) }}" required>
                         @error('name')
                             <div class="error-message text-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-6">
                         <label for="additional_cost" class="form-label">Additional Cost (TND)</label>
-                        <input type="number" class="form-control @error('additional_cost') is-invalid @enderror" id="additional_cost" name="additional_cost" value="{{ old('additional_cost', $service->additional_cost) }}" required >
+                        <input type="number" class="form-control @error('additional_cost') is-invalid @enderror" id="additional_cost" name="additional_cost" value="{{ old('additional_cost', $service->additional_cost) }}" required>
                         @error('additional_cost')
                             <div class="error-message text-danger">{{ $message }}</div>
                         @enderror
@@ -70,8 +69,28 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="expiration_date" class="form-label">Expiration Date</label>
-                        <input type="date" class="form-control @error('expiration_date') is-invalid @enderror" id="expiration_date" name="expiration_date" value="{{ old('expiration_date', $service->expiration_date) }}" required >
+                        <input type="date" class="form-control @error('expiration_date') is-invalid @enderror" id="expiration_date" name="expiration_date" value="{{ old('expiration_date', $service->expiration_date) }}" required>
                         @error('expiration_date')
+                            <div class="error-message text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-6">
+                    <label for="status" class="form-label">Status</label>
+    <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
+        <option value="">Select Status</option>
+        <option value="active" {{ old('status') === 'active' ? 'selected' : '' }}>Active</option>
+        <option value="inactive" {{ old('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
+    </select>
+    @error('status')
+        <div class="error-message text-danger">{{ $message }}</div>
+    @enderror
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="3">{{ old('description', $service->description) }}</textarea>
+                        @error('description')
                             <div class="error-message text-danger">{{ $message }}</div>
                         @enderror
                     </div>

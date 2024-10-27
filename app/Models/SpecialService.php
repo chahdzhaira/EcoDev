@@ -15,6 +15,8 @@ class SpecialService extends Model
         'additional_cost',    
         'expiration_date',   
         'delivery_agence_id', 
+        'description',        // Ajout du champ description
+        'status',            
     ];
 
     public function deliveryAgence()

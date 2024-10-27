@@ -77,16 +77,21 @@
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-primary">Trier</button>
                 </div>
+                
             </div>
+            
         </form>
 
       <div class="row">
           <div class="col-md-12">
               <div class="tile">
                   <div class="tile-body">
-                      <table class="table table-striped table-hover">
+                    <form action="{{ route('waste.distribution.form') }}" method="POST" id="wasteForm" onsubmit="validateSelection(event)">
+                    @csrf 
+                    <table class="table table-striped table-hover">
                           <thead class="table-dark">
                               <tr>
+                              <th>Selectionner</th>
                                   <th>Quantité</th>
                                   <th>Date de Collecte</th>
                                   <th>Lieu de Collecte</th>
@@ -99,11 +104,14 @@
                           <tbody>
                               @forelse($wastes as $waste)
                                   <tr>
+                                  <td>
+                                <input type="checkbox" name="selected_wastes[]" value="{{ $waste->id }}" @if($waste->isDistributed()) disabled @endif>
+                            </td>
                                       <td>{{ $waste->quantity }}</td>
                                       <td>{{ $waste->collection_date }}</td>
                                       <td>{{ $waste->collection_location }}</td>
                                       <td>{{ $waste->category }}</td>
-                                      <td>{{ $waste->user_id }}</td>
+                                      <td>{{ $waste->user ? $waste->user->name : 'N/A' }}</td>
                                       <td>{{ $waste->depot ? $waste->depot->name : 'N/A' }}</td> <!-- Utilisation de la relation depot -->
                                       <td>
                                           @if ($waste->image)
@@ -132,6 +140,8 @@
               </div>
           </div>
       </div>
+      <button type="submit"  class="btn btn-primary">Distribuer</button>
+      </form>
 
       <!-- Pagination -->
       <div class="d-flex justify-content-center mt-4">
@@ -157,6 +167,15 @@
     @vite(['resources/assets/js/jquery-3.7.0.min.js'])
     @vite(['resources/assets/js/bootstrap.min.js'])
     @vite(['resources/assets/js/main - Back.js'])
+
+    <script>
+        function validateSelection(event) {
+            const checkboxes = document.querySelectorAll('input[name="selected_wastes[]"]:checked');
+            if (checkboxes.length === 0) {
+                event.preventDefault();
+                alert('Veuillez sélectionner un déchet tout d\'abord.');
+            }
+        }
+    </script>
 </body>
 </html>
-

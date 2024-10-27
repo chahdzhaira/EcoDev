@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'publication_id', 
         'content',        
@@ -15,6 +16,7 @@ class Comment extends Model
         'likes',          
         'is_edited',
         'user_id'
+
     ];
 
     public function publication()
@@ -28,3 +30,4 @@ class Comment extends Model
     }
     
 }
+

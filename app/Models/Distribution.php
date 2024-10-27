@@ -14,6 +14,8 @@ class Distribution extends Model
         'status',                
         'delivery_agence_id',  
         'recycling_center_id',
+        'waste_id', // 
+
     ];
 
     // Relation to DepotCenter
@@ -29,12 +31,22 @@ class Distribution extends Model
     }
 
   
+
+    public function waste()
+    {
+        return $this->belongsTo(Waste::class); // Relation avec Waste
+    }
+
     public function recyclingCenter()
     {
         return $this->belongsTo(RecyclingCenter::class); 
     }
-    public function wastes()
-    {
-        return $this->hasMany(Waste::class);
-    }
+
+
+  
+    public function distributions()
+{
+    return $this->hasMany(Distribution::class);
+}
+
 }
