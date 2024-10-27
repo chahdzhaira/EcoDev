@@ -9,22 +9,26 @@ class Waste extends Model
 {
     use HasFactory;
 
+
+    protected $table = 'wastes';
+
     protected $fillable = [
         'image',
         'quantity',
-        'category',
-        'depot_center_id', 
-        'distribution_id', 
-
+        'collection_date',
+        'collection_location',
+        'user_id',
+        'category',  // Enum field
+        'depot_id',
     ];
 
-    public function depotCenter()
+    public function user()
     {
-        return $this->belongsTo(DepotCenter::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
-    public function distribution()
+
+    public function depot()
     {
-        return $this->belongsTo(Distribution::class); 
+        return $this->belongsTo(DepotCenter::class, 'depot_id');
     }
-  
 }

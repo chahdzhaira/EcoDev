@@ -20,14 +20,14 @@
         </li>
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-trash"></i><span class="app-menu__label">Waste Management</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{{route('form-components')}}"><i class="icon bi bi-circle-fill"></i> Form Components</a></li>
+            <li><a class="treeview-item" href="{{route('wastes.index')}}"><i class="icon bi bi-circle-fill"></i> Waste </a></li>
             <li><a class="treeview-item"  href="{{route('form-samples')}}" ><i class="icon bi bi-circle-fill"></i> Form Samples</a></li>
           </ul>
         </li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon bi bi-box-arrow-in-down"></i><span class="app-menu__label">Deposit.C Management</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
+        <li class="treeview"><a class="app-menu__item" href="{{ route('depot_centers.index') }}" data-toggle="treeview"><i class="app-menu__icon bi bi-box-arrow-in-down"></i><span class="app-menu__label">Deposit.C Management</span><i class="treeview-indicator bi bi-chevron-right"></i></a>
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{{route('table-basic')}}" ><i class="icon bi bi-circle-fill"></i> Basic Tables</a></li>
-            <li><a class="treeview-item" href="{{route('table-data-table')}}" ><i class="icon bi bi-circle-fill"></i> Data Tables</a></li>
+          <li><a class="treeview-item" href="{{ route('depot_centers.index') }}"><i class="icon bi bi-circle-fill"></i> Depot Centers</a></li>
+          <li><a class="treeview-item" href="{{route('table-data-table')}}" ><i class="icon bi bi-circle-fill"></i> Data Tables</a></li>
           </ul>
         </li>
 
@@ -70,7 +70,7 @@
 <li><a class="app-menu__item {{ request()->routeIs('publication.index') ? 'active' : '' }}" href="{{route('publication.index')}}"><i class="app-menu__icon bi bi-info-circle"></i><span class="app-menu__label">Awareness Management</span></a></li>
 
         <li>
-    <a class="app-menu__item" href="{{ route('index') }}">
+    <a class="app-menu__item" href="{{ route('indexFront') }}">
         <i class="app-menu__icon bi bi-house-door"></i> <!-- Updated icon -->
         <span class="app-menu__label">Front page</span>
     </a>

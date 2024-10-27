@@ -10,6 +10,8 @@ use App\Http\Controllers\DeliveryAgenceController;
 
 use App\Http\Controllers\SpecialServiceController;
 
+use App\Http\Controllers\DepotCenterController;
+use App\Http\Controllers\WasteController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,7 +29,7 @@ return view('todo');
 
 Route::get('/', function () {
     return view('FrontOffice.index');
-})->name('index');
+})->name('indexFront');
 
 Route::get('redirects' , 'App\Http\Controllers\HomeController@index');
 // route FrontOffice
@@ -194,13 +196,51 @@ Route::prefix('front/delivery-agences')->group(function () {
     Route::get('/{id}', [DeliveryAgenceController::class, 'showFrontend'])->name('front.deliveryagence.show');
 // Route FrontOffice pour l'affichage des services spéciaux d'une agence de livraison
 Route::get('/{agencyId}/special-services', [DeliveryAgenceController::class, 'showServicesFront'])->name('front.deliveryagence.special-services'); // Ajout de cette route
-
-
-
-
-
-
 });
+
+
+
+//crud Depot_Center
+
+Route::get('/create', function () {
+    return view('BackOffice.Depot-Center.create');
+})->name('create');
+
+Route::get('/index', function () {
+    return view('BackOffice.Depot-Center.index');
+})->name('index');
+Route::get('/edit', function () {
+    return view('BackOffice.Depot-Center.edit');
+})->name('edit');
+
+
+
+
+// Route::get('/show', function () {
+//     return view('FrontOffice.Depot-Center.index');
+// })->name('show');
+
+Route::get('/depotCenters', [DepotCenterController::class, 'userIndex'])->name('depot_center.index');
+
+
+
+//crud Wastes
+Route::get('/index', function () {
+    return view('BackOffice.wastes.index');
+})->name('index');
+
+// Route::get('/create', function () {
+//     return view('FrontOffice.wastes.create');
+// })->name('create');
+
+Route::get('/wastes/create/{depotId}', [WasteController::class, 'create'])->name('wastes.create');
+//Route::get('/wastes/create/{depotId}', [WasteController::class, 'create'])->name('wastes.create');
+Route::post('/wastes/store', [WasteController::class, 'store'])->name('wastes.store');
+Route::get('/wastes/byDepot/{depotId}', [WasteController::class, 'getWastesByDepotCenter'])->name('wastes.byDepot');
+Route::get('/wastes/statistics', [WasteController::class, 'statistics'])->name('wastes.statistics');
+
+Route::Resource('wastes', WasteController::class);
+Route::resource('depot_centers', DepotCenterController::class);
 
 
 
