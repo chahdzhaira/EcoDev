@@ -33,6 +33,16 @@ class User extends Authenticatable implements MustVerifyEmail
         'password'
     ];
 
+    public function publications()
+    {
+        return $this->hasMany(Publication::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class); // Relation avec les commentaires
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

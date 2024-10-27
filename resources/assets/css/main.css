@@ -470,6 +470,20 @@ textarea {
   line-height: inherit;
 }
 
+.truncateText {
+  max-width: 150px; 
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+}
+
+.truncateTitle {
+  max-width: 200px; 
+  overflow: hidden;
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+}
+
 button,
 select {
   text-transform: none;
@@ -710,6 +724,11 @@ progress {
 
 .img-fluid {
   max-width: 100%;
+  height: auto;
+}
+
+.img-offcanvas {
+  max-width: 50%;
   height: auto;
 }
 
@@ -6958,6 +6977,12 @@ textarea.form-control-lg {
     --bs-spinner-animation-speed: 1.5s;
   }
 }
+
+.custom-offcanvas {
+  width: 800px !important; /* Ou n'importe quelle largeur souhaitée */
+}
+
+
 .offcanvas, .offcanvas-xxl, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
   --bs-offcanvas-zindex: 1045;
   --bs-offcanvas-width: 400px;
@@ -8875,6 +8900,11 @@ textarea.form-control-lg {
 .my-5 {
   margin-top: 3rem !important;
   margin-bottom: 3rem !important;
+}
+
+.my-7 {
+  margin-top: 10rem !important;
+  margin-bottom: 10rem !important;
 }
 
 .my-auto {

@@ -31,7 +31,7 @@
                     <a class="nav-link {{ Route::currentRouteNamed('events') ? 'active' : '' }}" href="{{route('services')}}">Events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::currentRouteNamed('awareness') ? 'active' : '' }}" href="{{route('services')}}">Awareness</a>
+                <a class="nav-link {{ request()->is('awareness') ? 'active' : '' }}" href="{{url('/awareness')}}">Awareness</a>
                 </li>
             </ul>
 
@@ -85,6 +85,6 @@
                 @endif
             </ul>
 
-        </div>
+
     </div>
 </nav>

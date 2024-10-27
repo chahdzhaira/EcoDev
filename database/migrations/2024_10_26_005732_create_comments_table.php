@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('publications', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('title'); 
-            $table->longText('description'); 
+        Schema::create('comments', function (Blueprint $table) {
+            $table->id();
+            $table->text('content');        
+            $table->enum('status', ['pending', 'published']);
+            $table->integer('likes')->default(0); 
+            $table->boolean('is_edited')->default(false); 
+            $table->foreignId('publication_id')->constrained()->onDelete('cascade'); 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->longText('content')->nullable(); 
-            $table->enum('category', ['Reducing waste', 'Recycling'])->default('Recycling'); 
-            $table->string('tags')->nullable(); 
-            $table->timestamps(); 
+            $table->timestamps();
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('publications');
+        Schema::dropIfExists('comments');
     }
 };
