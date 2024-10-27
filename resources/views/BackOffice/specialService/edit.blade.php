@@ -76,14 +76,14 @@
                     </div>
                     <div class="col-md-6">
                     <label for="status" class="form-label">Status</label>
-    <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
-        <option value="">Select Status</option>
-        <option value="active" {{ old('status') === 'active' ? 'selected' : '' }}>Active</option>
-        <option value="inactive" {{ old('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
-    </select>
-    @error('status')
-        <div class="error-message text-danger">{{ $message }}</div>
-    @enderror
+<select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
+    <option value="">Select Status</option>
+    <option value="active" {{ (old('status', $service->status) === 'active') ? 'selected' : '' }}>Active</option>
+    <option value="inactive" {{ (old('status', $service->status) === 'inactive') ? 'selected' : '' }}>Inactive</option>
+</select>
+@error('status')
+    <div class="error-message text-danger">{{ $message }}</div>
+@enderror
                     </div>
                 </div>
                 <div class="row mb-3">
