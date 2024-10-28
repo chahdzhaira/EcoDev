@@ -32,7 +32,6 @@
                 <th>Name</th>
                 <th>Address</th>
                 <th>Phone Number</th>
-                <th>Image</th>
                 <th>Opening Hours</th>
                 <th>Closing Hours</th>
             </tr>
@@ -44,9 +43,7 @@
                 <td>{{ $center->name }}</td>
                 <td>{{ $center->address }}</td>
                 <td>{{ $center->phoneNumber }}</td>
-                <td>
-                    <img src="{{ public_path('storage/' . $center->image) }}" alt="{{ $center->name }}">
-                </td>
+               
                 <td>{{ $center->opening_hours }}</td>
                 <td>{{ $center->closing_hours }}</td>
             </tr>

@@ -105,7 +105,7 @@
         @foreach ($event as $event) 
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm h-100"> 
-                <img src="{{ asset('images/' . $event->image) }}" alt="Image actuelle" class="img-thumbnail mt-2" style="max-width: 300px;">
+                <img src="{{ asset('images/' . $event->image) }}" alt="Image actuelle" class="card-img-top" style="max-height: 200px; object-fit: cover;">
                 <div class="card-body d-flex flex-column">
                         <h5 class="card-title text-primary">{{ $event->title }}</h5> 
                         <p class="card-text">{{ Str::limit($event->description, 100) }}...</p>

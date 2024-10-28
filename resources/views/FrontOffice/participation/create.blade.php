@@ -96,18 +96,7 @@
     
     <div class="row mb-4">
         <div class="col-md-6">
-            <!-- Affichage des messages d'erreur ou de succès -->
-            @if (session('error'))
-                        <div class="alert alert-danger text-center">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-
-                    @if (session('success'))
-                        <div class="alert alert-success text-center">
-                            {{ session('success') }}
-                        </div>
-                    @end
+           
             <!-- Formulaire de participation dans la colonne de gauche -->
             <div class="card">
                 <div class="card-body">
@@ -162,8 +151,8 @@
         <div class="col-md-6 text-center animated" id="event-details">
             <!-- Détails de l'événement dans la colonne de droite -->
             <div class="event-card">
-                <img src="{{ asset('storage/' . $event->image_url) }}" alt="{{ $event->title }}" class="event-image">
-                <div class="card-body">
+            <img src="{{ asset('images/' . $event->image) }}" alt="Image actuelle" class="img-thumbnail mt-2" style="max-width: 300px;">
+            <div class="card-body">
                     <div class="event-details mt-3">
                         <h4>Description</h4>
                         <p>{{ $event->description }}</p>

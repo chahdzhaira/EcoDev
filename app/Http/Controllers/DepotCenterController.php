@@ -113,7 +113,7 @@ class DepotCenterController extends Controller
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:500',
             'capacity' => 'required|integer|min:1',
-            //  'total_quantity_available' => 'required|integer|min:0',
+            //'total_quantity_available' => 'required|integer|min:0',
             'phoneNumber' => 'nullable|string|regex:/^[0-9]{8}$/',
             'manager_name' => 'nullable|string|max:255',
             'opening_hours' => 'required',

@@ -165,13 +165,13 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/blank-page', fun
 
 Route::resource('/publication', PublicationAdminController::class); 
 
-Route::post('publication/{id}',[PublicationAdminController::class,'update']);
-Route::get('create',[PublicationAdminController::class,'createByTextEditor']);
-Route::post('post',[PublicationAdminController::class,'storeByTextEditor']);
-Route::get('edit/{id}',[PublicationAdminController::class,'editByTextEditor']);
-Route::put('update/{id}', [PublicationAdminController::class, 'updateByTextEditor']);
-Route::get('delete/{id}',[PublicationAdminController::class,'destroyByTextEditor']);
-Route::get('/search', [PublicationAdminController::class, 'search'])->name('search');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->post('publication/{id}',[PublicationAdminController::class,'update']);
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('create',[PublicationAdminController::class,'createByTextEditor']);
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->post('post',[PublicationAdminController::class,'storeByTextEditor']);
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('edit/{id}',[PublicationAdminController::class,'editByTextEditor']);
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->put('update/{id}', [PublicationAdminController::class, 'updateByTextEditor']);
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('delete/{id}',[PublicationAdminController::class,'destroyByTextEditor']);
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/search', [PublicationAdminController::class, 'search'])->name('search');
 
 
 // Route Backoffice pour l'affichage des agences de livraison
@@ -208,27 +208,27 @@ Route::get('/{agencyId}/special-services', [DeliveryAgenceController::class, 'sh
 
 //crud Depot_Center
 
-Route::get('/create', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/create', function () {
     return view('BackOffice.Depot-Center.create');
 })->name('create');
 
-Route::get('/index', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/index', function () {
     return view('BackOffice.Depot-Center.index');
 })->name('index');
-Route::get('/edit', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/edit', function () {
     return view('BackOffice.Depot-Center.edit');
 })->name('edit');
 
 
-Route::get('/create', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/create', function () {
     return view('BackOffice.recycling_centers.create');
 })->name('create');
 
-Route::get('/index', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/index', function () {
     return view('BackOffice.recycling_centers.index');
 })->name('index');
 
-Route::get('/edit', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/edit', function () {
     return view('BackOffice.recycling_centers.edit');
 })->name('Recyclingedit');
 
@@ -244,7 +244,7 @@ Route::get('/depotCenters', [DepotCenterController::class, 'userIndex'])->name('
 
 
 //crud Wastes
-Route::get('/index', function () {
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/index', function () {
     return view('BackOffice.wastes.index');
 })->name('index');
 
@@ -256,7 +256,7 @@ Route::get('/wastes/create/{depotId}', [WasteController::class, 'create'])->name
 //Route::get('/wastes/create/{depotId}', [WasteController::class, 'create'])->name('wastes.create');
 Route::post('/wastes/store', [WasteController::class, 'store'])->name('wastes.store');
 Route::get('/wastes/byDepot/{depotId}', [WasteController::class, 'getWastesByDepotCenter'])->name('wastes.byDepot');
-Route::get('/wastes/statistics', [WasteController::class, 'statistics'])->name('wastes.statistics');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/wastes/statistics', [WasteController::class, 'statistics'])->name('wastes.statistics');
 
 Route::Resource('wastes', WasteController::class);
 Route::resource('depot_centers', DepotCenterController::class);
@@ -290,18 +290,18 @@ Route::post('/wastes/store', [WasteController::class, 'store'])->name('wastes.st
 // Route pour afficher l'historique des distributions
 Route::get('/distributions', [DistributionController::class, 'index'])->name('distributions.index');
 
-Route::get('/distributions/export', [DistributionController::class, 'exportPDF'])->name('distributions.export');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/distributions/export', [DistributionController::class, 'exportPDF'])->name('distributions.export');
 
 
 Route::get('/recycling_centers/{id}', [RecyclingCenterController::class, 'show'])->name('recycling_centers.show');
 Route::post('/recycling_centers/{id}/review', [RecyclingCenterController::class, 'addReview'])->name('recycling_centers.addReview');
 
-Route::get('/recycling-centers/download-pdf', [RecyclingCenterController::class, 'downloadPdf'])->name('recycling_centers.download_pdf');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/recycling-centers/download-pdf', [RecyclingCenterController::class, 'downloadPdf'])->name('recycling_centers.download_pdf');
 
-Route::get('/distributions/archived', [DistributionController::class, 'showArchived'])->name('distributions.archived');
-Route::patch('/distributions/{id}/archive', [DistributionController::class, 'archive'])->name('distributions.archive');
-Route::patch('/distributions/{id}/unarchive', [DistributionController::class, 'unarchive'])->name('distributions.unarchive');
-Route::get('/distributions/stats', [DistributionController::class, 'stats'])->name('distributions.stats');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/distributions/archived', [DistributionController::class, 'showArchived'])->name('distributions.archived');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->patch('/distributions/{id}/archive', [DistributionController::class, 'archive'])->name('distributions.archive');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->patch('/distributions/{id}/unarchive', [DistributionController::class, 'unarchive'])->name('distributions.unarchive');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/distributions/stats', [DistributionController::class, 'stats'])->name('distributions.stats');
 
 Route::resource('/events', EventController::class);
 Route::resource('/back/event', EventsController::class);
@@ -325,21 +325,21 @@ Route::middleware([
 });
 
 //Back - SalesCentercontrollers
-Route::get('/sales_center_list', [SalesCenterController::class, 'index'])->name('salesCenters.index');
-Route::get('/sales_center_create', [SalesCenterController::class, 'create'])->name('salesCenters.create');
-Route::post('/sales_center_store', [SalesCenterController::class, 'store'])->name('salesCenters.store');
-Route::get('/sales_centers/{id}/edit', [SalesCenterController::class, 'edit'])->name('salesCenters.edit');
-Route::delete('/sales_centers/{id}', [SalesCenterController::class, 'destroy'])->name('salesCenters.destroy');
-Route::put('/sales-centers/{id}', [SalesCenterController::class, 'update'])->name('salesCenters.update');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/sales_center_list', [SalesCenterController::class, 'index'])->name('salesCenters.index');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/sales_center_create', [SalesCenterController::class, 'create'])->name('salesCenters.create');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->post('/sales_center_store', [SalesCenterController::class, 'store'])->name('salesCenters.store');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/sales_centers/{id}/edit', [SalesCenterController::class, 'edit'])->name('salesCenters.edit');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->delete('/sales_centers/{id}', [SalesCenterController::class, 'destroy'])->name('salesCenters.destroy');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->put('/sales-centers/{id}', [SalesCenterController::class, 'update'])->name('salesCenters.update');
 //Back - RecycledProductController
-Route::get('salesCenters/{salesCenter}/recycledProducts', [RecycledProductController::class, 'index'])
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('salesCenters/{salesCenter}/recycledProducts', [RecycledProductController::class, 'index'])
     ->name('BackOffice.RecycledProduct.index');
-Route::get('/sales_centers/{salesCenter}/recycled_products/create', [RecycledProductController::class, 'create'])->name('BackOffice.RecycledProduct.create');
-Route::post('/sales_centers/{salesCenter}/recycled_products', [RecycledProductController::class, 'store'])->name('BackOffice.RecycledProduct.store');
-Route::put('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}', [RecycledProductController::class, 'update'])->name('BackOffice.RecycledProduct.update');
-Route::get('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}/edit', [RecycledProductController::class, 'edit'])->name('BackOffice.RecycledProduct.edit');
-Route::delete('/recycled-products/{salesCenter}/{product}', [RecycledProductController::class, 'destroy'])->name('BackOffice.RecycledProduct.destroy');
-Route::get('back-office/recycled-products/{salesCenterId}/{productId}/details', [RecycledProductController::class, 'show'])->name('BackOffice.RecycledProduct.show');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/sales_centers/{salesCenter}/recycled_products/create', [RecycledProductController::class, 'create'])->name('BackOffice.RecycledProduct.create');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->post('/sales_centers/{salesCenter}/recycled_products', [RecycledProductController::class, 'store'])->name('BackOffice.RecycledProduct.store');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->put('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}', [RecycledProductController::class, 'update'])->name('BackOffice.RecycledProduct.update');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}/edit', [RecycledProductController::class, 'edit'])->name('BackOffice.RecycledProduct.edit');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->delete('/recycled-products/{salesCenter}/{product}', [RecycledProductController::class, 'destroy'])->name('BackOffice.RecycledProduct.destroy');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('back-office/recycled-products/{salesCenterId}/{productId}/details', [RecycledProductController::class, 'show'])->name('BackOffice.RecycledProduct.show');
 
 
 //Front - SalesCenterController 
@@ -352,9 +352,9 @@ Route::get('/front/sales-centers/{salesCenter}/recycled-products', [RecycledProd
     Route::get('/front/sales-centers/{salesCenterId}/{productId}/details', [RecycledProductController::class, 'show'])->name('FrontOffice.RecycledProduct.show');
 
 //pdf
-Route::get('/salesCenters/pdf', [SalesCenterController::class, 'generatePDF'])->name('salesCenters.pdf');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/salesCenters/pdf', [SalesCenterController::class, 'generatePDF'])->name('salesCenters.pdf');
 // routes/web.php
-Route::get('/recycled-products/download/{salesCenterId}', [RecycledProductController::class, 'downloadPDF'])->name('recycledProducts.download');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/recycled-products/download/{salesCenterId}', [RecycledProductController::class, 'downloadPDF'])->name('recycledProducts.download');
 
-Route::get('/sales-center/{id}/recycled-products/statistics', [RecycledProductController::class, 'showStatistics'])->name('recycledProducts.statistics');
-Route::get('/salesCenters/map/{id}', [SalesCenterController::class, 'showMap'])->name('salesCenters.map');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/sales-center/{id}/recycled-products/statistics', [RecycledProductController::class, 'showStatistics'])->name('recycledProducts.statistics');
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->get('/salesCenters/map/{id}', [SalesCenterController::class, 'showMap'])->name('salesCenters.map');

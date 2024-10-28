@@ -53,11 +53,12 @@
 </section>
 
 
-<section id="center" class="center_team">
+<section id="center" class="center_blog">
     <div class="center_om bg_back">
         <div class="container-xl">
             <div class="row center_o1 text-center">
                 <div class="col-md-12">
+                    
                     <h2 class="text-white text-uppercase font_50">Depot Centers</h2>
                     <h6 class="col_green fw-bold mb-0 mt-3"><a class="text-light" href="#">Home</a> <span class="mx-2 text-white-50">/</span> Depot Centers</h6>
                 </div>

@@ -49,7 +49,6 @@
             <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Image</th>
                 <th>Quantity</th>
                 <th>Price</th>
             </tr>
@@ -59,9 +58,7 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $product->name }}</td>
-                <td>
-                    <img src="{{ public_path('storage/' . $product->image) }}" alt="{{ $product->name }}">
-                </td>
+               
                 <td>{{ $product->quantity }}</td>
                 <td>${{ number_format($product->price, 2) }}</td>
             </tr>
