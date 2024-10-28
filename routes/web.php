@@ -312,3 +312,13 @@ Route::get('/events/{event}/participate', [ParticipationController::class, 'crea
 Route::delete('/participation/{participationId}', [ParticipationController::class, 'destroy'])->name('participation.destroy');
 Route::get('participation/voucher/{eventId}/{participationId}', [ParticipationController::class, 'voucher'])->name('participation.voucher');
 Route::post('voucher/download/{eventId}/{participationId}', [ParticipationController::class, 'downloadVoucher'])->name('voucher.download');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/', function () {
+        return view('FrontOffice.index'); // Or specify the view you want to display, e.g., 'dashboard'
+    });
+});

@@ -35,18 +35,7 @@
                 </li>
             </ul>
 
-            <ul class="navbar-nav mb-0 ms-auto mt-1">
-                <li class="nav-item">
-                    <a class="nav-link social_link" href="#"><i class="fa fa-facebook"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link social_link mx-2" href="#"><i class="fa fa-instagram"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link social_link" href="#"><i class="fa fa-linkedin"></i></a>
-                </li>
-            </ul>
-
+     
 
             <!-- Admin Panel Button -->
             <ul class="navbar-nav mb-0 ms-auto mt-0">
@@ -64,16 +53,22 @@
                             {{ Auth::user()->username }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li>
-                                <a class="dropdown-item" href="{{ route('logout') }}" 
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                    @csrf
-                                </form>
-                            </li>
-                        </ul>
+    <li>
+        <a class="dropdown-item" href="{{ route('logout') }}" 
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            Logout
+        </a>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </li>
+    <li>
+        <a class="dropdown-item" href="{{ route('profile.show') }}">
+            Profile
+        </a>
+    </li>
+</ul>
+
                     </li>
                 @else
                     <!-- User is not logged in -->
