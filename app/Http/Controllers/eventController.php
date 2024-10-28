@@ -48,13 +48,28 @@ class eventController extends Controller
     {
         // Validation des données
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|max:50|min:3',
             'description' => 'required|string',
-            'date' => 'required|date', 
+            'date' => 'required|date_format:Y-m-d',
             'location' => 'required|string|max:255',
             'organizer' => 'required|string|max:255',
-            'max_participants' => 'required|integer',
+            'max_participants' => 'required|integer|min:2|max:20',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+        ] ,
+        [
+            'required' => 'Le champ :attribute est requis.',
+            'title.required' => 'Veuillez entrer un titre pour l\'événement.',
+            'description.required' => 'La description est obligatoire.',
+            'date.required' => 'La date est nécessaire.',
+            'location.required' => 'Le lieu est requis.',
+            'organizer.required' => 'L\'organisateur doit être spécifié.',
+            'max_participants.required' => 'Le nombre maximum de participants est requis.',
+            'image.required' => 'Vous devez télécharger une image.',
+            'image.image' => 'Le fichier téléchargé doit être une image.',
+            'image.mimes' => 'L\'image doit être au format jpeg, png, jpg, ou gif.',
+            'max_participants.integer' => 'Le nombre maximum de participants doit être un entier.',
+            'max_participants.min' => 'Le nombre maximum de participants doit être au moins 2.',
+            'max_participants.max' => 'Le nombre maximum de participants ne peut pas dépasser 20.',
         ]);
     
         // Gérer l'upload de l'image
@@ -105,23 +120,29 @@ class eventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'location' => 'required|string|max:255',
-            'organizer' => 'required|string|max:255',
-            'max_participants' => 'required|integer|min:1',
-            'image_url' => 'required|url',
-        ]);
-    
-        $event = Event::findOrFail($id);
-        $event->date = substr($event->date, 0, 10); // Prendre seulement 'YYYY-MM-DD'
-        $event->update($request->all());
-    
-        return redirect()->route('events.index')->with('success', 'L\'événement a été mis à jour avec succès !');
+{
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'date' => 'required|date_format:Y-m-d', 
+        'location' => 'required|string|max:255',
+        'organizer' => 'required|string|max:255',
+        'max_participants' => 'required|integer|min:1',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image optionnelle
+    ]);
+
+    $event = Event::findOrFail($id);
+
+    // Gérer l'upload de l'image si une nouvelle image est uploadée
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('events', 'public');
+        $validatedData['image_url'] = $imagePath;
     }
+
+    $event->update($validatedData);
+
+    return redirect()->route('events.index')->with('success', 'L\'événement a été mis à jour avec succès !');
+}
 
     /**
      * Remove the specified resource from storage.

@@ -18,7 +18,7 @@ class Event extends Model
         'image_url',
     ];
 
-  
+    protected $dates = ['date'];
     public function participations()
 {
     return $this->hasMany(Participation::class);

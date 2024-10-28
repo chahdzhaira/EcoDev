@@ -49,12 +49,24 @@
                 <div class="tile">
                     <h3 class="tile-title">Event Details Form</h3>
                     <div class="tile-body">
+                    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
                         <form action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <!-- Title -->
                             <div class="mb-3">
                                 <label class="form-label">Event Title</label>
                                 <input class="form-control" type="text" placeholder="Enter event title" name="title" required>
+                                @error('title')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
                             </div>
 
                             <!-- Description -->

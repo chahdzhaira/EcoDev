@@ -116,14 +116,24 @@
 
                     <form action="{{ route('participations.store', $event->id) }}" method="POST">
                         @csrf
+                        @if (session('error'))
+    <div class="alert alert-danger text-center">
+        {{ session('error') }}
+    </div>
+@endif
 
+@if (session('success'))
+    <div class="alert alert-success text-center">
+        {{ session('success') }}
+    </div>
+@endif
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-user"></i></span>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Nom" value="{{ old('name') }}" required>
                             @error('name')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                                    <div class="text-danger">{{ $message }}</div> 
+                                @enderror
+                                                    </div>
 
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-envelope"></i></span>
