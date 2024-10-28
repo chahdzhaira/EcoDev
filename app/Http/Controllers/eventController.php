@@ -50,7 +50,7 @@ class eventController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'date' => 'required|date', 
+            'date' => 'required|date_format:Y-m-d', 
             'location' => 'required|string|max:255',
             'organizer' => 'required|string|max:255',
             'max_participants' => 'required|integer|min:2|max:20',
@@ -106,23 +106,33 @@ class eventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'location' => 'required|string|max:255',
-            'organizer' => 'required|string|max:255',
-            'max_participants' => 'required|integer|min:1',
-            'image_url' => 'required|url',
-        ]);
-    
-        $event = Event::findOrFail($id);
-        $event->date = substr($event->date, 0, 10); // Prendre seulement 'YYYY-MM-DD'
-        $event->update($request->all());
-    
-        return redirect()->route('events.index')->with('success', 'L\'événement a été mis à jour avec succès !');
+{
+    $validatedData = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'date' => 'required|date_format:Y-m-d', 
+        'location' => 'required|string|max:255',
+        'organizer' => 'required|string|max:255',
+        'max_participants' => 'required|integer|min:1',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Image optionnelle
+    ]);
+
+    $event = Event::findOrFail($id);
+ // Handle image upload
+ if ($request->hasFile('image')) {
+    // Delete old image if exists
+    if ($event->image) {
+        \Storage::delete('images/' . $event->image);
     }
+    $imageName = time() . '.' . $request->image->extension();
+    $request->image->move(public_path('images'), $imageName);
+    $validatedData['image'] = $imageName;
+}
+
+    $event->update($validatedData);
+
+    return redirect()->route('events.index')->with('success', 'L\'événement a été mis à jour avec succès !');
+}
 
     /**
      * Remove the specified resource from storage.

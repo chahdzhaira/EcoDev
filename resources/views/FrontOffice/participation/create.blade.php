@@ -96,6 +96,18 @@
     
     <div class="row mb-4">
         <div class="col-md-6">
+            <!-- Affichage des messages d'erreur ou de succès -->
+            @if (session('error'))
+                        <div class="alert alert-danger text-center">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                        <div class="alert alert-success text-center">
+                            {{ session('success') }}
+                        </div>
+                    @end
             <!-- Formulaire de participation dans la colonne de gauche -->
             <div class="card">
                 <div class="card-body">

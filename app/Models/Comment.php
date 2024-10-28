@@ -17,6 +17,7 @@ class Comment extends Model
         'is_edited',
         'user_id'
 
+
     ];
 
     public function publication()
@@ -30,4 +31,5 @@ class Comment extends Model
     }
     
 }
+
 

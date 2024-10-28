@@ -17,6 +17,8 @@ class Event extends Model
         'max_participants',
         'image',
     ];
+
+    protected $dates = ['date'];
     public function participations()
 {
     return $this->hasMany(Participation::class);

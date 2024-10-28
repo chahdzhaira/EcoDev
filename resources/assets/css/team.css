@@ -10,7 +10,13 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
 .center_team{
 background-image: url(../img/24.jpg);
 background-position: center;
-    background-size: contain;
+    background-size: cover;
+
+}
+.center-img {
+    width: 100%; /* Full width of the container */
+    height: 500px; /* Fixed height, adjust to your preference */
+    object-fit: cover; /* Ensures the image maintains its aspect ratio and fills the area */
 }
 .team_1m1i1 ul li a{
 width:40px;
@@ -30,7 +36,7 @@ display:none;
 display:block; 
  }
 .center_team_dt{
-background-image: url(../img/25.jpg);
+background-image: url(../img/24.jpg);
 background-position: center center;
 background-size: cover;
  }

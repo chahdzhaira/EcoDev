@@ -6,7 +6,8 @@ use App\Http\Controllers\FrontOffice\PublicationController  ;
 use App\Http\Controllers\FrontOffice\CommentController;
 use App\Http\Controllers\RecyclingCenterController;
 use App\Http\Controllers\DistributionController;
-
+use App\Http\Controllers\SalesCenterController;
+use App\Http\Controllers\RecycledProductController;
 
 use App\Http\Controllers\DeliveryAgenceController;
 
@@ -322,3 +323,38 @@ Route::middleware([
         return view('FrontOffice.index'); // Or specify the view you want to display, e.g., 'dashboard'
     });
 });
+
+//Back - SalesCentercontrollers
+Route::get('/sales_center_list', [SalesCenterController::class, 'index'])->name('salesCenters.index');
+Route::get('/sales_center_create', [SalesCenterController::class, 'create'])->name('salesCenters.create');
+Route::post('/sales_center_store', [SalesCenterController::class, 'store'])->name('salesCenters.store');
+Route::get('/sales_centers/{id}/edit', [SalesCenterController::class, 'edit'])->name('salesCenters.edit');
+Route::delete('/sales_centers/{id}', [SalesCenterController::class, 'destroy'])->name('salesCenters.destroy');
+Route::put('/sales-centers/{id}', [SalesCenterController::class, 'update'])->name('salesCenters.update');
+//Back - RecycledProductController
+Route::get('salesCenters/{salesCenter}/recycledProducts', [RecycledProductController::class, 'index'])
+    ->name('BackOffice.RecycledProduct.index');
+Route::get('/sales_centers/{salesCenter}/recycled_products/create', [RecycledProductController::class, 'create'])->name('BackOffice.RecycledProduct.create');
+Route::post('/sales_centers/{salesCenter}/recycled_products', [RecycledProductController::class, 'store'])->name('BackOffice.RecycledProduct.store');
+Route::put('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}', [RecycledProductController::class, 'update'])->name('BackOffice.RecycledProduct.update');
+Route::get('/sales_centers/{salesCenter}/recycled_products/{recycledProduct}/edit', [RecycledProductController::class, 'edit'])->name('BackOffice.RecycledProduct.edit');
+Route::delete('/recycled-products/{salesCenter}/{product}', [RecycledProductController::class, 'destroy'])->name('BackOffice.RecycledProduct.destroy');
+Route::get('back-office/recycled-products/{salesCenterId}/{productId}/details', [RecycledProductController::class, 'show'])->name('BackOffice.RecycledProduct.show');
+
+
+//Front - SalesCenterController 
+
+Route::get('/front/sales-centers', [SalesCenterController::class, 'index'])->name('FrontOffice.salesCenters.index');
+
+//Front - RecycledProductController 
+Route::get('/front/sales-centers/{salesCenter}/recycled-products', [RecycledProductController::class, 'index'])
+    ->name('FrontOffice.RecycledProduct.index');
+    Route::get('/front/sales-centers/{salesCenterId}/{productId}/details', [RecycledProductController::class, 'show'])->name('FrontOffice.RecycledProduct.show');
+
+//pdf
+Route::get('/salesCenters/pdf', [SalesCenterController::class, 'generatePDF'])->name('salesCenters.pdf');
+// routes/web.php
+Route::get('/recycled-products/download/{salesCenterId}', [RecycledProductController::class, 'downloadPDF'])->name('recycledProducts.download');
+
+Route::get('/sales-center/{id}/recycled-products/statistics', [RecycledProductController::class, 'showStatistics'])->name('recycledProducts.statistics');
+Route::get('/salesCenters/map/{id}', [SalesCenterController::class, 'showMap'])->name('salesCenters.map');

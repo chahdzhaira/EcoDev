@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('delivery_agences', function (Blueprint $table) {
+        Schema::create('recycled_products', function (Blueprint $table) {
             $table->id(); 
             $table->string('name'); 
-            $table->string('address'); 
-            $table->integer('phoneNumber'); 
-            $table->string('image')->nullable();
-            $table->time('opening_hours'); 
-            $table->time('closing_hours'); 
-            $table->timestamps(); 
+            $table->string('image')->nullable(); 
+            $table->text('description'); 
+            $table->integer('quantity');  
+            $table->float('price', 8, 2); 
+
+            $table->foreignId('sales_center_id')->constrained()->onDelete('cascade');
+            
+            $table->timestamps();  
         });
     }
 
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('delivery_agences');
+        Schema::dropIfExists('recycled_products');
     }
 };

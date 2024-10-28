@@ -43,9 +43,9 @@ class participationController extends Controller
     {
         // Valider les données du formulaire
         $validated = $request->validate([
-            'name' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'phone' => 'required|string|max:8',
+            'name' => 'required|string|max:20|regex:/^[a-zA-Z\s]+$/', // Autoriser uniquement les lettres et les espaces
+            'email' => 'required|email|max:255|unique:participations,email', // Email unique pour les participations
+            'phone' => 'required|string|size:8|regex:/^[0-9]+$/',
         ]);
     
         // Récupérer l'événement
