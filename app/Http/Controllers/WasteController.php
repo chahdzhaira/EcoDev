@@ -102,7 +102,7 @@ class WasteController extends Controller
         // Create the waste entry
          $waste = Waste::create($validatedData);
 
-         return redirect()->route('wastes.create')
+         return redirect()->route('depot_center.index')
          ->with('success', 'Waste created successfully!'); 
 
     }
@@ -134,7 +134,7 @@ class WasteController extends Controller
         }
     
         // Paginer les résultats de la recherche
-        $wastes = $query->paginate(6); // Ajustez la pagination si nécessaire
+        $wastes = $query->paginate(5); // Ajustez la pagination si nécessaire
     
         // Retourner la vue avec la liste des déchets pour le dépôt spécifié
         return view('FrontOffice.wastes.byDepot', compact('wastes', 'depotCenter'));

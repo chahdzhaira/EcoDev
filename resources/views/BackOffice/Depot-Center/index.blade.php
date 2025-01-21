@@ -54,6 +54,12 @@
                 <a href="{{ route('depot_centers.create') }}" class="btn btn-primary">Créer un nouveau centre</a>
             </div>
             <div class="col text-end">
+    <a href="{{ route('depot_centers.download-pdf') }}" class="btn btn-success">Télécharger PDF</a>
+</div>
+
+            
+            
+            <div class="col text-end">
             </div>
         </div>
          <!-- Sorting Form -->

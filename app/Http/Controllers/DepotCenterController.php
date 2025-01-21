@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\DepotCenter;
 use Illuminate\Http\Request;
+use Dompdf\Dompdf; // If using Dompdf
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF; // If using Snappy
+
 
 class DepotCenterController extends Controller
 {
@@ -110,7 +113,7 @@ class DepotCenterController extends Controller
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:500',
             'capacity' => 'required|integer|min:1',
-             'total_quantity_available' => 'required|integer|min:0',
+            //  'total_quantity_available' => 'required|integer|min:0',
             'phoneNumber' => 'nullable|string|regex:/^[0-9]{8}$/',
             'manager_name' => 'nullable|string|max:255',
             'opening_hours' => 'required|date_format:H:i',
@@ -141,6 +144,37 @@ class DepotCenterController extends Controller
         }
     }
 
+
+    // Private function to handle PDF upload
+    public function downloadPdf(Request $request)
+    {
+        $depotCenters = DepotCenter::all(); // or apply your desired filtering
+    
+        // Load HTML content
+        $html = view('BackOffice.Depot-Center.pdf', compact('depotCenters'))->render();
+    
+        // Instantiate Dompdf
+        $pdf = new Dompdf();
+        $pdf->loadHtml($html);
+    
+        // (Optional) Setup the paper size and orientation
+        $pdf->setPaper('A4', 'landscape');
+    
+        // Render the PDF
+        $pdf->render();
+    
+        // Output the generated PDF to Browser
+        return $pdf->stream('depot-centers.pdf', ['Attachment' => false]);
+    }
+    
+
+    // Private function to delete PDF if exists
+    private function deletePDF($pdfName)
+    {
+        if ($pdfName && file_exists(public_path('pdfs/' . $pdfName))) {
+            unlink(public_path('pdfs/' . $pdfName));
+        }
+    }
     public function depotStatistics($depot)
 {
     $statistics = Waste::select('category', \DB::raw('COUNT(*) as total'))

@@ -165,6 +165,7 @@ Route::post('/wastes/store', [WasteController::class, 'store'])->name('wastes.st
 Route::get('/wastes/byDepot/{depotId}', [WasteController::class, 'getWastesByDepotCenter'])->name('wastes.byDepot');
 Route::get('/wastes/statistics', [WasteController::class, 'statistics'])->name('wastes.statistics');
 Route::get('/statistics/depot/{depot}', [YourController::class, 'depotStatistics'])->name('statistics.depot');
+Route::get('depot_centers/download-pdf', [DepotCenterController::class, 'downloadPdf'])->name('depot_centers.download-pdf');
 
 
 

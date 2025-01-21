@@ -54,7 +54,7 @@
 
 
 <section id="center" class="center_team">
-   <div class="center_om bg_back">
+//<div class="center_om bg_back" style="background-image: url('/path/to/your-image.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
      <div class="container-xl">
   <div class="row center_o1 text-center">
      <div class="col-md-12">
@@ -120,30 +120,31 @@
 
 </div>
 
-<!-- Pagination -->
-<div class="d-flex justify-content-center mt-4">
-    @if ($depotCenters->hasPages())
-        <ul class="pagination">
-            @if ($depotCenters->onFirstPage())
-                <li class="page-item disabled"><span class="page-link">Précédent</span></li>
-            @else
-                <li class="page-item"><a class="page-link" href="{{ $depotCenters->previousPageUrl() }}">Précédent</a></li>
-            @endif
-
-            @if ($depotCenters->hasMorePages())
-                <li class="page-item"><a class="page-link" href="{{ $depotCenters->nextPageUrl() }}">Suivant</a></li>
-            @else
-                <li class="page-item disabled"><span class="page-link">Suivant</span></li>
-            @endif
-        </ul>
-    @endif
-</div>
-
-    </main>
-
-    <!-- Essential javascripts for application to work-->
-    @vite(['resources/assets/js/jquery-3.7.0.min.js'])
-    @vite(['resources/assets/js/bootstrap.min.js'])
-    @vite(['resources/assets/js/main - Back.js'])
-</body>
-</html>
+<!-- Pagination Links -->
+           
+           
+       <div class="d-flex justify-content-center mt-4">
+           @if ($depotCenters->hasPages())
+               <ul class="pagination">
+                   @if ($depotCenters->onFirstPage())
+                       <li class="page-item disabled"><span class="page-link">Précédent</span></li>
+                   @else
+                       <li class="page-item"><a class="page-link" href="{{ $depotCenters->previousPageUrl() }}">Précédent</a></li>
+                   @endif
+   
+                   @if ($depotCenters->hasMorePages())
+                       <li class="page-item"><a class="page-link" href="{{ $depotCenters->nextPageUrl() }}">Suivant</a></li>
+                   @else
+                       <li class="page-item disabled"><span class="page-link">Suivant</span></li>
+                   @endif
+               </ul>
+           @endif
+       </div>
+   
+       @vite(['resources/assets/js/jquery-3.7.0.min.js'])
+       @vite(['resources/assets/js/bootstrap.min.js'])
+       @vite(['resources/assets/js/main - Back.js'])
+   
+   </body>
+   
+   </html>

@@ -82,49 +82,46 @@
         </div>
     </section>
 
+    
     <div class="container-xl">
-
         @if($wastes->count() > 0)
-        @foreach($wastes as $waste)
             <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        @if ($waste->image)
-                        <img src="{{ asset('images/' . $waste->image) }}" alt="Image actuelle" class="img-thumbnail mt-2" style="max-width: 200px;">
-                        @else
-                            <img src="{{ asset('images/' . $waste->image.jpg) }}" alt="Image actuelle" class="img-thumbnail mt-2" style="max-width: 200px;">
-                        @endif
-                        <div class="card-body">
-                            <h5 class="card-title" style="color: #4CAF50; font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: bold;">
-                                <i class="fa fa-recycle me-2"></i>Catégorie: {{ $waste->category }}
-                            </h5>
-                            <p class="card-text"><i class="fa fa-balance-scale me-2"></i><strong>Quantité:</strong> {{ $waste->quantity }}</p>
-                            <p class="card-text"><i class="fa fa-map-marker me-2"></i><strong>Lieu de collecte:</strong> {{ $waste->collection_location }}</p>
-                            <p class="card-text"><i class="fa fa-calendar me-2"></i><strong>Date de collecte:</strong> {{ $waste->collection_date }}</p>
+                @foreach($wastes as $waste)
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            @if ($waste->image)
+                                <img src="{{ asset('images/' . $waste->image) }}" alt="Image actuelle" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
+                            @else
+                                <img src="{{ asset('images/default.jpg') }}" alt="Image actuelle" class="img-thumbnail mt-2" style="max-width: 100%; height: auto;">
+                            @endif
+                            <div class="card-body">
+                                <h5 class="card-title" style="color: #4CAF50; font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: bold;">
+                                    <i class="fa fa-recycle me-2"></i>Catégorie: {{ $waste->category }}
+                                </h5>
+                                <p class="card-text"><i class="fa fa-balance-scale me-2"></i><strong>Quantité:</strong> {{ $waste->quantity }}</p>
+                                <p class="card-text"><i class="fa fa-map-marker me-2"></i><strong>Lieu de collecte:</strong> {{ $waste->collection_location }}</p>
+                                <p class="card-text"><i class="fa fa-calendar me-2"></i><strong>Date de collecte:</strong> {{ $waste->collection_date }}</p>
 
-                            <div class="d-flex justify-content-between">
-                                <a href="{{ route('wastes.edit', $waste->id) }}" class="btn btn-primary mt-3">
-                                    <i class="fa fa-edit me-1"></i> Modifier
-                                </a>
-                                <form action="{{ route('wastes.destroy', $waste->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce déchet ?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger mt-3">
-                                        <i class="fa fa-trash me-1"></i> Supprimer
-                                    </button>
-                                </form>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{{ route('wastes.edit', $waste->id) }}" class="btn btn-primary mt-3">
+                                        <i class="fa fa-edit me-1"></i> Modifier
+                                    </a>
+                                    <form action="{{ route('wastes.destroy', $waste->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce déchet ?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger mt-3">
+                                            <i class="fa fa-trash me-1"></i> Supprimer
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                </div>
+                @endforeach
             </div>
-            @endforeach
 
             <!-- Pagination Links -->
-            <div class="d-flex justify-content-center mt-4">
-                {{ $wastes->links() }}
-            </div>
+           
         @else
             <p>Aucun déchet trouvé pour ce centre de dépôt.</p>
         @endif
